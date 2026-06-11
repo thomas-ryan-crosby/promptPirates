@@ -1,11 +1,9 @@
 /* ===========================================================================
-   Prompt Pirates — design system
-   Type: Inter. Default theme: Kraken (dark). Five dark palettes via [data-theme].
+   Prompt Pirates — design system  ·  Type: Inter  ·  Theme: Kraken (dark)
    Accent buttons use a bright fill with near-black (--bg) label for AA contrast.
    =========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-/* ---- Default theme: Kraken ---- */
 :root {
   --bg: #0e141c;
   --surface: #161f2b;
@@ -31,42 +29,6 @@
   --shadow-md: 0 12px 34px rgba(0,0,0,.5);
   --sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-}
-
-/* ---- Abyss — deep ocean, cyan/teal ---- */
-[data-theme="abyss"] {
-  --bg: #081019; --surface: #0f1a25; --surface-2: #16242f;
-  --ink: #eaf3f6; --text: #b4c6cf; --muted: #728893;
-  --border: rgba(255,255,255,.07); --border-strong: rgba(255,255,255,.15); --nav-bg: rgba(8,16,25,.74);
-  --primary: #33d6c6; --primary-light: #5fe2d4; --primary-tint: rgba(51,214,198,.12);
-  --gold: #cda04a; --gold-bright: #e0b566; --gold-tint: rgba(205,160,74,.08);
-}
-
-/* ---- Carbon — neutral charcoal, monochrome amber ---- */
-[data-theme="carbon"] {
-  --bg: #121316; --surface: #1a1c20; --surface-2: #23262b;
-  --ink: #f2f3f5; --text: #c3c7cd; --muted: #888d95;
-  --border: rgba(255,255,255,.07); --border-strong: rgba(255,255,255,.15); --nav-bg: rgba(18,19,22,.74);
-  --primary: #e6ad5c; --primary-light: #f0c47e; --primary-tint: rgba(230,173,92,.12);
-  --gold: #e6ad5c; --gold-bright: #f0c47e; --gold-tint: rgba(230,173,92,.08);
-}
-
-/* ---- Mariner — indigo, periwinkle ---- */
-[data-theme="mariner"] {
-  --bg: #0f1230; --surface: #171b3f; --surface-2: #1f2550;
-  --ink: #eef0ff; --text: #c2c7e6; --muted: #8990c2;
-  --border: rgba(255,255,255,.09); --border-strong: rgba(255,255,255,.18); --nav-bg: rgba(15,18,48,.74);
-  --primary: #8aa0ff; --primary-light: #aab8ff; --primary-tint: rgba(138,160,255,.16);
-  --gold: #e6b15c; --gold-bright: #f0c074; --gold-tint: rgba(230,177,92,.08);
-}
-
-/* ---- Harbor — weathered teal-green + copper ---- */
-[data-theme="harbor"] {
-  --bg: #0c1614; --surface: #122220; --surface-2: #1a2d29;
-  --ink: #eaf5f1; --text: #b4c9c2; --muted: #769189;
-  --border: rgba(255,255,255,.08); --border-strong: rgba(255,255,255,.16); --nav-bg: rgba(12,22,20,.74);
-  --primary: #43c39e; --primary-light: #69d3b3; --primary-tint: rgba(67,195,158,.13);
-  --gold: #dba43c; --gold-bright: #e9b85a; --gold-tint: rgba(219,164,60,.08);
 }
 
 /* ===========================================================================
@@ -102,12 +64,12 @@ a:hover { color: var(--primary-light); text-decoration: underline; }
 .nav .wrap { display: flex; align-items: center; height: 64px; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.06rem; color: var(--ink); letter-spacing: -.02em; }
 .brand:hover { color: var(--ink); text-decoration: none; }
-.nav nav { display: flex; gap: 4px; font-size: .92rem; }
+.nav nav { margin-left: auto; display: flex; gap: 4px; font-size: .92rem; }
 .nav nav a { color: var(--muted); font-weight: 600; padding: 7px 13px; border-radius: 8px; }
 .nav nav a:hover { color: var(--ink); background: var(--surface-2); text-decoration: none; }
 
 /* ---------- Buttons ---------- */
-.btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .96rem; padding: 12px 22px; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: transform .08s ease, background .15s, border-color .15s, box-shadow .15s; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .96rem; padding: 12px 22px; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: transform .08s ease, background .15s, border-color .15s, box-shadow .15s; font-family: inherit; }
 .btn:active { transform: translateY(1px); }
 .btn-primary { background: var(--primary); color: var(--bg); }
 .btn-primary:hover { background: var(--primary-light); color: var(--bg); text-decoration: none; box-shadow: 0 8px 26px var(--primary-tint); }
@@ -145,6 +107,10 @@ a:hover { color: var(--primary-light); text-decoration: underline; }
 .minutes .arrow { color: var(--primary); font-weight: 600; font-size: .92rem; white-space: nowrap; }
 @media (max-width: 640px){ .minutes a.entry { grid-template-columns: 1fr; gap: 7px; } .minutes .arrow { display: none; } }
 
+/* ---------- Join / copy ---------- */
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.copy-msg { color: var(--gold); font-size: .9rem; font-weight: 600; opacity: 0; transition: opacity .2s; }
+.copy-msg.show { opacity: 1; }
 .crewline { font-size: .96rem; color: var(--text); }
 .crewline b { color: var(--ink); }
 
@@ -171,6 +137,12 @@ a:hover { color: var(--primary-light); text-decoration: underline; }
 .pull { font-size: 1.32rem; line-height: 1.5; font-weight: 600; color: var(--ink); border-left: 4px solid var(--gold-bright); background: var(--gold-tint); border-radius: 0 12px 12px 0; padding: 22px 26px; margin: 32px 0; font-style: italic; }
 code { font-family: var(--mono); font-size: .85em; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; color: var(--primary-light); }
 
+/* ---------- Pirate flourish (intro / outro) ---------- */
+.flourish { font-style: italic; color: var(--text); border-left: 3px solid var(--gold); background: var(--gold-tint); border-radius: 0 10px 10px 0; padding: 18px 24px; font-size: 1.08rem; line-height: 1.6; }
+.flourish .cap { display: block; font-style: normal; color: var(--gold); font-weight: 700; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 8px; }
+.log-intro { margin: 26px 0 34px; }
+.log-outro { margin: 40px 0 10px; }
+
 /* ---------- Treasure ---------- */
 .treasure { background: linear-gradient(180deg, var(--gold-tint), transparent); border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 28px 30px; margin: 50px 0 26px; }
 .treasure .cap { display: block; color: var(--gold); margin-bottom: 8px; font-weight: 700; font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; }
@@ -180,18 +152,6 @@ code { font-family: var(--mono); font-size: .85em; background: var(--surface-2);
 .lessons li:first-child { border-top: none; }
 .lessons li::before { content: counter(l); display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; font-weight: 800; font-size: .82rem; color: var(--bg); background: var(--gold); border-radius: 50%; }
 .lessons b { color: var(--ink); }
-
-/* ---------- Theme swatches ---------- */
-.themes { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-.themes .swatch { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border-strong); cursor: pointer; padding: 0; transition: transform .1s, box-shadow .15s; }
-.themes .swatch:hover { transform: scale(1.18); }
-.themes .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--primary); transform: scale(1.12); }
-.sw-kraken { background: #8b78ff; }
-.sw-abyss { background: #33d6c6; }
-.sw-carbon { background: #e6ad5c; }
-.sw-mariner { background: #8aa0ff; }
-.sw-harbor { background: #43c39e; }
-@media (max-width: 560px){ .themes { display: none; } }
 
 /* ---------- Logo ---------- */
 .logomark { width: 28px; height: 28px; display: block; }

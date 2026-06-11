@@ -7,20 +7,12 @@
 <meta name="description" content="A small crew of AI builders comparing notes and shipping software. Read the meeting minutes; keep the lessons." />
 <link rel="stylesheet" href="assets/style.css" />
 <link rel="icon" href="assets/logo.svg" />
-<script>try{var t=localStorage.getItem('pp-theme');if(t&&t!=='kraken')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="index.html"><img class="logomark" src="assets/logo.svg" alt="" /> Prompt Pirates</a>
-    <div class="themes" role="group" aria-label="Color theme">
-      <button class="swatch sw-kraken" data-theme="kraken" title="Kraken" aria-label="Kraken theme"></button>
-      <button class="swatch sw-abyss" data-theme="abyss" title="Abyss" aria-label="Abyss theme"></button>
-      <button class="swatch sw-carbon" data-theme="carbon" title="Carbon" aria-label="Carbon theme"></button>
-      <button class="swatch sw-mariner" data-theme="mariner" title="Mariner" aria-label="Mariner theme"></button>
-      <button class="swatch sw-harbor" data-theme="harbor" title="Harbor" aria-label="Harbor theme"></button>
-    </div>
     <nav>
       <a href="#minutes">Minutes</a>
       <a href="#join">Join</a>
@@ -68,7 +60,11 @@
     <div class="sub">Sign the Articles</div>
     <h2>Want a berth on the ship?</h2>
     <p class="muted" style="max-width:600px">We keep the crew small and the signal high — builders only. Tell us who you are and what you're shipping with AI.</p>
-    <p style="margin-top:20px"><a class="btn btn-primary" href="mailto:thomas.ryan.crosby@gmail.com?subject=Request%20to%20board%20the%20Prompt%20Pirates&body=Name%3A%0AContact%3A%0AWhat%20I'm%20building%20with%20AI%3A%0A">Request a berth</a></p>
+    <div class="cta-row" style="margin-top:20px">
+      <a class="btn btn-primary" href="mailto:thomas.ryan.crosby@gmail.com?subject=Request%20to%20board%20the%20Prompt%20Pirates&body=Name%3A%0AContact%3A%0AWhat%20I'm%20building%20with%20AI%3A%0A">Request a berth</a>
+      <button class="btn btn-ghost" id="copyEmail" type="button" data-email="thomas.ryan.crosby@gmail.com">Copy email address</button>
+      <span class="copy-msg" id="copyMsg" role="status" aria-live="polite"></span>
+    </div>
     <p class="crewline" style="margin-top:28px"><b>Current crew:</b> Ryan Lavin · Thomas Ryan Crosby · Nathan Allen &nbsp;|&nbsp; <span class="muted">Hailed to board: Alex Boudreaux, Josh Meister, Vincenzo Caronna</span></p>
   </div>
 </section>

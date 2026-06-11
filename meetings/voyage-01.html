@@ -7,20 +7,12 @@
 <meta name="description" content="Prompt Pirates, Voyage I — a builders' roundtable on AI coding agents, testing, stacks, and where the tooling is heading. With a Treasure chest of reusable lessons." />
 <link rel="stylesheet" href="../assets/style.css" />
 <link rel="icon" href="../assets/logo.svg" />
-<script>try{var t=localStorage.getItem('pp-theme');if(t&&t!=='kraken')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
-    <div class="themes" role="group" aria-label="Color theme">
-      <button class="swatch sw-kraken" data-theme="kraken" title="Kraken" aria-label="Kraken theme"></button>
-      <button class="swatch sw-abyss" data-theme="abyss" title="Abyss" aria-label="Abyss theme"></button>
-      <button class="swatch sw-carbon" data-theme="carbon" title="Carbon" aria-label="Carbon theme"></button>
-      <button class="swatch sw-mariner" data-theme="mariner" title="Mariner" aria-label="Mariner theme"></button>
-      <button class="swatch sw-harbor" data-theme="harbor" title="Harbor" aria-label="Harbor theme"></button>
-    </div>
     <nav>
       <a href="../index.html#minutes">Minutes</a>
       <a href="../index.html#join">Join</a>
@@ -42,36 +34,41 @@
   </header>
 
   <article class="paper">
+    <div class="flourish log-intro">
+      <span class="cap">Weigh anchor</span>
+      The maiden voyage set sail at six bells on a Wednesday — three captains aboard, half of them steering from the open road, one loading a car between broadsides. Charts were compared, war stories swapped, and a fair haul of lessons hauled up from the deep. What follows is the log, plain and true. Mind the treasure chest near the stern.
+    </div>
+
     <p class="abstract">A recurring builders' roundtable to compare how each person is using AI coding agents in practice — what's working, what they've stopped doing, and where the tooling and industry are heading.</p>
 
     <h2><span class="num">1</span>Models, subscriptions &amp; cost</h2>
     <ul>
-      <li>Everyone is bumping into usage limits and drifting toward API / usage-based billing. Ryan blew through two Claude Max subscriptions' 5-hour limits in ~an hour and switched to pay-as-you-go; noted <b>Fable goes API-only after June 22</b>.</li>
+      <li>Everyone is bumping into usage limits and drifting toward API / usage-based billing. Ryan Lavin blew through two Claude Max subscriptions' 5-hour limits in ~an hour and switched to pay-as-you-go; noted <b>Fable goes API-only after June 22</b>.</li>
       <li>General hope that the "subsidy era" of cheap/free model access lasts as long as possible.</li>
       <li><b>Fable</b> (newest model) is the consensus favorite — reportedly tops the new "Deep Sweet" long-horizon coding benchmark by a wide margin. Standout traits: terminal use, adversarial thinking, and running large agent swarms.</li>
       <li>Some switched from Claude to Codex purely for better usage limits + engineering performance, while acknowledging Claude is stronger at UI.</li>
     </ul>
 
     <h2><span class="num">2</span>Workflows &amp; harnesses</h2>
-    <p><b>Ryan</b> plans with Claude, then hands engineering prompts to Codex (a "pure engineer"). Says this two-tool split is becoming redundant now that Claude has <code>/goal</code> and dynamic workflows. Built his own Claude↔Codex harness but uses it less — <em>"harnesses are always a short-term solution; the models get better and the harnesses become outdated."</em> Now a desktop-UI maximalist (moved off the CLI).</p>
+    <p><b>Ryan Lavin</b> plans with Claude, then hands engineering prompts to Codex (a "pure engineer"). Says this two-tool split is becoming redundant now that Claude has <code>/goal</code> and dynamic workflows. Built his own Claude↔Codex harness but uses it less — <em>"harnesses are always a short-term solution; the models get better and the harnesses become outdated."</em> Now a desktop-UI maximalist (moved off the CLI).</p>
     <p><b>Nathan</b> runs an agent harness (Open Claw, considering Hermes) on a home Mac Mini, operated entirely through Telegram. Reluctant to migrate harnesses ("don't want to break anything"). Notes Hermes is lighter-weight with better self-improvement / self-updating skills.</p>
-    <p><b>Thomas</b> spins up Claude instances inside VS Code on Windows; still likes seeing the generated code, specs, and file changes live.</p>
-    <p><b>Self-improving agents:</b> multiple people now let agents write/find their own skills and update their own memory files in the background. Ryan's tip: when the agent errs, tell it <em>"add this to your memory, don't let it happen again."</em></p>
+    <p><b>Ryan Crosby</b> spins up Claude instances inside VS Code on Windows; still likes seeing the generated code, specs, and file changes live.</p>
+    <p><b>Self-improving agents:</b> multiple people now let agents write/find their own skills and update their own memory files in the background. Ryan Lavin's tip: when the agent errs, tell it <em>"add this to your memory, don't let it happen again."</em></p>
 
     <h2><span class="num">3</span>Testing — the new core of "coding"</h2>
-    <p>Ryan's biggest time sink is <b>end-to-end testing</b>, not writing code. The architecture is shifting so that <b>everything is an API</b>, enabling exhaustive E2E runs.</p>
+    <p>Ryan Lavin's biggest time sink is <b>end-to-end testing</b>, not writing code. The architecture is shifting so that <b>everything is an API</b>, enabling exhaustive E2E runs.</p>
     <ul>
       <li>Fable is praised as an "amazing adversarial actor" — stress-tests systems far harder than Opus, and runs ~20 agents in parallel. E2E suites that took ~7 hours now finish in ~1 hour (but burn most of his tokens).</li>
-      <li>He writes long, realistic scenario tests (sign up → cancel → re-sign up → change details → message physician 150×) and increasingly just lets the agent generate scenarios, glancing over 2–3 sentence summaries. Thomas works similarly.</li>
+      <li>He writes long, realistic scenario tests (sign up → cancel → re-sign up → change details → message physician 150×) and increasingly just lets the agent generate scenarios, glancing over 2–3 sentence summaries. Ryan Crosby works similarly.</li>
     </ul>
-    <p>Real example of why this matters: an invite/sign-up edge case (user gets the email, never sets a password, exits, returns → locked out) slipped through Thomas's investor dashboard — exactly the kind of bug thorough E2E would catch.</p>
+    <p>Real example of why this matters: an invite/sign-up edge case (user gets the email, never sets a password, exits, returns → locked out) slipped through Ryan Crosby's investor dashboard — exactly the kind of bug thorough E2E would catch.</p>
 
     <p class="pull">"If it runs, it runs. It doesn't write code like a human — it's totally alien to me."</p>
 
     <h2><span class="num">4</span>Projects shared</h2>
-    <h3>Thomas — CrumbLabz</h3>
+    <h3>Ryan Crosby — CrumbLabz</h3>
     <p>Custom software for small businesses. Default stack: simple front end, <b>Firebase</b> (DB + auth), <b>Resend</b> (email), <b>Vercel</b> (hosting, auto-deploy from GitHub, branch/preview management). Pitch: build a free working demo, turn it around in 24–48 hrs, then ~$500/mo. Active/pipeline clients: HOA, real-estate investment firm, aluminum manufacturer, healthcare company, law firm, manufacturers, two development companies, interior-design group.</p>
-    <h3>Ryan — Telehealth startup</h3>
+    <h3>Ryan Lavin — Telehealth startup</h3>
     <p>A small Hims competitor, built with his dad: full software stack from intake questionnaire → physician approval → pharmacy. Building a B2B API integration; landing-page builds have gotten dramatically faster. Says the work that once needed 5–10 engineers is mostly just him.</p>
     <h3>Nathan — Ranch app</h3>
     <p>Cattle-ranch management (registered Angus) run through Telegram. Parses casual ranch-hand messages ("gave this one 3.5mg") to auto-update records; answers natural-language queries against the DB; generates invoices and Facebook Marketplace sale packages. Uses GPT 5.5; data stored in JSON files. Also doing notably successful SEO (#1 on Google + AI search for "Mississippi Red Angus" within ~2 weeks).</p>
@@ -80,8 +77,8 @@
     <ul>
       <li><b>Dictation:</b> strong endorsement of Whisper Flow (mapped to the Fn key). "You type at 60 wpm, you speak at 150–180" — more context, fewer RSI / carpal-tunnel issues.</li>
       <li><b>HTML over Markdown</b> for all generated documents — better visuals, diagrams, and reading experience.</li>
-      <li><b>Anthropic Partner Program:</b> Thomas exploring it for CrumbLabz — extra tokens, cheaper/earlier model access for those who demonstrably spread Anthropic adoption (referral from Alex Boudreaux, doing a similar grocery-niche business).</li>
-      <li><b>Data-moat debate:</b> does proprietary data still matter? Litmus test floated — does Fable outperform Harvey (legal AI)? If yes → data is no moat and SaaS gets commoditized; if no → these companies have a bigger moat than Wall Street thinks. Thomas: moat exists short-term, breaks down over a decade+.</li>
+      <li><b>Anthropic Partner Program:</b> Ryan Crosby exploring it for CrumbLabz — extra tokens, cheaper/earlier model access for those who demonstrably spread Anthropic adoption (referral from Alex Schreiner, who's doing a similar grocery-niche business).</li>
+      <li><b>Data-moat debate:</b> does proprietary data still matter? Litmus test floated — does Fable outperform Harvey (legal AI)? If yes → data is no moat and SaaS gets commoditized; if no → these companies have a bigger moat than Wall Street thinks. Ryan Crosby: moat exists short-term, breaks down over a decade+.</li>
       <li><b>Commoditization analogy:</b> software ~ shoe manufacturing (design files sent off to be "manufactured"). Vibe coding is now mainstream; viral examples like the "82 and oh" sports-draft app were cloned across leagues within a day.</li>
       <li><b>Hardware / sensors next:</b> Halter (AI cattle collars, Peter Thiel–backed) as sensors + software extending into the physical world; open-source / open-API sentiment ("API or bust" vs. walled gardens).</li>
       <li><b>Reading rec:</b> <a href="https://ai-2027.com" target="_blank" rel="noopener">AI 2027</a> (a former OpenAI researcher + blogger Scott Alexander) — praised as eerily accurate on AI revenue/trajectory so far.</li>
@@ -130,13 +127,18 @@
 
     <h2><span class="num">8</span>Loose action items</h2>
     <ul>
-      <li><b>Thomas:</b> send the Anthropic Partner Program link; add Alex Boudreaux to a future session.</li>
-      <li><b>Ryan:</b> look into / apply to the Anthropic Partner Program; explore turning the admin portal into a natural-language terminal.</li>
+      <li><b>Ryan Crosby:</b> send the Anthropic Partner Program link; add Alex Schreiner to a future session.</li>
+      <li><b>Ryan Lavin:</b> look into / apply to the Anthropic Partner Program; explore turning the admin portal into a natural-language terminal.</li>
       <li><b>Nathan:</b> consider SQL / Firebase migration before cattle records outgrow JSON; evaluate scaling the app to other ranches.</li>
       <li><b>Group:</b> reconvene next session.</li>
     </ul>
 
-    <p style="margin-top:34px"><a href="../index.html">← Back to all minutes</a></p>
+    <div class="flourish log-outro">
+      <span class="cap">Into the next tide</span>
+      And so the crew scattered to the four winds — one back to his tokens, one to his cattle, one to his clients — each a few lessons richer than when they boarded. The chest is buried in plain sight above. Fair winds till the next voyage, and remember: dead men tell no tales, but living ones write skills.
+    </div>
+
+    <p style="margin-top:34px"><a href="../index.html">&larr; Back to all minutes</a></p>
   </article>
 </div>
 
@@ -146,7 +148,5 @@
     <div>Next voyage: TBD</div>
   </div>
 </footer>
-
-<script src="../assets/main.js"></script>
 </body>
 </html>
