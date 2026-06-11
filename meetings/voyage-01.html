@@ -7,19 +7,19 @@
 <meta name="description" content="Prompt Pirates, Voyage I — a builders' roundtable on AI coding agents, testing, stacks, and where the tooling is heading. With a Treasure chest of reusable lessons." />
 <link rel="stylesheet" href="../assets/style.css" />
 <link rel="icon" href="../assets/logo.svg" />
-<script>try{var t=localStorage.getItem('pp-theme');if(t&&t!=='violet')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<script>try{var t=localStorage.getItem('pp-theme');if(t&&t!=='kraken')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
-    <div class="themes" role="group" aria-label="Color theme" style="margin-left:auto">
-      <button class="swatch sw-violet" data-theme="violet" title="Violet" aria-label="Violet"></button>
-      <button class="swatch sw-sea" data-theme="sea" title="Deep Sea" aria-label="Deep Sea"></button>
-      <button class="swatch sw-crimson" data-theme="crimson" title="Crimson Corsair" aria-label="Crimson Corsair"></button>
-      <button class="swatch sw-parchment" data-theme="parchment" title="Parchment" aria-label="Parchment"></button>
-      <button class="swatch sw-kraken" data-theme="kraken" title="Kraken (dark)" aria-label="Kraken dark"></button>
+    <div class="themes" role="group" aria-label="Color theme">
+      <button class="swatch sw-kraken" data-theme="kraken" title="Kraken" aria-label="Kraken theme"></button>
+      <button class="swatch sw-abyss" data-theme="abyss" title="Abyss" aria-label="Abyss theme"></button>
+      <button class="swatch sw-carbon" data-theme="carbon" title="Carbon" aria-label="Carbon theme"></button>
+      <button class="swatch sw-mariner" data-theme="mariner" title="Mariner" aria-label="Mariner theme"></button>
+      <button class="swatch sw-harbor" data-theme="harbor" title="Harbor" aria-label="Harbor theme"></button>
     </div>
     <nav>
       <a href="../index.html#minutes">Minutes</a>
@@ -35,7 +35,7 @@
     <p class="byline">A builders' roundtable on AI coding agents in practice</p>
     <dl>
       <dt>Date</dt><dd>Wed, June 10, 2026 · 6:01 PM · 1:03:30</dd>
-      <dt>Aboard</dt><dd>Thomas “Ryan” Crosby (ChromeLabs), Ryan Lavin (telehealth startup), Nathan Allen (ranch-management app)</dd>
+      <dt>Aboard</dt><dd>Thomas Ryan Crosby (CrumbLabz), Ryan Lavin (telehealth startup), Nathan Allen (ranch-management app)</dd>
       <dt>Hailed</dt><dd>Alex Boudreaux, Josh Meister, Vincenzo Caronna</dd>
       <dt>Format</dt><dd>Informal peer call — show-and-tell of current AI projects, tooling, and workflows. Several participants were mobile (driving, loading a car), so it ran loose and tangent-heavy.</dd>
     </dl>
@@ -69,8 +69,8 @@
     <p class="pull">"If it runs, it runs. It doesn't write code like a human — it's totally alien to me."</p>
 
     <h2><span class="num">4</span>Projects shared</h2>
-    <h3>Thomas — ChromeLabs</h3>
-    <p>Custom software for small businesses; ~$2,200/mo revenue. Default stack: simple front end, <b>Firebase</b> (DB + auth), <b>Resend</b> (email), <b>Vercel</b> (hosting, auto-deploy from GitHub, branch/preview management). Pitch: build a free working demo, turn it around in 24–48 hrs, then ~$500/mo. Active/pipeline clients: HOA, real-estate investment firm, aluminum manufacturer, healthcare company, law firm, manufacturers, two development companies, interior-design group.</p>
+    <h3>Thomas — CrumbLabz</h3>
+    <p>Custom software for small businesses. Default stack: simple front end, <b>Firebase</b> (DB + auth), <b>Resend</b> (email), <b>Vercel</b> (hosting, auto-deploy from GitHub, branch/preview management). Pitch: build a free working demo, turn it around in 24–48 hrs, then ~$500/mo. Active/pipeline clients: HOA, real-estate investment firm, aluminum manufacturer, healthcare company, law firm, manufacturers, two development companies, interior-design group.</p>
     <h3>Ryan — Telehealth startup</h3>
     <p>A small Hims competitor, built with his dad: full software stack from intake questionnaire → physician approval → pharmacy. Building a B2B API integration; landing-page builds have gotten dramatically faster. Says the work that once needed 5–10 engineers is mostly just him.</p>
     <h3>Nathan — Ranch app</h3>
@@ -80,7 +80,7 @@
     <ul>
       <li><b>Dictation:</b> strong endorsement of Whisper Flow (mapped to the Fn key). "You type at 60 wpm, you speak at 150–180" — more context, fewer RSI / carpal-tunnel issues.</li>
       <li><b>HTML over Markdown</b> for all generated documents — better visuals, diagrams, and reading experience.</li>
-      <li><b>Anthropic Partner Program:</b> Thomas exploring it for ChromeLabs — extra tokens, cheaper/earlier model access for those who demonstrably spread Anthropic adoption (referral from Alex Boudreaux, doing a similar grocery-niche business).</li>
+      <li><b>Anthropic Partner Program:</b> Thomas exploring it for CrumbLabz — extra tokens, cheaper/earlier model access for those who demonstrably spread Anthropic adoption (referral from Alex Boudreaux, doing a similar grocery-niche business).</li>
       <li><b>Data-moat debate:</b> does proprietary data still matter? Litmus test floated — does Fable outperform Harvey (legal AI)? If yes → data is no moat and SaaS gets commoditized; if no → these companies have a bigger moat than Wall Street thinks. Thomas: moat exists short-term, breaks down over a decade+.</li>
       <li><b>Commoditization analogy:</b> software ~ shoe manufacturing (design files sent off to be "manufactured"). Vibe coding is now mainstream; viral examples like the "82 and oh" sports-draft app were cloned across leagues within a day.</li>
       <li><b>Hardware / sensors next:</b> Halter (AI cattle collars, Peter Thiel–backed) as sensors + software extending into the physical world; open-source / open-API sentiment ("API or bust" vs. walled gardens).</li>
@@ -112,7 +112,7 @@
 
     <!-- TREASURE -->
     <section class="treasure">
-      <div class="cap">⚓ The Treasure</div>
+      <div class="cap">The Treasure</div>
       <h2>What we're stealing from Voyage I</h2>
       <p class="muted" style="margin:0 0 14px; font-family:var(--sans); font-size:.95rem">Six reusable moves any AI builder can apply this week.</p>
       <ul class="lessons">
@@ -142,7 +142,7 @@
 
 <footer>
   <div class="wrap">
-    <div>🏴‍☠️ <b>Prompt Pirates</b> — Voyage I logged.</div>
+    <div><b>Prompt Pirates</b> — Voyage I logged.</div>
     <div>Next voyage: TBD</div>
   </div>
 </footer>

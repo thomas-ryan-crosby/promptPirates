@@ -1,23 +1,22 @@
 // Prompt Pirates — theme switcher (persists across pages via localStorage)
 (function () {
   var KEY = "pp-theme";
+  var DEFAULT = "kraken";
   function apply(theme) {
-    if (theme && theme !== "violet") document.documentElement.setAttribute("data-theme", theme);
+    if (theme && theme !== DEFAULT) document.documentElement.setAttribute("data-theme", theme);
     else document.documentElement.removeAttribute("data-theme");
     document.querySelectorAll(".themes .swatch").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.dataset.theme === (theme || "violet")));
+      b.setAttribute("aria-pressed", String(b.dataset.theme === (theme || DEFAULT)));
     });
   }
-  // Apply saved choice ASAP
   var saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  apply(saved || "violet");
+  apply(saved || DEFAULT);
 
   document.addEventListener("click", function (e) {
     var btn = e.target.closest && e.target.closest(".themes .swatch");
     if (!btn) return;
-    var t = btn.dataset.theme;
-    apply(t);
-    try { localStorage.setItem(KEY, t); } catch (e) {}
+    apply(btn.dataset.theme);
+    try { localStorage.setItem(KEY, btn.dataset.theme); } catch (e) {}
   });
 })();
