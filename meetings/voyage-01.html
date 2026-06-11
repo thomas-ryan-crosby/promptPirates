@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Voyage I — Prompt Pirates Minutes</title>
-<meta name="description" content="Prompt Pirates, Voyage I — meeting minutes and key lessons. Tools, end-to-end testing, the boring stack, and whether data has a moat." />
+<meta name="description" content="Prompt Pirates, Voyage I — a builders' roundtable on AI coding agents, testing, stacks, and where the tooling is heading. With a Treasure chest of reusable lessons." />
 <link rel="stylesheet" href="../assets/style.css" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>" />
 </head>
@@ -24,60 +24,111 @@
   <header class="paper-head">
     <div class="label">Meeting Minutes · Voyage I</div>
     <h1>Tools, testing &amp; the boring stack</h1>
-    <p class="byline">The maiden voyage of the <b>Prompt Pirates</b></p>
+    <p class="byline">A builders' roundtable on AI coding agents in practice</p>
     <dl>
-      <dt>Date</dt><dd>June 10, 2026 · 1h 03m</dd>
-      <dt>Aboard</dt><dd>Ryan Lavin, Thomas “Ryan” Crosby, Nathan Allen</dd>
+      <dt>Date</dt><dd>Wed, June 10, 2026 · 6:01 PM · 1:03:30</dd>
+      <dt>Aboard</dt><dd>Thomas “Ryan” Crosby (ChromeLabs), Ryan Lavin (telehealth startup), Nathan Allen (ranch-management app)</dd>
       <dt>Hailed</dt><dd>Alex Boudreaux, Josh Meister, Vincenzo Caronna</dd>
+      <dt>Format</dt><dd>Informal peer call — show-and-tell of current AI projects, tooling, and workflows. Several participants were mobile (driving, loading a car), so it ran loose and tangent-heavy.</dd>
     </dl>
   </header>
 
   <article class="paper">
-    <p class="abstract">Three operators compared rigging — Claude vs. Codex vs. Fable, subscriptions vs. API, custom harnesses vs. raw CLI — and found they'd independently converged on the same play: build hyper-custom software for one narrow niche, then scale it. The conversation ran from end-to-end testing through data moats, SEO, and cattle collars. What follows is the discussion in brief, then the treasure.</p>
+    <p class="abstract">A recurring builders' roundtable to compare how each person is using AI coding agents in practice — what's working, what they've stopped doing, and where the tooling and industry are heading.</p>
 
-    <h2><span class="num">1</span>Tooling &amp; the subsidy era</h2>
-    <p>The crew is running every tool at once and burning through usage limits in hours. The working consensus: ride the venture-subsidized "cheap tokens" era for as long as it lasts, because usage-based billing is where everything is heading (Fable goes API-only after June 22). Custom harnesses that bolt Claude's planning onto Codex's engineering are losing their edge as the base models absorb those tricks — slash-goal and dynamic workflows already make older rigs redundant. The lesson underneath: <b>harnesses are short-term leverage; build them to win now, don't marry them.</b></p>
+    <h2><span class="num">1</span>Models, subscriptions &amp; cost</h2>
+    <ul>
+      <li>Everyone is bumping into usage limits and drifting toward API / usage-based billing. Ryan blew through two Claude Max subscriptions' 5-hour limits in ~an hour and switched to pay-as-you-go; noted <b>Fable goes API-only after June 22</b>.</li>
+      <li>General hope that the "subsidy era" of cheap/free model access lasts as long as possible.</li>
+      <li><b>Fable</b> (newest model) is the consensus favorite — reportedly tops the new "Deep Sweet" long-horizon coding benchmark by a wide margin. Standout traits: terminal use, adversarial thinking, and running large agent swarms.</li>
+      <li>Some switched from Claude to Codex purely for better usage limits + engineering performance, while acknowledging Claude is stronger at UI.</li>
+    </ul>
 
-    <h2><span class="num">2</span>The interface is the chat</h2>
-    <p>Nathan's ranch-manager app is the standout example. It runs almost entirely through Telegram: ranch hands text casual updates — "moved her to the back pasture, gave 3.5mg of X" — and an agent parses the natural language into structured records. The users barely open the actual app UI; they just ask the group chat "when did this cow last get treated?" and get plain-English answers from an LLM with privileged database access.</p>
-    <p>The takeaway the table kept circling: meet users where they already are. A chat box they already live in beats a polished dashboard nobody opens.</p>
+    <h2><span class="num">2</span>Workflows &amp; harnesses</h2>
+    <p><b>Ryan</b> plans with Claude, then hands engineering prompts to Codex (a "pure engineer"). Says this two-tool split is becoming redundant now that Claude has <code>/goal</code> and dynamic workflows. Built his own Claude↔Codex harness but uses it less — <em>"harnesses are always a short-term solution; the models get better and the harnesses become outdated."</em> Now a desktop-UI maximalist (moved off the CLI).</p>
+    <p><b>Nathan</b> runs an agent harness (Open Claw, considering Hermes) on a home Mac Mini, operated entirely through Telegram. Reluctant to migrate harnesses ("don't want to break anything"). Notes Hermes is lighter-weight with better self-improvement / self-updating skills.</p>
+    <p><b>Thomas</b> spins up Claude instances inside VS Code on Windows; still likes seeing the generated code, specs, and file changes live.</p>
+    <p><b>Self-improving agents:</b> multiple people now let agents write/find their own skills and update their own memory files in the background. Ryan's tip: when the agent errs, tell it <em>"add this to your memory, don't let it happen again."</em></p>
 
-    <h2><span class="num">3</span>Coding has become adversarial testing</h2>
-    <p>Ryan's days are mostly end-to-end testing, not writing features. The architectural shift driving this: <b>make everything an API</b>, so an agent can drive every edge case for hours. The bugs that escape are never the happy path — they're weird sequences (sign up → don't set a password → leave → come back → locked out). You catch those by describing adversarial scenarios and letting the agent run them overnight.</p>
-    <p>Fable drew specific praise here as a genuine step-change: it "thinks adversarially," spins up ~20 agents in parallel, and finishes suites in about an hour that used to take seven. It actively tries to break the system rather than confirming it works.</p>
+    <h2><span class="num">3</span>Testing — the new core of "coding"</h2>
+    <p>Ryan's biggest time sink is <b>end-to-end testing</b>, not writing code. The architecture is shifting so that <b>everything is an API</b>, enabling exhaustive E2E runs.</p>
+    <ul>
+      <li>Fable is praised as an "amazing adversarial actor" — stress-tests systems far harder than Opus, and runs ~20 agents in parallel. E2E suites that took ~7 hours now finish in ~1 hour (but burn most of his tokens).</li>
+      <li>He writes long, realistic scenario tests (sign up → cancel → re-sign up → change details → message physician 150×) and increasingly just lets the agent generate scenarios, glancing over 2–3 sentence summaries. Thomas works similarly.</li>
+    </ul>
+    <p>Real example of why this matters: an invite/sign-up edge case (user gets the email, never sets a password, exits, returns → locked out) slipped through Thomas's investor dashboard — exactly the kind of bug thorough E2E would catch.</p>
 
     <p class="pull">"If it runs, it runs. It doesn't write code like a human — it's totally alien to me."</p>
 
-    <h2><span class="num">4</span>The boring stack wins</h2>
-    <p>Thomas's ChromeLabs turns around custom small-business software in 24–48 hours on a deliberately boring default stack: <b>Firebase</b> (auth + database, free to absurd scale), <b>Vercel</b> (hosting, auto-deploy on git push, painless branch previews), and <b>Resend</b> for email. Hundreds of projects run for roughly $20/month. The go-to-market is just as lean: build a clickable demo, hand it over free to play with, then price it — "where do I sign?" beats any pitch deck.</p>
-    <p>A cautionary counterpoint surfaced too: flat JSON files don't scale — lookups crawl as data grows. The fix is unglamorous (move to SQL / a real DB), and the agent will set it up for you; you just have to stop storing everything in flat files.</p>
+    <h2><span class="num">4</span>Projects shared</h2>
+    <h3>Thomas — ChromeLabs</h3>
+    <p>Custom software for small businesses; ~$2,200/mo revenue. Default stack: simple front end, <b>Firebase</b> (DB + auth), <b>Resend</b> (email), <b>Vercel</b> (hosting, auto-deploy from GitHub, branch/preview management). Pitch: build a free working demo, turn it around in 24–48 hrs, then ~$500/mo. Active/pipeline clients: HOA, real-estate investment firm, aluminum manufacturer, healthcare company, law firm, manufacturers, two development companies, interior-design group.</p>
+    <h3>Ryan — Telehealth startup</h3>
+    <p>A small Hims competitor, built with his dad: full software stack from intake questionnaire → physician approval → pharmacy. Building a B2B API integration; landing-page builds have gotten dramatically faster. Says the work that once needed 5–10 engineers is mostly just him.</p>
+    <h3>Nathan — Ranch app</h3>
+    <p>Cattle-ranch management (registered Angus) run through Telegram. Parses casual ranch-hand messages ("gave this one 3.5mg") to auto-update records; answers natural-language queries against the DB; generates invoices and Facebook Marketplace sale packages. Uses GPT 5.5; data stored in JSON files. Also doing notably successful SEO (#1 on Google + AI search for "Mississippi Red Angus" within ~2 weeks).</p>
 
-    <h2><span class="num">5</span>Moats, SEO &amp; the long view</h2>
-    <p>The open debate of the night: does data still have a moat? The litmus test floated was Harvey, the law AI — if a general model like Fable starts outperforming it, then proprietary data is no moat and the vertical SaaS gets commoditized; if not, those companies are more defensible than the market thinks. Crew consensus: the moat holds in the short term, but breaks down over a decade or two.</p>
-    <p>On SEO, skepticism toward the traditional "optimization" industry, but real interest in its successor — getting your name mentioned enough across the web that it lands in the next model's pre-training set. Nathan reported going from non-existent to #1 on both Google and AI search for "Mississippi Red Angus" in about two weeks.</p>
+    <h2><span class="num">5</span>Industry &amp; future tangents</h2>
+    <ul>
+      <li><b>Dictation:</b> strong endorsement of Whisper Flow (mapped to the Fn key). "You type at 60 wpm, you speak at 150–180" — more context, fewer RSI / carpal-tunnel issues.</li>
+      <li><b>HTML over Markdown</b> for all generated documents — better visuals, diagrams, and reading experience.</li>
+      <li><b>Anthropic Partner Program:</b> Thomas exploring it for ChromeLabs — extra tokens, cheaper/earlier model access for those who demonstrably spread Anthropic adoption (referral from Alex Boudreaux, doing a similar grocery-niche business).</li>
+      <li><b>Data-moat debate:</b> does proprietary data still matter? Litmus test floated — does Fable outperform Harvey (legal AI)? If yes → data is no moat and SaaS gets commoditized; if no → these companies have a bigger moat than Wall Street thinks. Thomas: moat exists short-term, breaks down over a decade+.</li>
+      <li><b>Commoditization analogy:</b> software ~ shoe manufacturing (design files sent off to be "manufactured"). Vibe coding is now mainstream; viral examples like the "82 and oh" sports-draft app were cloned across leagues within a day.</li>
+      <li><b>Hardware / sensors next:</b> Halter (AI cattle collars, Peter Thiel–backed) as sensors + software extending into the physical world; open-source / open-API sentiment ("API or bust" vs. walled gardens).</li>
+      <li><b>Reading rec:</b> <a href="https://ai-2027.com" target="_blank" rel="noopener">AI 2027</a> (a former OpenAI researcher + blogger Scott Alexander) — praised as eerily accurate on AI revenue/trajectory so far.</li>
+      <li><b>Light investing chatter:</b> cloud computing, hyperscalers, Elon-related, data-center "picks and shovels" (fiber optics, on-site GPU / "home-as-GPU" startups), SpaceX IPO liquidity.</li>
+    </ul>
+
+    <h2><span class="num">6</span>Key take-aways</h2>
+    <h3>On practical usability</h3>
+    <ul>
+      <li><b>Pick tools by limits and fit, not hype.</b> Real decisions are driven by usage caps and cost; people switch agents over rate limits as much as raw capability.</li>
+      <li><b>Don't over-invest in harnesses.</b> They're short-term scaffolding — the models absorb their value (e.g. <code>/goal</code> + dynamic workflows replacing a custom Claude↔Codex pipe). Build light, expect to throw it away.</li>
+      <li><b>Meet users where they already are.</b> The ranch app's win wasn't the UI — it was Telegram. Users barely touch the app; they message an LLM with DB access and get plain-English answers.</li>
+      <li><b>Architect everything as an API</b> so agents can exhaustively test and operate against it.</li>
+      <li><b>Dictation is a real productivity unlock</b> (Whisper Flow): faster input, more context to the model, ergonomic benefit.</li>
+      <li><b>Generate documents as HTML, not Markdown</b> for readability, visuals, and diagrams.</li>
+      <li><b>Mind the boring scalability traps.</b> JSON-file storage doesn't scale; move to SQL / Firebase / Neon early — "you don't really need to know how databases work, just the three letters SQL."</li>
+      <li><b>The recurring trust gap:</b> everyone is comfortable letting agents draft (marketing, outreach, posts) but hesitant to give them the keys to act autonomously — trust is earned through observed reliability over time.</li>
+    </ul>
+    <h3>On continuous learning</h3>
+    <ul>
+      <li><b>Self-improving agents are becoming the norm</b> — agents that find/write their own skills and edit their own memory files. The "add this to your memory, don't repeat the mistake" loop is a simple, powerful habit.</li>
+      <li><b>The skill is shifting from writing code to specifying and verifying it.</b> Participants moved from reading every line → reading diffs → reading nothing, trusting "if it runs, it runs" — with the honest caveat that the output is "alien," non-human spaghetti, a real risk worth flagging.</li>
+      <li><b>Testing is the new core competency.</b> Creativity now lives in inventing adversarial edge-case scenarios; the agent expands and executes them.</li>
+      <li><b>"All agents are converging on the same product."</b> Differentiation is moving from the model to what you build around it and which niche you serve — multiple people independently landed on "custom software for a vertical, then scale."</li>
+      <li><b>Stay close to the frontier or fall behind fast.</b> One participant noted falling behind on firsthand Codex/Claude use because he's mobile — a few weeks off is noticeable.</li>
+      <li><b>New SEO ≈ getting into the training set.</b> Getting your name across the internet so it lands in the next model's pre-training may matter more than classic Google SEO (viewed skeptically as partly "snake oil").</li>
+    </ul>
 
     <!-- TREASURE -->
     <section class="treasure">
       <div class="cap">⚓ The Treasure</div>
-      <h2>Key lessons from Voyage I</h2>
+      <h2>What we're stealing from Voyage I</h2>
+      <p class="muted" style="margin:0 0 14px; font-family:var(--sans); font-size:.95rem">Six reusable moves any AI builder can apply this week.</p>
       <ul class="lessons">
-        <li><span><b>Meet users in the chat they already live in.</b> A Telegram agent that parses casual messages into structured data beats a dashboard nobody opens.</span></li>
-        <li><span><b>Make everything an API, then test adversarially.</b> The escaped bugs are weird sequences — describe them as scenarios and let agents (Fable especially) run them in parallel overnight.</span></li>
-        <li><span><b>Ship the boring stack.</b> Firebase + Vercel + Resend turns a custom app around in 24–48h for ~$20/mo. Demo free, then price. And don't store real data in flat JSON.</span></li>
-        <li><span><b>Niche first, then scale.</b> Everyone serious is converging on hyper-custom software for one vertical, then templatizing it.</span></li>
-        <li><span><b>Harnesses are temporary; base models catch up.</b> Use them to win today, but don't build your identity around a rig the next model release will absorb.</span></li>
+        <li><span><b>Make everything an API, then test adversarially.</b> Drive it with a model that thinks like an attacker (Fable), spinning up parallel agents to run realistic multi-step edge cases overnight. The escaped bugs are weird sequences, not happy paths.</span></li>
+        <li><span><b>Meet users in the chat they already live in.</b> A Telegram agent with DB access that parses casual messages into structured records beats a dashboard nobody opens.</span></li>
+        <li><span><b>Run the self-improvement loop.</b> When an agent errs, tell it to write the lesson to its memory file. Let agents find/write their own skills in the background.</span></li>
+        <li><span><b>Ship the boring stack; dodge the boring traps.</b> Firebase + Vercel + Resend turns a custom app around in 24–48h for ~$20/mo. Move off flat JSON to SQL before data outgrows it.</span></li>
+        <li><span><b>The job is now specify + verify, not write.</b> Invent the adversarial scenarios; let the agent expand and execute them — but stay honest that "if it runs, it runs" hides alien, non-human code.</span></li>
+        <li><span><b>Don't marry your harness.</b> It's short-term leverage the next model release will absorb (<code>/goal</code>, dynamic workflows). Build light, niche down, and differentiate on what you build around the model.</span></li>
       </ul>
     </section>
 
-    <h3>⚒️ Bounties before Voyage II</h3>
+    <h2><span class="num">7</span>Tools &amp; resources mentioned</h2>
+    <p class="muted" style="font-family:var(--sans); font-size:.95rem">Fable · Codex · Claude (<code>/goal</code>, dynamic workflows) · GPT 5.5 · Open Claw · Hermes · Whisper Flow · VS Code · Firebase · Vercel · Resend · Neon · Telegram · Obsidian / Anki · Halter · Harvey · AI 2027 · Deep Sweet Benchmark · Anthropic Partner Program</p>
+
+    <h2><span class="num">8</span>Loose action items</h2>
     <ul>
-      <li>Set up dictation and run a full session voice-only.</li>
-      <li>Write 10 adversarial end-to-end scenarios for your worst-tested flow; run them overnight.</li>
-      <li>Thomas: report back on the Anthropic Partner Program for ChromeLabs.</li>
-      <li>Everyone: read <a href="https://ai-2027.com" target="_blank" rel="noopener">AI 2027</a> for a shared baseline on the futurism debate.</li>
+      <li><b>Thomas:</b> send the Anthropic Partner Program link; add Alex Boudreaux to a future session.</li>
+      <li><b>Ryan:</b> look into / apply to the Anthropic Partner Program; explore turning the admin portal into a natural-language terminal.</li>
+      <li><b>Nathan:</b> consider SQL / Firebase migration before cattle records outgrow JSON; evaluate scaling the app to other ranches.</li>
+      <li><b>Group:</b> reconvene next session.</li>
     </ul>
 
-    <p style="margin-top:30px"><a href="../index.html">← Back to all minutes</a></p>
+    <p style="margin-top:34px"><a href="../index.html">← Back to all minutes</a></p>
   </article>
 </div>
 

@@ -98,6 +98,7 @@ a:hover { color: var(--brass); }
 .paper ul { padding-left: 22px; margin: 0 0 18px; }
 .paper li { margin-bottom: 8px; }
 .pull { font-size: 1.35rem; line-height: 1.5; color: var(--navy); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 22px 0; margin: 30px 0; text-align: center; font-style: italic; }
+code { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; font-size: .86em; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 5px; padding: 1px 6px; color: var(--navy); }
 
 /* ---------- Treasure box ---------- */
 .treasure { background: var(--paper-2); border: 1px solid var(--rule-strong); border-radius: 12px; padding: 26px 28px; margin: 44px 0 20px; }
