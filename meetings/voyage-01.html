@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Voyage I — Prompt Pirates Minutes</title>
+<meta name="description" content="Prompt Pirates, Voyage I — meeting minutes and key lessons. Tools, end-to-end testing, the boring stack, and whether data has a moat." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html">🏴‍☠️ Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">Meeting Minutes · Voyage I</div>
+    <h1>Tools, testing &amp; the boring stack</h1>
+    <p class="byline">The maiden voyage of the <b>Prompt Pirates</b></p>
+    <dl>
+      <dt>Date</dt><dd>June 10, 2026 · 1h 03m</dd>
+      <dt>Aboard</dt><dd>Ryan Lavin, Thomas “Ryan” Crosby, Nathan Allen</dd>
+      <dt>Hailed</dt><dd>Alex Boudreaux, Josh Meister, Vincenzo Caronna</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+    <p class="abstract">Three operators compared rigging — Claude vs. Codex vs. Fable, subscriptions vs. API, custom harnesses vs. raw CLI — and found they'd independently converged on the same play: build hyper-custom software for one narrow niche, then scale it. The conversation ran from end-to-end testing through data moats, SEO, and cattle collars. What follows is the discussion in brief, then the treasure.</p>
+
+    <h2><span class="num">1</span>Tooling &amp; the subsidy era</h2>
+    <p>The crew is running every tool at once and burning through usage limits in hours. The working consensus: ride the venture-subsidized "cheap tokens" era for as long as it lasts, because usage-based billing is where everything is heading (Fable goes API-only after June 22). Custom harnesses that bolt Claude's planning onto Codex's engineering are losing their edge as the base models absorb those tricks — slash-goal and dynamic workflows already make older rigs redundant. The lesson underneath: <b>harnesses are short-term leverage; build them to win now, don't marry them.</b></p>
+
+    <h2><span class="num">2</span>The interface is the chat</h2>
+    <p>Nathan's ranch-manager app is the standout example. It runs almost entirely through Telegram: ranch hands text casual updates — "moved her to the back pasture, gave 3.5mg of X" — and an agent parses the natural language into structured records. The users barely open the actual app UI; they just ask the group chat "when did this cow last get treated?" and get plain-English answers from an LLM with privileged database access.</p>
+    <p>The takeaway the table kept circling: meet users where they already are. A chat box they already live in beats a polished dashboard nobody opens.</p>
+
+    <h2><span class="num">3</span>Coding has become adversarial testing</h2>
+    <p>Ryan's days are mostly end-to-end testing, not writing features. The architectural shift driving this: <b>make everything an API</b>, so an agent can drive every edge case for hours. The bugs that escape are never the happy path — they're weird sequences (sign up → don't set a password → leave → come back → locked out). You catch those by describing adversarial scenarios and letting the agent run them overnight.</p>
+    <p>Fable drew specific praise here as a genuine step-change: it "thinks adversarially," spins up ~20 agents in parallel, and finishes suites in about an hour that used to take seven. It actively tries to break the system rather than confirming it works.</p>
+
+    <p class="pull">"If it runs, it runs. It doesn't write code like a human — it's totally alien to me."</p>
+
+    <h2><span class="num">4</span>The boring stack wins</h2>
+    <p>Thomas's ChromeLabs turns around custom small-business software in 24–48 hours on a deliberately boring default stack: <b>Firebase</b> (auth + database, free to absurd scale), <b>Vercel</b> (hosting, auto-deploy on git push, painless branch previews), and <b>Resend</b> for email. Hundreds of projects run for roughly $20/month. The go-to-market is just as lean: build a clickable demo, hand it over free to play with, then price it — "where do I sign?" beats any pitch deck.</p>
+    <p>A cautionary counterpoint surfaced too: flat JSON files don't scale — lookups crawl as data grows. The fix is unglamorous (move to SQL / a real DB), and the agent will set it up for you; you just have to stop storing everything in flat files.</p>
+
+    <h2><span class="num">5</span>Moats, SEO &amp; the long view</h2>
+    <p>The open debate of the night: does data still have a moat? The litmus test floated was Harvey, the law AI — if a general model like Fable starts outperforming it, then proprietary data is no moat and the vertical SaaS gets commoditized; if not, those companies are more defensible than the market thinks. Crew consensus: the moat holds in the short term, but breaks down over a decade or two.</p>
+    <p>On SEO, skepticism toward the traditional "optimization" industry, but real interest in its successor — getting your name mentioned enough across the web that it lands in the next model's pre-training set. Nathan reported going from non-existent to #1 on both Google and AI search for "Mississippi Red Angus" in about two weeks.</p>
+
+    <!-- TREASURE -->
+    <section class="treasure">
+      <div class="cap">⚓ The Treasure</div>
+      <h2>Key lessons from Voyage I</h2>
+      <ul class="lessons">
+        <li><span><b>Meet users in the chat they already live in.</b> A Telegram agent that parses casual messages into structured data beats a dashboard nobody opens.</span></li>
+        <li><span><b>Make everything an API, then test adversarially.</b> The escaped bugs are weird sequences — describe them as scenarios and let agents (Fable especially) run them in parallel overnight.</span></li>
+        <li><span><b>Ship the boring stack.</b> Firebase + Vercel + Resend turns a custom app around in 24–48h for ~$20/mo. Demo free, then price. And don't store real data in flat JSON.</span></li>
+        <li><span><b>Niche first, then scale.</b> Everyone serious is converging on hyper-custom software for one vertical, then templatizing it.</span></li>
+        <li><span><b>Harnesses are temporary; base models catch up.</b> Use them to win today, but don't build your identity around a rig the next model release will absorb.</span></li>
+      </ul>
+    </section>
+
+    <h3>⚒️ Bounties before Voyage II</h3>
+    <ul>
+      <li>Set up dictation and run a full session voice-only.</li>
+      <li>Write 10 adversarial end-to-end scenarios for your worst-tested flow; run them overnight.</li>
+      <li>Thomas: report back on the Anthropic Partner Program for ChromeLabs.</li>
+      <li>Everyone: read <a href="https://ai-2027.com" target="_blank" rel="noopener">AI 2027</a> for a shared baseline on the futurism debate.</li>
+    </ul>
+
+    <p style="margin-top:30px"><a href="../index.html">← Back to all minutes</a></p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>🏴‍☠️ <b>Prompt Pirates</b> — Voyage I logged.</div>
+    <div>Next voyage: TBD</div>
+  </div>
+</footer>
+
+</body>
+</html>
