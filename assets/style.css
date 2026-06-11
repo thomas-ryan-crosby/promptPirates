@@ -26,6 +26,7 @@
   --teal: #14a38c;
   --pink: #f85485;
   /* misc */
+  --nav-bg: rgba(250,250,250,.82);
   --maxw-read: 730px;
   --maxw-wide: 1040px;
   --radius: 12px;
@@ -57,7 +58,7 @@ a:hover { color: var(--primary-dark); text-decoration: underline; }
 .center { text-align: center; }
 
 /* ---------- Top bar ---------- */
-.nav { border-bottom: 1px solid var(--border); background: rgba(250,250,250,.82); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 20; }
+.nav { border-bottom: 1px solid var(--border); background: var(--nav-bg); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 20; }
 .nav .wrap { display: flex; align-items: center; height: 62px; gap: 18px; }
 .brand { font-weight: 800; font-size: 1.08rem; color: var(--ink); display: flex; align-items: center; gap: 9px; letter-spacing: -.02em; }
 .brand:hover { color: var(--ink); text-decoration: none; }
@@ -141,3 +142,61 @@ code { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospac
 footer { border-top: 1px solid var(--border); padding: 32px 0 56px; font-size: .92rem; color: var(--muted); margin-top: 26px; }
 footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
 footer b { color: var(--ink); }
+
+/* ============================================================
+   THEMES — swap via <html data-theme="...">. Inter stays.
+   ============================================================ */
+
+/* 2 · Deep Sea — ocean blue + teal */
+[data-theme="sea"] {
+  --bg: #f6f9fc; --surface: #ffffff; --surface-2: #eef3f8;
+  --ink: #122231; --text: #28394a; --muted: #5e7184;
+  --border: #e2eaf1; --border-strong: #cdd9e4; --nav-bg: rgba(246,249,252,.82);
+  --primary: #1f6fd6; --primary-dark: #185bb4; --primary-light: #4f93e6; --primary-tint: rgba(31,111,214,.09);
+}
+
+/* 3 · Crimson Corsair — bold red + gold */
+[data-theme="crimson"] {
+  --bg: #fbf7f5; --surface: #ffffff; --surface-2: #f6ece9;
+  --ink: #2a1512; --text: #3c2420; --muted: #8a655d;
+  --border: #efe1dc; --border-strong: #e0cbc4; --nav-bg: rgba(251,247,245,.84);
+  --primary: #c83b32; --primary-dark: #a92e26; --primary-light: #e0635a; --primary-tint: rgba(200,59,50,.09);
+}
+
+/* 4 · Parchment — warm cream + brass, classic chart */
+[data-theme="parchment"] {
+  --bg: #f5edda; --surface: #fbf5e6; --surface-2: #efe4c9;
+  --ink: #3a2c14; --text: #4b3a1e; --muted: #7e6c49;
+  --border: #e4d7b6; --border-strong: #d3c298; --nav-bg: rgba(245,237,218,.86);
+  --primary: #146b63; --primary-dark: #0f5650; --primary-light: #2a948a; --primary-tint: rgba(20,107,99,.1);
+  --gold: #9c6b1c; --gold-bright: #cf9a3f; --gold-tint: #efe2c4;
+}
+
+/* 5 · Kraken — dark mode */
+[data-theme="kraken"] {
+  --bg: #0f1620; --surface: #18222e; --surface-2: #1f2b39;
+  --ink: #eef3f8; --text: #c6d2de; --muted: #8595a6;
+  --border: #25323f; --border-strong: #36475a; --nav-bg: rgba(15,22,32,.82);
+  --primary: #8b78ff; --primary-dark: #7a64ff; --primary-light: #a596ff; --primary-tint: rgba(139,120,255,.14);
+  --gold: #e0aa55; --gold-bright: #edb464; --gold-tint: rgba(237,180,100,.08);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3); --shadow-md: 0 8px 28px rgba(0,0,0,.45);
+}
+[data-theme="kraken"] code { color: var(--gold-bright); }
+[data-theme="kraken"] .treasure { background: linear-gradient(180deg, rgba(237,180,100,.07), var(--surface)); }
+[data-theme="kraken"] .pull { color: var(--ink); }
+
+/* ---------- Theme swatch picker (in nav) ---------- */
+.themes { display: flex; align-items: center; gap: 7px; }
+.themes .swatch { width: 17px; height: 17px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border-strong); cursor: pointer; padding: 0; transition: transform .1s, box-shadow .15s; }
+.themes .swatch:hover { transform: scale(1.18); }
+.themes .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--primary); transform: scale(1.12); }
+.sw-violet { background: #7b61ff; }
+.sw-sea { background: #1f6fd6; }
+.sw-crimson { background: #c83b32; }
+.sw-parchment { background: #146b63; }
+.sw-kraken { background: #18222e; }
+@media (max-width: 560px){ .themes { display: none; } }
+
+/* ---------- Logo ---------- */
+.logomark { width: 28px; height: 28px; display: block; }
+.hero-logo { width: 76px; height: 76px; display: inline-block; filter: drop-shadow(0 8px 18px rgba(106,76,240,.28)); }

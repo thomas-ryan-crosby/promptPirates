@@ -6,13 +6,21 @@
 <title>Prompt Pirates ⚓</title>
 <meta name="description" content="A small crew of AI builders comparing notes and shipping software. Read the meeting minutes; steal the lessons." />
 <link rel="stylesheet" href="assets/style.css" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>" />
+<link rel="icon" href="assets/logo.svg" />
+<script>try{var t=localStorage.getItem('pp-theme');if(t&&t!=='violet')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="index.html">🏴‍☠️ Prompt Pirates</a>
+    <a class="brand" href="index.html"><img class="logomark" src="assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <div class="themes" role="group" aria-label="Color theme" style="margin-left:auto">
+      <button class="swatch sw-violet" data-theme="violet" title="Violet" aria-label="Violet"></button>
+      <button class="swatch sw-sea" data-theme="sea" title="Deep Sea" aria-label="Deep Sea"></button>
+      <button class="swatch sw-crimson" data-theme="crimson" title="Crimson Corsair" aria-label="Crimson Corsair"></button>
+      <button class="swatch sw-parchment" data-theme="parchment" title="Parchment" aria-label="Parchment"></button>
+      <button class="swatch sw-kraken" data-theme="kraken" title="Kraken (dark)" aria-label="Kraken dark"></button>
+    </div>
     <nav>
       <a href="#minutes">Minutes</a>
       <a href="#join">Join</a>
@@ -22,8 +30,8 @@
 
 <section class="hero">
   <div class="wrap">
-    <div class="flag">🏴‍☠️</div>
-    <div class="tagline" style="margin-top:14px">⚓ An AI builders' crew</div>
+    <img class="hero-logo" src="assets/logo.svg" alt="Prompt Pirates" />
+    <div class="tagline" style="margin-top:18px">⚓ An AI builders' crew</div>
     <h1>Prompt Pirates</h1>
     <p class="lede">A small crew of operators comparing real AI workflows, then sailing off with a few hard-won lessons. We meet, we ship, we write it down.</p>
     <div class="cta">
@@ -72,5 +80,6 @@
   </div>
 </footer>
 
+<script src="assets/main.js"></script>
 </body>
 </html>
