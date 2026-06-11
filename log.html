@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ship's Log — Prompt Pirates</title>
+<meta name="description" content="The Prompt Pirates ship's log — every voyage distilled into hard-won takeaways." />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏴‍☠️</text></svg>" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="flag">🏴‍☠️</span> Prompt Pirates</a>
+    <nav>
+      <a href="index.html">Deck</a>
+      <a href="log.html" class="active">Ship's Log</a>
+      <a href="treasure.html">The Loot</a>
+      <a href="index.html#crew">The Crew</a>
+      <a href="index.html#join">Sign On</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding:64px 0 24px">
+  <div class="wrap">
+    <span class="kicker">📜 The Ship's Log</span>
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem)">Voyage I</h1>
+    <p class="tag">The maiden voyage. Three captains, one elevator, several Costco runs, and a lot of tokens overboard.</p>
+  </div>
+</section>
+
+<section class="block" style="border-top:none; padding-top:20px">
+  <div class="wrap">
+    <div class="parchment">
+      <div class="log-meta">⚓ <b>Voyage I</b> · Wed, June 10 2026 · 1h 03m · Aboard: Thomas Crosby, Ryan Lavin, The Rancher · Spotted off the bow: Alex Schreiner, Josh</div>
+
+      <h2>Captain's summary</h2>
+      <p>The crew compared rigging: who's running Claude vs Codex vs Fable, subscription vs API, harnesses vs raw CLI. The throughline — everyone is independently converging on the same play: <b>build hyper-custom software for a narrow niche, then scale it.</b> ChromeLabs does it for small businesses, Ryan does it for telehealth, The Rancher does it for a cattle operation. The conversation drifted from end-to-end testing into data moats, SEO, cattle collars, and a Dyson storm. Standard.</p>
+
+      <h2 style="margin-top:26px">📌 Takeaways banked</h2>
+
+      <div class="takeaway"><div class="n">1</div><div><b>Speak, don't type.</b> Dictation (Whisper Flow, mapped to one key) runs 150–180 wpm vs 60 typing — and lets you dump context you'd never bother typing. Bonus: saved Ryan from carpal tunnel. <i>Try it before next voyage.</i></div></div>
+
+      <div class="takeaway"><div class="n">2</div><div><b>Ship HTML, not Markdown.</b> The crew is done with Markdown deliverables. Tell the agent "make this HTML" — system diagrams, visuals, a real consumption experience. "I want to be able to read it."</div></div>
+
+      <div class="takeaway"><div class="n">3</div><div><b>Meet users where they already are.</b> The Rancher's whole app lives in Telegram — ranch hands text casual updates ("moved her, gave 3.5mg of X"), an agent parses it into the DB. They barely touch the actual UI. The interface is the chat.</div></div>
+
+      <div class="takeaway"><div class="n">4</div><div><b>Coding is mostly end-to-end testing now.</b> Make <em>everything</em> an API so an agent can run every edge case for hours. The bugs that escape are the weird sequences (sign up → don't set password → leave → return → locked out). Describe adversarial scenarios; let it rip.</div></div>
+
+      <div class="takeaway"><div class="n">5</div><div><b>Fable thinks adversarially.</b> Reported as a genuine step-change for stress-testing: spins up ~20 agents in parallel, finishes overnight test suites in ~1h that used to take 7. It actually tries to break your system. (Goes API-only after June 22.)</div></div>
+
+      <div class="takeaway"><div class="n">6</div><div><b>The boring stack wins.</b> ChromeLabs' default: Firebase (auth + DB, free to absurd scale) · Vercel (hosting, auto-deploy on push, manages branches/previews) · Resend (email). Hundreds of projects for ~$20/mo. Turn a custom app around in 24–48h, show the client a clickable demo, hook them.</div></div>
+
+      <div class="takeaway"><div class="n">7</div><div><b>JSON files don't scale.</b> Appending to JSON gets slower and slower as data grows. The fix is boring: move to SQL (or NoSQL/Firebase/Neon). You don't need to understand databases anymore — the agent sets it up — you just need to not store everything in flat files.</div></div>
+
+      <div class="takeaway"><div class="n">8</div><div><b>Harnesses are short-term leverage.</b> Custom Claude↔Codex harnesses get out-competed as the base models improve (slash-goal, dynamic workflows make old rigs redundant). Build them to win <em>now</em>, don't marry them.</div></div>
+
+      <div class="takeaway"><div class="n">9</div><div><b>The open question: does data have a moat?</b> Litmus test floated — does Fable outperform Harvey (law AI)? If yes, data is no moat and the SaaS is commoditized. If no, those companies are more defensible than Wall Street thinks. Crew consensus: moat holds short-term, gone in a decade or two.</div></div>
+
+      <h2 style="margin-top:26px">⚒️ Bounties (homework before Voyage II)</h2>
+      <ul>
+        <li>Set up dictation and run a full session voice-only.</li>
+        <li>Convert one Markdown deliverable to HTML with a real diagram.</li>
+        <li>Write 10 adversarial end-to-end scenarios for your worst-tested flow and let an agent run them overnight.</li>
+        <li>Thomas: look into the <b>Anthropic Partner Program</b> for ChromeLabs; report back.</li>
+        <li>Everyone: read <a href="https://ai-2027.com" target="_blank" rel="noopener">AI 2027</a> so the futurism debate has a baseline.</li>
+      </ul>
+
+      <p style="margin-top:24px; font-style:italic; color:#6a5430">"Maybe we'll start growing and following." — adjourned at the hour mark. 🏴‍☠️</p>
+    </div>
+
+    <p class="center" style="margin-top:30px"><a class="btn btn-ghost" href="treasure.html">💰 See everything in The Loot →</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>🏴‍☠️ <b>Prompt Pirates</b> — Voyage I logged.</div>
+    <div class="muted">Next voyage: TBD</div>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
