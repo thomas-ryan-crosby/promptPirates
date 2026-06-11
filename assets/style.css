@@ -153,6 +153,16 @@ code { font-family: var(--mono); font-size: .85em; background: var(--surface-2);
 .lessons li::before { content: counter(l); display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; font-weight: 800; font-size: .82rem; color: var(--bg); background: var(--gold); border-radius: 50%; }
 .lessons b { color: var(--ink); }
 
+/* ---------- Dispatch feed (Crow's Nest) ---------- */
+.feed { display: grid; gap: 14px; margin: 18px 0 8px; }
+.feed .item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+.feed .item h3 { margin: 0 0 6px; font-size: 1.12rem; line-height: 1.35; }
+.feed .item p { margin: 0; color: var(--text); font-size: .98rem; line-height: 1.55; }
+.feed .item .src { display: block; font-size: .82rem; color: var(--muted); margin-top: 8px; letter-spacing: .02em; }
+.tag { display: inline-block; font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; vertical-align: middle; margin-left: 8px; position: relative; top: -1px; }
+.tag-advanced { color: var(--primary-light); border: 1px solid var(--primary); background: var(--primary-tint); }
+.tag-intermediate { color: var(--gold-bright); border: 1px solid var(--gold); background: var(--gold-tint); }
+
 /* ---------- Logo ---------- */
 .logomark { width: 28px; height: 28px; display: block; }
 
