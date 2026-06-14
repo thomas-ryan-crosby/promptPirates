@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of June 14, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; June 14, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of June 14, 2026</h1>
+    <p class="byline">Seven items from the frontier, scouted for builders running AI agents and coding harnesses.</p>
+    <dl>
+      <dt>Scouted</dt><dd>June 14, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      A week of reckoning on every heading. Two empirical papers confirm what every builder feels: agentic adoption has gone vertical, and the oversight work that used to be a footnote is now a full-time discipline. Meanwhile Anthropic mapped a year of AI-assisted attacks onto MITRE ATT&amp;CK, and the API surface for Fable 5 keeps expanding&mdash;the refusal and fallback guide alone will reshape how harnesses are wired. On the operational side, two hard deadlines arrive before the next tide: the Agent SDK billing split and the Claude Sonnet 4&nbsp;/&nbsp;Opus 4 retirements, both landing June 15, with Gemini CLI following on June 18.
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2606.07448" target="_blank" rel="noopener">Agentic Very Much! Adoption of Coding Agent in New GitHub Projects</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>A follow-up empirical study by Romain Robbes and co-authors on how quickly coding agents are taking over new GitHub projects. The headline: adoption is more than twice as high in the new cohort compared to the previous study, and the proportion of AI-assisted commits is meaningfully higher, even though the researchers note current detection methods likely undercount it. At the time of writing, Claude Code alone accounts for roughly 4.5% of all public repository commits on GitHub&mdash;up from 100,000 commits per week in September 2025 to 2.6 million now. Concrete baseline for anyone making the case internally that agentic coding is already the norm, not a future possibility.</p>
+        <span class="src">arXiv 2606.07448 (Robbes et al.) &middot; June 5, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2606.05391" target="_blank" rel="noopener">Human oversight of agentic systems in practice: Examining the oversight work, challenges, and heuristics of developers using software agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Shipi Dhanorkar, Samir Passi, and Mihaela Vorvoreanu interviewed 17 experienced developers to map what oversight actually looks like in the wild, bridging the gap between normative frameworks and lived practice. They identify four forms of emergent oversight work: <em>a priori control</em> (shaping the agent before it runs), <em>co-planning</em> (negotiating the task in real time), <em>real-time monitoring</em> (watching execution), and <em>post hoc review</em> (auditing after the fact). The study also documents the heuristics developers have improvised to manage failure modes the agents themselves were not designed to surface. Required reading for anyone formalizing a human-in-the-loop workflow or writing guidance for a team deploying long-horizon agents.</p>
+        <span class="src">arXiv 2606.05391 (Dhanorkar, Passi, Vorvoreanu) &middot; June 3, 2026</span>
+      </div>
+    </div>
+
+    <h2>Articles &amp; deep reads</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack" target="_blank" rel="noopener">What we learned mapping a year&rsquo;s worth of AI-enabled cyber threats</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Anthropic&rsquo;s threat-intelligence team analyzed 832 accounts banned for malicious cyber activity between March 2025 and March 2026, documenting 13,873 observed actions across 482 unique MITRE ATT&amp;CK techniques covering all 14 tactics. The two findings that matter most to practitioners: the share of medium-to-high-risk actors using AI jumped from 33% to 56% over the study period, and the pattern of AI use shifted inward&mdash;away from initial access (AI-assisted phishing fell) and toward post-compromise activity inside networks (account discovery rose). Attackers are pushing AI deeper into the kill chain, not just using it for lure generation. Worth reading alongside any security posture review for agentic systems you&rsquo;re deploying.</p>
+        <span class="src">Anthropic research blog &middot; June 3, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" target="_blank" rel="noopener">Refusals and fallback: integrating Claude Fable 5&rsquo;s new stop reason</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>The practitioner-level guide to the most disruptive API change Fable 5 ships: classifier refusals that return HTTP 200 with <code>stop_reason: "refusal"</code> and a <code>stop_details.category</code> field&mdash;currently one of <code>cyber</code>, <code>bio</code>, <code>frontier_llm</code>, or <code>reasoning_extraction</code>. Partial output mid-stream can also end in a refusal, so the content must be discarded. The guide covers all three retry paths: server-side fallback (pass <code>fallbacks</code> with the <code>server-side-fallback-2026-06-01</code> beta header, API handles the hop internally), SDK middleware (TypeScript, Python, Go, Java, C#), and manual retry with fallback credit to avoid paying the prompt-cache cost twice. Sticky routing means a conversation that fell back stays on the fallback model for roughly an hour&mdash;account for this in your monitoring. If you ship anything on Fable 5, this page should be open in a browser tab during the build.</p>
+        <span class="src">Anthropic platform docs &middot; June 9, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/about-claude/model-deprecations" target="_blank" rel="noopener">June 15 double-header: Agent SDK billing split and Claude Sonnet 4&nbsp;/&nbsp;Opus 4 retirement</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Two Anthropic deadlines land tomorrow and require action before end of day. First, the billing split: starting June 15, usage via the Claude Agent SDK, <code>claude&nbsp;-p</code>, Claude Code GitHub Actions, and third-party apps built on the SDK moves off your subscription&rsquo;s interactive limit onto a separate monthly credit metered at full API list prices&mdash;$20 on Pro, $100 on Max 5x, $200 on Max 20x, non-pooled and non-rollover. Interactive Claude Code in the terminal is unaffected. Second, the model retirement: <code>claude-sonnet-4-20250514</code> and <code>claude-opus-4-20250514</code> are retired today; any integration still calling either will receive errors. Migrate to <code>claude-sonnet-4-6</code> and <code>claude-opus-4-8</code> respectively. Separately, a softer but important API change: <code>temperature</code>, <code>top_p</code>, and <code>top_k</code> are deprecated on Claude Opus 4.7 and later&mdash;setting them to non-default values returns a 400 error.</p>
+        <span class="src">Anthropic API docs &middot; June 15, 2026 (effective)</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.175&ndash;176: enforceAvailableModels and usage attribution</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>The pair of releases this week rounds out the enterprise model-governance story opened by nested sub-agents in v2.1.172. The headline addition is <code>enforceAvailableModels</code> (v2.1.175), a managed setting that constrains which Claude model the default picker may resolve to; user or project settings can no longer widen a managed allowlist, giving platform administrators hard control over which models reach production. Alongside that, v2.1.174 adds usage attribution to the VSCode Account dialog&mdash;cache misses, long-context usage, and subagent calls are now broken out separately, making cost analysis against those workloads tractable. Bedrock credential caching is also extended to honor the actual expiration rather than capping at one hour.</p>
+        <span class="src">Claude Code changelog &middot; June 11&ndash;12, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/" target="_blank" rel="noopener">Gemini CLI retires June 18: transition to Antigravity CLI</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Google&rsquo;s open-source, Apache 2.0 terminal coding agent stops serving Google AI Pro and Ultra subscribers on June 18, folded into the broader Antigravity platform announced at Google I/O. Antigravity CLI is not open source; it is built in Go (faster execution, native async), shares the same agent harness as the Antigravity 2.0 desktop application, and carries over familiar primitives&mdash;agent skills, hooks, and subagents reappear as Antigravity plugins. Consumer access ends in four days; enterprise access on Gemini Code Assist is unchanged for now. If your team runs any Gemini CLI&ndash;based automation, the migration guide at the Google Developers Blog is the authoritative starting point.</p>
+        <span class="src">Google Developers Blog &middot; May 19, 2026 (effective June 18)</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://developer.chrome.com/blog/chrome-at-io26" target="_blank" rel="noopener">WebMCP: a browser-native tool protocol for AI agents, now in Chrome origin trial</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Announced at Google I/O 2026 and co-developed with Microsoft, WebMCP is a proposed W3C standard that lets websites declare named JavaScript functions and HTML forms as machine-readable tool endpoints&mdash;"search inventory," "initiate checkout," "submit support request"&mdash;which browser-based AI agents invoke with explicit user authorization rather than by scraping screen layouts. The Chrome 149 origin trial is shipping this month; Firefox has committed to Q3 support, Safari to Q4. Early data from the proponents cites 67% fewer task errors compared to visual scraping. Whether you are building web agents or hardening web applications against them, understanding what the browser can now expose to an agent natively is no longer optional.</p>
+        <span class="src">Chrome for Developers &middot; Google I/O 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Seven items, and three clocks ticking. The June 15 billing split and model retirements land in hours&mdash;check your integrations before the watch changes. Gemini CLI follows on June 18. Beyond the deadlines, this week&rsquo;s research haul is unusually rich: the oversight paper gives empirical flesh to what the crew discussed last voyage, and the adoption numbers confirm that the window for &ldquo;we&rsquo;ll evaluate this later&rdquo; has closed. Fair winds, and mind the reefs.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
