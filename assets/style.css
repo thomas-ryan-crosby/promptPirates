@@ -104,6 +104,8 @@ a:hover { color: var(--primary-light); text-decoration: underline; }
 .minutes .vno { font-weight: 700; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 .minutes .vtitle { font-size: 1.2rem; font-weight: 800; letter-spacing: -.01em; }
 .minutes .vmeta { font-size: .9rem; color: var(--muted); margin-top: 4px; }
+.minutes .vtldr { display: block; font-size: .94rem; color: var(--text); margin-top: 10px; line-height: 1.55; }
+.minutes .vtldr b { color: var(--gold); font-weight: 700; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; margin-right: 4px; }
 .minutes .arrow { color: var(--primary); font-weight: 600; font-size: .92rem; white-space: nowrap; }
 @media (max-width: 640px){ .minutes a.entry { grid-template-columns: 1fr; gap: 7px; } .minutes .arrow { display: none; } }
 
