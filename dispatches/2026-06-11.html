@@ -39,6 +39,61 @@
       A busy week on the horizon. Anthropic loosed its most capable flagship yet&mdash;Claude Fable 5&mdash;alongside a raft of new API mechanics that every harness builder needs to reckon with. Microsoft showed up at Build with seven in-house models and a bet on GitHub Copilot as an agentic desktop. Meanwhile, a tidy research paper on multi-agent coordination and Anthropic&rsquo;s Project Glasswing report round out a week that will shape how the crew ships software for the next quarter.
     </div>
 
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>SPOQ multi-agent paper</b>
+          <ul>
+            <li>Wave-based topological dispatch computes parallel execution waves from task graphs.</li>
+            <li>Dual validation gates applied before and after each wave cut rework cycles.</li>
+            <li>Human-as-an-Agent slot lets a specialist join decomposition or be consulted mid-run.</li>
+          </ul>
+        </li>
+        <li><b>Project Glasswing initial update</b>
+          <ul>
+            <li>10k+ high/critical vulns surfaced across 50+ partner orgs; 6,202 in 1,000 open-source projects.</li>
+            <li>Autonomous discovery of a 17-year-old FreeBSD RCE (CVE-2026-4747) and a wolfSSL cert-forgery exploit.</li>
+            <li>Open-source maintainers are now the bottleneck&mdash;discovery is outpacing patching.</li>
+          </ul>
+        </li>
+        <li><b>Prompting Claude Fable 5</b>
+          <ul>
+            <li>High-effort requests can run many minutes&mdash;bump client timeouts before migrating.</li>
+            <li>Parallel sub-agent dispatch is more aggressive than Opus 4.8; harnesses need async patterns.</li>
+            <li>Prompts that ask the model to echo its reasoning now hit the <code>reasoning_extraction</code> refusal.</li>
+          </ul>
+        </li>
+        <li><b>Claude Fable 5 and Mythos 5 launch</b>
+          <ul>
+            <li>1M-token context, 128k max output, $10/$50 per M input/output tokens; adaptive thinking is always on.</li>
+            <li>New <code>stop_reason: "refusal"</code> on HTTP 200 with categories (cyber, bio, frontier_llm, reasoning_extraction).</li>
+            <li>Server-side fallback beta lets the API handle retry to a named fallback model automatically.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.172</b>
+          <ul>
+            <li>Sub-agents can spawn sub-agents up to five levels deep.</li>
+            <li>Search bar in the <code>/plugin</code> marketplace; Bedrock auto-reads AWS region from <code>~/.aws</code>.</li>
+            <li>Fixes for permanently stuck 1M-context sessions and repeating image-processing errors.</li>
+          </ul>
+        </li>
+        <li><b>Microsoft Build: seven MAI models</b>
+          <ul>
+            <li>MAI-Thinking-1 trained entirely on commercially licensed data&mdash;no third-party distillation.</li>
+            <li>MAI-Code-1-Flash now powers GitHub Copilot across Free, Student, Pro, Pro+, and Max.</li>
+            <li>Suite also includes MAI-Transcribe-1.5 (43 languages), MAI-Voice-2, and MAI-Image-2.5.</li>
+          </ul>
+        </li>
+        <li><b>GitHub Copilot App and SDK GA</b>
+          <ul>
+            <li>Desktop client with a unified &ldquo;My Work&rdquo; view across sessions, issues, PRs, and automations.</li>
+            <li>Copilot SDK GA gives a stable API to embed the agentic engine in third-party tools.</li>
+            <li>CLI rubber-duck mode, prompt scheduling, and voice input all promoted to GA.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
     <h2>Research &amp; whitepapers</h2>
 
     <div class="feed">

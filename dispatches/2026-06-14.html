@@ -39,6 +39,68 @@
       A week of reckoning on every heading. Two empirical papers confirm what every builder feels: agentic adoption has gone vertical, and the oversight work that used to be a footnote is now a full-time discipline. Meanwhile Anthropic mapped a year of AI-assisted attacks onto MITRE ATT&amp;CK, and the API surface for Fable 5 keeps expanding&mdash;the refusal and fallback guide alone will reshape how harnesses are wired. On the operational side, two hard deadlines arrive before the next tide: the Agent SDK billing split and the Claude Sonnet 4&nbsp;/&nbsp;Opus 4 retirements, both landing June 15, with Gemini CLI following on June 18.
     </div>
 
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>Agentic Very Much! (GitHub adoption study)</b>
+          <ul>
+            <li>Coding-agent adoption is more than 2x higher in the new cohort vs. the prior study.</li>
+            <li>Claude Code now accounts for roughly 4.5% of all public-repo commits on GitHub.</li>
+            <li>Growth from 100k commits/week (Sep 2025) to 2.6M/week now&mdash;and detection likely undercounts.</li>
+          </ul>
+        </li>
+        <li><b>Human oversight of agentic systems (17-developer study)</b>
+          <ul>
+            <li>Four modes of emergent oversight: a priori control, co-planning, real-time monitoring, post hoc review.</li>
+            <li>Documents heuristics developers improvised to catch failure modes the agents do not surface.</li>
+            <li>Useful baseline for anyone formalizing a human-in-the-loop workflow for long-horizon agents.</li>
+          </ul>
+        </li>
+        <li><b>Mapping a year of AI-enabled cyber threats to MITRE ATT&amp;CK</b>
+          <ul>
+            <li>832 banned accounts; 13,873 actions across 482 ATT&amp;CK techniques covering all 14 tactics.</li>
+            <li>Medium-to-high-risk AI use grew from 33% to 56% over the year.</li>
+            <li>Attacker AI use shifted inward&mdash;from initial-access phishing toward post-compromise discovery.</li>
+          </ul>
+        </li>
+        <li><b>Refusals and fallback (Fable 5 integration guide)</b>
+          <ul>
+            <li><code>stop_reason: "refusal"</code> with <code>stop_details.category</code> (cyber, bio, frontier_llm, reasoning_extraction).</li>
+            <li>Three retry paths: server-side fallback beta, SDK middleware, or manual retry with fallback credit.</li>
+            <li>Sticky routing keeps a fallen-back conversation on the fallback model for roughly an hour.</li>
+          </ul>
+        </li>
+        <li><b>June 15 deadlines: Agent SDK billing split + model retirements</b>
+          <ul>
+            <li>Agent SDK / <code>claude -p</code> / GitHub Actions move to a separate monthly credit at API list prices.</li>
+            <li><code>claude-sonnet-4-20250514</code> and <code>claude-opus-4-20250514</code> are retired&mdash;migrate to 4.6 / 4.8.</li>
+            <li><code>temperature</code>, <code>top_p</code>, <code>top_k</code> deprecated on Opus 4.7+&mdash;non-default values now 400.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.175&ndash;176</b>
+          <ul>
+            <li><code>enforceAvailableModels</code> managed setting&mdash;hard model allowlist that user/project settings can&rsquo;t widen.</li>
+            <li>VSCode Account dialog breaks out cache misses, long-context, and subagent usage separately.</li>
+            <li>Bedrock credential caching now honors the actual expiration rather than capping at one hour.</li>
+          </ul>
+        </li>
+        <li><b>Gemini CLI retires June 18 &rarr; Antigravity CLI</b>
+          <ul>
+            <li>Consumer access ends June 18; enterprise Gemini Code Assist unchanged for now.</li>
+            <li>Antigravity CLI is Go-based, not open source, and shares the harness with Antigravity 2.0 desktop.</li>
+            <li>Skills, hooks, and subagents carry over&mdash;reappearing as Antigravity plugins.</li>
+          </ul>
+        </li>
+        <li><b>WebMCP in Chrome origin trial</b>
+          <ul>
+            <li>Sites declare named JS functions and HTML forms as machine-readable tool endpoints.</li>
+            <li>Chrome 149 origin trial this month; Firefox Q3, Safari Q4.</li>
+            <li>Proponents cite 67% fewer task errors vs. visual scraping.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
     <h2>Research &amp; whitepapers</h2>
 
     <div class="feed">
