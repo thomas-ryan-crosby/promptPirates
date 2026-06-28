@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of June 28, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; June 28, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of June 28, 2026</h1>
+    <p class="byline">Seven items from the frontier &mdash; a rigorous shake-down of agent memory systems, a safety census of thirty deployed agents that found most documentation gaps where you least want them, and two benchmark results that should reframe any optimism about what current coding agents actually do.</p>
+    <dl>
+      <dt>Scouted</dt><dd>June 28, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      A week of overdue reckoning and overdue access. Two arXiv papers put the scaffolding we trust under systematic pressure: one evaluated twelve agent memory architectures side-by-side and found that none of them wins cleanly, and another&mdash;presented at FAccT &rsquo;26 in Montreal&mdash;catalogued the safety posture of thirty deployed AI agents and found that most developers share almost nothing. Meanwhile, OpenAI and Anthropic both pushed platform features to production: Codex sessions can now be watched and nudged from a phone, Anthropic unified its API rate limits across model tiers, and Claude Code shipped five releases across four days.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>Are We Ready For An Agent-Native Memory System?</b>
+          <ul>
+            <li>Evaluates 12 agent memory architectures plus two baselines across five benchmark workloads spanning 11 datasets&mdash;the broadest head-to-head comparison of agent memory systems published to date.</li>
+            <li>No single architecture dominates; which design wins depends on whether the workload bottleneck lies in storage, retrieval routing, or update maintenance.</li>
+            <li>Provides a four-module decomposition framework practitioners can use to diagnose memory underperformance before swapping libraries.</li>
+          </ul>
+        </li>
+        <li><b>The 2025 AI Agent Index</b>
+          <ul>
+            <li>Documents the technical and safety features of 30 deployed AI agents; most safety information came from large labs, and Claude Code is the only system with all eight safety-documentation fields populated.</li>
+            <li>Eight of 30 agents have documented security incidents or concerns; prompt injection appears in two of the five browser agents&mdash;the highest-risk deployment category.</li>
+            <li>Transparency gap between published capability benchmarks and safety documentation is the paper&rsquo;s central finding, presented at FAccT &rsquo;26 (Montreal, June 25&ndash;28, 2026).</li>
+          </ul>
+        </li>
+        <li><b>How agents are transforming work (OpenAI)</b>
+          <ul>
+            <li>Platform data: research-use median is 56&thinsp;&times; higher than in November 2025; engineering 27&thinsp;&times;, customer support 32&thinsp;&times;, legal 13&thinsp;&times;.</li>
+            <li>By June 2026, 80.6% of users were making requests estimated to correspond to more than 30 minutes of human work, and 70.2% to more than one hour.</li>
+            <li>At the 99th percentile, users generate more than 60 hours of Codex agent turns per day spread across parallel agents&mdash;a working pattern that did not exist seven months ago.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.187&ndash;195</b>
+          <ul>
+            <li>Five releases in four days: <code>/rewind</code> lets you resume conversations from before the most recent <code>/clear</code>; <code>sandbox.credentials</code> blocks sandboxed commands from reading credential files; and a new OpenTelemetry event surfaces assistant responses.</li>
+            <li><code>autoMode.classifyAllShell</code> routes every Bash and PowerShell command through the auto-mode classifier; remote MCP calls that hang longer than five minutes now abort rather than block the session.</li>
+            <li>CPU use during streaming cut roughly 37% via 100&thinsp;ms text-update coalescing; long-session memory growth from terminal output cache also reduced.</li>
+          </ul>
+        </li>
+        <li><b>Claude API: rate-limit unification</b>
+          <ul>
+            <li>Effective June 26, Sonnet and Haiku rate limits match Opus at every usage tier; five tiers are consolidated into three: Start, Build, and Scale.</li>
+            <li>Most organisations move to a higher tier automatically; no organisation receives lower limits than before, and no action is required.</li>
+            <li>Removes the practical incentive to substitute a smaller model for rate-headroom reasons alone, which opens the door to using the strongest model throughout a pipeline.</li>
+          </ul>
+        </li>
+        <li><b>OpenAI Codex Remote GA</b>
+          <ul>
+            <li>Phone-based remote control of live Codex sessions is now available to all paid ChatGPT subscribers (Plus, Pro, Business, Enterprise, Education), launched June 25, 2026.</li>
+            <li>QR-code pairing binds a specific phone to a specific host; a relay carries only session traffic without opening inbound ports on the host machine.</li>
+            <li>Local projects, credentials, MCP server configurations, and plug-ins stay on the host and are never transmitted through the relay.</li>
+          </ul>
+        </li>
+        <li><b>NatureBench</b>
+          <ul>
+            <li>90 tasks from peer-reviewed Nature-family papers across six scientific domains, evaluated against ten frontier agent configurations with no web-search access permitted.</li>
+            <li>The strongest configuration surpasses published SOTA on only 17.8% of tasks; SOTA matching tops out at 47.8%&mdash;current agents are ML generalists, not scientists.</li>
+            <li>Agent success comes almost entirely from reframing scientific tasks as familiar supervised-prediction problems, not from genuine methodological invention; NatureGym lets teams run their own harnesses against the same environment.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2606.24775" target="_blank" rel="noopener">Are We Ready For An Agent-Native Memory System?</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Wei Zhou and colleagues at Shanghai Jiao Tong University and collaborating institutions deliver the most comprehensive head-to-head of agent memory architectures published to date: twelve representative systems and two reference baselines, evaluated across five benchmark workloads spanning eleven datasets. The paper proposes a decomposition framework that splits memory into four modules&mdash;representation and storage, extraction, retrieval and routing, and maintenance&mdash;and uses it to explain why aggregate end-to-end benchmarks mislead. No single architecture dominates because the winning design depends entirely on which module is the bottleneck for a given workload. If your agent underperforms on a memory-intensive task, this framework tells you whether to look at the store, the retriever, or the update logic before reaching for a different library.</p>
+        <span class="src">arXiv 2606.24775 (Zhou et al., SJTU) &middot; June 23, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2602.17753" target="_blank" rel="noopener">The 2025 AI Agent Index: Documenting Technical and Safety Features of Deployed Agentic AI Systems</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Presented this week at FAccT &rsquo;26 in Montreal, the 2025 AI Agent Index documents the technical capabilities and safety posture of thirty deployed AI agents using public sources and developer correspondence. The finding that concentrates the mind: most safety documentation comes from the largest labs, and Claude Code is the only system in the study for which all eight safety-documentation fields were populated. Eight of the thirty agents carry known security incidents or reported concerns; prompt injection is documented in two of the five browser agents, the category with the widest attack surface. For teams composing harnesses that call third-party agents as subcomponents, this index is the closest thing the field currently has to a safety census&mdash;read it before trusting any agent you did not build yourself.</p>
+        <span class="src">arXiv 2602.17753 (MIT et al.) &middot; FAccT &rsquo;26 &middot; June 25&ndash;28, 2026</span>
+      </div>
+    </div>
+
+    <h2>Articles &amp; deep reads</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://openai.com/index/how-agents-are-transforming-work/" target="_blank" rel="noopener">How agents are transforming work</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>OpenAI published its first detailed look at how users are actually deploying Codex agents, and the trajectory numbers are steep. Median research-use is 56&thinsp;&times; higher than in November 2025; engineering 27&thinsp;&times;, customer support 32&thinsp;&times;, legal 13&thinsp;&times;. The shift is structural, not just volumetric: by June 2026, 80.6% of users were making requests estimated to correspond to more than thirty minutes of human work, and 70.2% to more than an hour. At the 99th percentile, individuals are generating more than sixty hours of Codex agent turns per day spread across parallel sessions&mdash;a working pattern that simply did not exist seven months ago. The piece reads as part report, part market signal: these are the task delegation patterns your clients and competitors are already normalising.</p>
+        <span class="src">OpenAI &middot; June 25, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.187&ndash;195: /rewind, credential guards, OpenTelemetry, auto-mode classifier, CPU optimisations</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Five releases across four days. The most immediately useful addition is <code>/rewind</code> (v2.1.191, June 24), which lets you resume a conversation from the state just before the most recent <code>/clear</code>&mdash;recovering sessions previously lost to accidental wipes. On the security side, v2.1.187 (June 23) ships <code>sandbox.credentials</code>, a setting that blocks sandboxed shell commands from accessing credential files, a meaningful guardrail for any harness running untrusted code inside agent turns. Observability improves in v2.1.193 (June 25) with a <code>claude_code.assistant_response</code> OpenTelemetry log event (redacted by default; enable via <code>OTEL_LOG_ASSISTANT_RESPONSES=1</code>) and a new <code>autoMode.classifyAllShell</code> setting that routes every Bash and PowerShell command through the auto-mode classifier. Also in v2.1.187: remote MCP tool calls that hang longer than five minutes now abort with an error rather than blocking the session indefinitely (override via <code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code>). CPU use during streaming dropped roughly 37% via 100&thinsp;ms text-update coalescing; long-session memory growth from the terminal output cache is also reduced.</p>
+        <span class="src">Claude Code changelog &middot; June 23&ndash;26, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude API: Sonnet and Haiku rate limits now match Opus across all tiers</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Effective June 26, 2026, Anthropic equalised the API rate limits for Sonnet, Haiku, and Opus at every usage tier, and consolidated the former five-tier structure into three: Start, Build, and Scale. Most organisations move to a higher tier automatically; no organisation receives lower limits than before, and no action is required. The practical effect for harness builders: the longstanding incentive to substitute a smaller model in high-throughput pipelines purely for rate headroom disappears. If your routing logic currently assigns requests to Haiku for quota reasons rather than quality reasons, that calculus has changed and is worth revisiting.</p>
+        <span class="src">Anthropic Developer Platform &middot; June 26, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://openai.com/index/work-with-codex-from-anywhere/" target="_blank" rel="noopener">OpenAI Codex Remote reaches general availability: phone control for all paid subscribers</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Phone-based remote control of live Codex sessions is now available to every paid ChatGPT tier&mdash;Plus, Pro, Business, Enterprise, and Education&mdash;following the June 25 general-availability launch. The security architecture is worth understanding before deploying it in a team context. Setup requires scanning a QR code generated on the host machine, which binds a specific phone to a specific host workspace. A relay layer maintained by OpenAI then carries only session traffic&mdash;prompts, diffs, approval requests, screenshots, and terminal output&mdash;between the phone and the host, without opening any inbound port on the host machine. Local projects, credentials, plug-ins, and MCP server configurations stay on the host and never traverse the relay. For teams evaluating whether the remote-access model meets compliance requirements, the data-in-transit scope is materially narrower than a general-purpose remote-desktop alternative.</p>
+        <span class="src">OpenAI &middot; June 25, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2606.24530" target="_blank" rel="noopener">NatureBench: Can Coding Agents Match the Published SOTA of Nature-Family Papers?</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>FrontisAI&rsquo;s NatureBench (arXiv 2606.24530, June 23) constructs ninety tasks directly from peer-reviewed Nature-family publications across six scientific domains&mdash;biology, chemistry, climate, materials science, medicine, and physics&mdash;and evaluates ten frontier agent configurations against them under a strict no-web-search protocol, with each task running in an isolated containerised environment built by the NatureGym pipeline. The headline number: the strongest configuration surpasses the published SOTA on only 17.8% of tasks under the primary criterion (effect size g&thinsp;&gt;&thinsp;0.1), and SOTA matching reaches at most 47.8%. The diagnostic insight is more useful than the score: trajectory analysis shows that agent success arrives almost entirely through methodological translation&mdash;converting the scientific task into a supervised prediction problem the agent already knows how to solve&mdash;rather than through genuine procedural or theoretical invention. The NatureGym pipeline and the 150 reference tasks are publicly available so teams can evaluate their own harnesses against the same environment.</p>
+        <span class="src">arXiv 2606.24530 (FrontisAI) &middot; June 23, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Seven items, and the thread running through them is consistent: the gap between what practitioners assume agents can do and what rigorous evaluation reveals they actually do remains wide, and this week sharpened awareness of it on three fronts. The memory systems paper says no library is universally right&mdash;match the architecture to the bottleneck. The Agent Index says most deployed systems are flying with minimal safety documentation and several with documented incidents. NatureBench says frontier agents are sophisticated retrieval engines, not scientists. The platform news says the tooling continues to mature around them: rate limits ease, observability improves, remote access narrows its security surface. The ship is being built while it sails. Mind the depth, trim the sails, and we will compare notes at the next voyage.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
