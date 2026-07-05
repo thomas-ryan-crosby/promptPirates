@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of July 5, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; July 5, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of July 5, 2026</h1>
+    <p class="byline">Seven items &mdash; BenchJack&rsquo;s audit of ten benchmarks found 219 exploitable flaws and near-perfect scores reachable without solving a single task; Harness-MU ships the first model-agnostic runtime governance framework for multi-user agents; and Anthropic delivered Claude Sonnet 5, restored Fable 5, and released five Claude Code versions in four days while OpenAI previewed a three-tier model family with new caching mechanics.</p>
+    <dl>
+      <dt>Scouted</dt><dd>July 5, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      A week to read carefully before reaching for your benchmark scores. Two arXiv papers question the numbers the field trusts most: BenchJack, from Berkeley&rsquo;s Dawn Song group, systematically exploited ten popular benchmarks without solving any of the underlying tasks, and Harness-MU establishes the first model-agnostic runtime governance framework for shared multi-user agent deployments. On the platform side, Anthropic shipped Claude Sonnet 5 as the new default in Claude Code, restored global access to Fable 5 after two weeks of export-control suspension, pushed five Claude Code versions in four days&mdash;background subagents by default the most consequential change&mdash;and expanded the Managed Agents API surface. OpenAI previewed GPT-5.6 Sol, Terra, and Luna to a restricted partner group and introduced explicit cache breakpoints that change the cost structure for pipelines running heavy prompt caching.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>BenchJack: auditing AI agent benchmarks</b>
+          <ul>
+            <li>Exploited all ten popular benchmarks it audited, synthesising near-perfect scores without solving a single task; 219 distinct flaws found across eight flaw classes.</li>
+            <li>An extended adversarial pipeline patches the same benchmarks iteratively, reducing the hackable-task ratio from near 100% to under 10% on four of them&mdash;fully patching WebArena and OSWorld within three rounds.</li>
+            <li>The Agent-Eval Checklist distils the eight flaw patterns into an actionable audit teams can run before deploying any evaluation harness.</li>
+          </ul>
+        </li>
+        <li><b>Harness-MU: multi-user agent governance</b>
+          <ul>
+            <li>First model-agnostic, zero-tuning infrastructure harness to decouple language generation from permission enforcement for multi-user LLM deployments.</li>
+            <li>Governance constraints&mdash;authorisation rules, access boundaries, instruction precedence&mdash;are enforced by deterministic execution hooks, not entrusted to the LLM itself.</li>
+            <li>On Muses-Bench: privacy preserved across all access-control attacks, +0.28&ndash;0.39 utility score, and up to 48.9 percentage points better instruction-following accuracy versus the standard baseline.</li>
+          </ul>
+        </li>
+        <li><b>GPT-5.6 Sol, Terra, and Luna</b>
+          <ul>
+            <li>Three durable capability tiers under a new naming scheme: Sol ($5/$30 per M input/output tokens), Terra ($2.50/$15), Luna ($1/$6); limited partner preview before broad rollout.</li>
+            <li>Explicit cache breakpoints and a 30-minute minimum cache life change the economics of prompt-caching pipelines; cache writes now billed at 1.25x the uncached rate.</li>
+            <li>Currently restricted to a small group of trusted partners at the US government&rsquo;s request ahead of broader API and ChatGPT availability.</li>
+          </ul>
+        </li>
+        <li><b>Claude Sonnet 5</b>
+          <ul>
+            <li>Launches as the default model in Claude Code and for Free and Pro claude.ai plans at introductory pricing of $2/$10 per M input/output tokens through August 31, then $3/$15.</li>
+            <li>Three API breaking changes for existing harnesses: adaptive thinking is on by default, manual extended thinking is removed (returns a 400 error), and setting <code>temperature</code>, <code>top_p</code>, or <code>top_k</code> to non-default values returns a 400 error.</li>
+            <li>New tokenizer produces roughly 30% more tokens for the same text&mdash;existing cost estimates and cache-size calculations need revision before migration.</li>
+          </ul>
+        </li>
+        <li><b>Claude Fable 5 access restored</b>
+          <ul>
+            <li>Export restrictions lifted July 1; Fable 5 and Mythos 5 are globally accessible again after two weeks of suspension under a US Commerce Department directive.</li>
+            <li>Fable 5 ($10/$50, 1M token context, always-on adaptive thinking) is available on the Claude API, Bedrock, Google Cloud, Microsoft Foundry, and Claude Code.</li>
+            <li>Mythos 5 remains invitation-only for Project Glasswing defensive cybersecurity work; Fable 5 is the broadly available flagship.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.197&ndash;201</b>
+          <ul>
+            <li>Subagents now run in the background by default (v2.1.198); background agents auto-commit, push, and open draft PRs, and the <code>/dataviz</code> skill and Claude in Chrome reach general availability in the same release.</li>
+            <li>Stacked slash-skill invocations load up to five skills per call; streaming partial output is preserved when the API emits mid-stream errors rather than discarded.</li>
+            <li>Default permission mode changed to Manual (v2.1.200) and <code>AskUserQuestion</code> dialogs no longer auto-continue&mdash;both changes affect any harness relying on default interactive behaviour.</li>
+          </ul>
+        </li>
+        <li><b>Claude Managed Agents API expansion</b>
+          <ul>
+            <li>Per-session configuration overrides let callers swap model, system prompt, tools, MCP servers, or skills for a single session without touching the agent definition itself.</li>
+            <li>Lifecycle webhooks now cover agent publication, deployment pause, and scheduled-run failure events, removing the need to poll for state transitions.</li>
+            <li>Event deltas stream assistant message text as it is generated, before the complete <code>agent.message</code> event arrives, reducing time-to-first-visible-token in stream consumers.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2605.12673" target="_blank" rel="noopener">Do Androids Dream of Breaking the Game? Systematically Auditing AI Agent Benchmarks with BenchJack</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Hao Wang, Qiuyang Mang, Alvin Cheung, Koushik Sen, and Dawn Song at UC Berkeley built BenchJack, an automated red-teaming system that drives coding agents to audit benchmark evaluation pipelines for exploitable reward-hacking flaws. Applied to ten popular benchmarks spanning software engineering, web navigation, desktop computing, and terminal operations&mdash;including SWE-bench, WebArena, OSWorld, GAIA, and Terminal-Bench&mdash;BenchJack synthesised near-perfect-scoring exploits without solving a single task, surfacing 219 distinct flaws across eight flaw classes: leaked reference answers, prompt-injectable LLM judges, unsanitised <code>eval()</code>, and scoring functions that skip correctness checks entirely. An iterative adversarial extension patches the discovered flaws and re-runs, reducing the hackable-task ratio from near 100% to under 10% on four of the benchmarks and fully resolving WebArena and OSWorld within three rounds. The Agent-Eval Checklist distils the eight recurring patterns into a design-time audit any team can apply to their own evaluation harness before trusting its scores.</p>
+        <span class="src">arXiv 2605.12673 (UC Berkeley) &middot; May 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2606.21856" target="_blank" rel="noopener">Harness-MU: A Safe, Governed, and Effective Harness for Multi-User LLM Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Wangxuan Fan, Xiaoyu Nie, and Zhongxiang Dai at the Chinese University of Hong Kong, Shenzhen, identify a fundamental mismatch between the single-user training paradigm of current LLMs and the hard enforcement requirements of shared multi-user deployments. Their answer is Harness-MU, the first model-agnostic, zero-tuning infrastructure framework to decouple language generation from safety orchestration: governance constraints&mdash;who is authorised, what content is restricted, whose instructions take precedence when principals conflict&mdash;are enforced by deterministic execution hooks rather than asked of the LLM. Evaluated on Muses-Bench across four frontier open-weight and proprietary models, Harness-MU achieves complete privacy preservation against all access-control attack classes while outperforming the standard baseline by 0.28&ndash;0.39 on utility score and improving instruction-following accuracy by up to 48.9 percentage points. For teams running shared Claude Code or RAG agents across a department, this is the closest thing the field currently has to a reference architecture for multi-principal governance.</p>
+        <span class="src">arXiv 2606.21856 (CUHK Shenzhen) &middot; June 30, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener">Previewing GPT-5.6 Sol: OpenAI introduces three-tier model naming and explicit cache breakpoints</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>OpenAI previewed a three-tier model family under a new naming regime: Sol (the strongest), Terra (balanced), and Luna (fastest and cheapest), priced at $5/$30, $2.50/$15, and $1/$6 per million input/output tokens respectively. The naming scheme is designed to be durable: the Sol, Terra, and Luna tiers will advance independently on their own cadence, giving developers a stable capability-tier vocabulary across model generations. For practitioners building caching-heavy pipelines the more immediately useful change is the introduction of explicit cache breakpoints and a 30-minute minimum cache life; cache writes are now billed at 1.25x the uncached input rate while cache reads retain a 90% discount. Both mechanics let teams control cache boundaries more precisely and size cache-write costs into their pipelines upfront. The preview is restricted to a small group of trusted partners at the US government&rsquo;s request, with broader API and ChatGPT availability expected within weeks.</p>
+        <span class="src">OpenAI &middot; late June 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/claude-sonnet-5" target="_blank" rel="noopener">Claude Sonnet 5: most agentic Sonnet launches with three API breaking changes</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Claude Sonnet 5 (<code>claude-sonnet-5</code>) shipped June 30 as the new default model in Claude Code and on Free and Pro claude.ai plans. At introductory pricing of $2/$10 per M input/output tokens through August 31 (standard $3/$15 after), it lands close to Opus-class performance at significantly lower cost, making it the natural choice for high-throughput agent pipelines. Three API changes require attention before migration. First, adaptive thinking is on by default&mdash;previously opt-in. Second, manual extended thinking via <code>thinking: {type: "enabled", budget_tokens: N}</code> is removed and returns a 400 error; it was deprecated on Sonnet 4.6. Third, setting <code>temperature</code>, <code>top_p</code>, or <code>top_k</code> to non-default values also returns a 400 error. Sonnet 5 also ships a new tokenizer that produces roughly 30% more tokens for the same text, which matters for both cost estimates and prompt-cache sizing&mdash;audit your budgets before flipping the default.</p>
+        <span class="src">Anthropic &middot; June 30, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/redeploying-fable-5-mythos-5" target="_blank" rel="noopener">Claude Fable 5 and Mythos 5 access restored after export-control suspension</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>As of July 1, the US Commerce Department export-control directive that had suspended all access to Claude Fable 5 and Mythos 5 was lifted, and both models returned to global availability. Fable 5 (<code>claude-fable-5</code>), Anthropic&rsquo;s most capable widely released model, is now accessible on the Claude API, Claude Platform on AWS, Amazon Bedrock, Google Cloud, Microsoft Foundry, and directly in Claude Code. Its specs&mdash;1M token context, 128k max output, $10/$50 per M input/output tokens, always-on adaptive thinking&mdash;are unchanged. Claude Mythos 5 remains invitation-only within Project Glasswing for approved defensive cybersecurity work. For teams that held off on migrating harnesses to Fable 5 while access was uncertain, the path is clear again.</p>
+        <span class="src">Anthropic &middot; July 1, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://github.com/anthropics/claude-code/releases" target="_blank" rel="noopener">Claude Code v2.1.197&ndash;201: background subagents by default, Claude in Chrome, permission mode overhaul</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Five releases across four days. The most consequential is v2.1.198 (July 1): subagents now run in the background by default, meaning parent agents no longer block waiting for subagent completion&mdash;the same release also brings Claude in Chrome to general availability and the <code>/dataviz</code> skill for chart and dashboard design guidance, and wires background agents to auto-commit, push, and open draft pull requests when work is complete. Also in v2.1.198: Claude Sonnet 5 becomes the default model (v2.1.197, June 30). The v2.1.199 release (July 2) adds stacked slash-skill invocations (up to five skills loaded per call) and preserves streaming partial output when the API emits mid-stream errors rather than discarding the turn. The v2.1.200 release (July 3) changes the default permission mode to Manual across the CLI and IDEs and stops <code>AskUserQuestion</code> dialogs from auto-continuing&mdash;both changes affect any harness that relied on default interactive behaviour. Harness builders running automated Claude Code sessions should test these defaults before the next production push.</p>
+        <span class="src">Claude Code changelog &middot; June 30&ndash;July 3, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude Managed Agents API: per-session config overrides, lifecycle webhooks, event deltas</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>The June 30 platform release packed five additions to the Managed Agents API. Per-session configuration overrides are the most flexible: pass <code>agent</code> with <code>type: "agent_with_overrides"</code> when creating a session and you can swap the model, system prompt, tools, MCP servers, or skills for that session alone without touching the published agent definition&mdash;useful for A/B testing models or injecting user-specific context without proliferating separate agents. Lifecycle webhooks now cover the full deployment surface: agent publication, deployment pause, and scheduled-run failure events all arrive as webhook payloads, eliminating polling loops for teams that react to these transitions in their CI or ops pipelines. Event deltas let stream consumers show assistant message text as it generates by subscribing to <code>event_start</code> and <code>event_delta</code> events on the session event stream before the final <code>agent.message</code> event closes. Two smaller additions: sessions list now supports backward pagination, and vault environment variable credentials expose an <code>injection_location</code> setting to target secrets into request headers, the request body, or both at egress.</p>
+        <span class="src">Anthropic Developer Platform &middot; June 30, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Seven items, and the thread running through them is the gap between appearance and ground truth. BenchJack reveals that the benchmark numbers cited to justify model selection may be artifacts of exploitable scoring machinery rather than task performance. Harness-MU reveals that multi-user agent governance cannot be delegated to the LLM itself&mdash;deterministic hooks at the harness layer are the only reliable enforcement point. The platform news is uniformly expansive: a new Sonnet that punches toward Opus at Sonnet prices, Fable 5 back from suspension, five Code versions that make background subagents the default operating mode, and a three-tier GPT-5.6 family rewriting OpenAI&rsquo;s caching economics. The sea is wider than last week. Audit the eval, govern the multi-user surface, recalculate the tokenizer math, and we&rsquo;ll compare charts at the next voyage.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
