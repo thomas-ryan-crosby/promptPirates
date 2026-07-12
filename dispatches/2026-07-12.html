@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of July 12, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; July 12, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of July 12, 2026</h1>
+    <p class="byline">Six items &mdash; Weng&rsquo;s 35-paper survey repositions recursive self-improvement as a harness problem; GPT-5.6 Sol, Terra, and Luna go globally available with new cache-breakpoint pricing alongside ChatGPT Work; FARMA demonstrates a new class of agent memory attack that poisons reasoning traces rather than facts; and Claude Code ships six versions in six days.</p>
+    <dl>
+      <dt>Scouted</dt><dd>July 12, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      The week&rsquo;s signal sits at the harness layer. Lilian Weng&rsquo;s essay surveys 35 papers to frame recursive self-improvement not as a weight-update problem but as a scaffolding problem&mdash;and names the seven bottlenecks that still block fully autonomous RSI. On the threat side, two new arXiv papers illuminate separate failure modes in long-running agents: FARMA poisons an agent&rsquo;s remembered reasoning rather than its factual store, while ReContext shows that access to 128K-token context and effective use of that context are not the same thing. OpenAI made GPT-5.6 Sol, Terra, and Luna publicly available on July 9 alongside ChatGPT Work, a long-horizon autonomous agent that creates finished deliverables while running in the background. Claude Code shipped six versions across six days, the most operator-visible change being auto mode going live without any opt-in flag on Bedrock, Vertex AI, and Foundry.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>ReContext: recursive evidence replay for long-context reasoning</b>
+          <ul>
+            <li>LLMs routinely fail to use evidence already present in 128K-token inputs; ReContext closes the gap without any training or external memory by building a query-conditioned evidence pool from the model&rsquo;s own attention signals and replaying it before generation.</li>
+            <li>Achieves best average rank on all three tested backbones (Qwen3-4B, Qwen3-8B, Llama3-8B) across eight long-context benchmarks, at no cost to the original context.</li>
+            <li>A training-free harness-level intervention that any team running retrieval or document-analysis agents can drop in today.</li>
+          </ul>
+        </li>
+        <li><b>FARMA: forged reasoning attacks on agent memory</b>
+          <ul>
+            <li>FARMA poisons an agent&rsquo;s reasoning-trace memory rather than its facts: injection claims prior actions are complete; amplification reinforces the forgery self-referentially, defeating both keyword and consensus defenses.</li>
+            <li>Any agent with persistent memory and no output-side validation of stored rationales is currently exposed; the companion SENTINEL pipeline provides layered detection.</li>
+            <li>The attack surface shifts from &ldquo;what the agent knows&rdquo; to &ldquo;how it remembers deciding&rdquo;&mdash;a fundamentally new threat class for production memory-augmented agents.</li>
+          </ul>
+        </li>
+        <li><b>Weng: harness engineering for self-improvement</b>
+          <ul>
+            <li>Lilian Weng surveys 35 papers to argue that the optimization target for AI self-improvement is moving from prompts to context to workflow to harness code to optimizer code&mdash;not weight rewriting.</li>
+            <li>Seven bottlenecks prevent fully autonomous recursive self-improvement: fuzzy evaluators, memory lifecycle management, negative-result handling, diversity collapse, reward hacking, long-term cost, and the residual human role.</li>
+            <li>The scaffolding around the model now matters as much as the model itself&mdash;a direct argument for investing in harness quality before chasing frontier weights.</li>
+          </ul>
+        </li>
+        <li><b>GPT-5.6 Sol, Terra, and Luna</b>
+          <ul>
+            <li>Three durable capability tiers at $5/$30, $2.50/$15, and $1/$6 per million input/output tokens; globally available on the API, ChatGPT, and Codex as of July 9 after a two-week restricted partner preview.</li>
+            <li>Explicit cache breakpoints and a 30-minute minimum cache life give pipelines precise control over caching boundaries; cache writes now priced at 1.25&times; the uncached input rate, reads retain the 90% discount.</li>
+            <li>Sol scores 88.8% on Terminal-Bench 2.1 (top of the leaderboard above Claude Mythos 5 at 88.0%) and 64.6% on SWE-bench Pro.</li>
+          </ul>
+        </li>
+        <li><b>ChatGPT Work</b>
+          <ul>
+            <li>OpenAI&rsquo;s long-running autonomous agent takes a goal, gathers context across connected apps and files, and returns finished deliverables&mdash;docs, slides, sheets, and web apps&mdash;without continuous prompting.</li>
+            <li>Scheduled Tasks let Work continue running offline, picking up new signals from Slack, Teams, and other integrations; the updated ChatGPT desktop app unifies Chat, Work, and Codex in one surface.</li>
+            <li>Available on all plans on desktop immediately; rolling out to web and mobile on paid plans over the following days.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.202&ndash;207</b>
+          <ul>
+            <li>Six releases in six days; the most operator-visible change: auto mode is now the default on Bedrock, Vertex AI, and Foundry without any environment-variable opt-in&mdash;disable via <code>disableAutoMode</code> in settings.</li>
+            <li>Default model on all three cloud platforms flipped to Claude Opus 4.8; dynamic workflow sizing and OpenTelemetry workflow tracking arrive in v2.1.202 for better fleet observability.</li>
+            <li>Shell-injection fix in v2.1.207: <code>${user_config.*}</code> in shell-form plugin commands is now rejected at parse time&mdash;harnesses using plugin hooks should update immediately.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2607.02509" target="_blank" rel="noopener">ReContext: Recursive Evidence Replay as LLM Harness for Long-Context Reasoning</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Despite supporting context windows of 128K tokens or more, current LLMs systematically fail to surface and use evidence already present in the input. ReContext (submitted July 2, 2026) proposes a training-free harness-level fix: it uses the model&rsquo;s own question-conditioned attention weights to score token relevance, materialises the top-scoring tokens back into text spans, and prepends those spans as a query-specific evidence pool before the final generation pass&mdash;without truncating or replacing the original context. Running on eight long-context benchmarks at 128K against Qwen3-4B, Qwen3-8B, and Llama3-8B, ReContext achieves best average rank on all three backbones. The mechanism requires no fine-tuning, no external retrieval index, and no additional model calls&mdash;making it a low-friction upgrade for any team running document analysis, RAG pipelines, or long-session coding agents where relevant evidence is present but unreliably used.</p>
+        <span class="src">arXiv 2607.02509 &middot; July 2, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2607.05029" target="_blank" rel="noopener">Your Agent&rsquo;s Memories Are Not Its Own: Forged Reasoning Attacks on LLM Agent Memory and Defenses</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Karamchandani, Nagasubramaniam, Zhu, and Wu at Penn State identify a new attack surface in memory-augmented agents: the reasoning trace store. The Forged Amplifying Rationale Memory Attack (FARMA) targets not what the agent knows but how it remembers deciding: in the injection phase, forged entries claim that prior actions have already been completed and can be safely skipped; in the amplification phase, self-referential entries reinforce the forgery across multiple memory reads, defeating consensus-based defenses that rely on majority-agreement across stored entries. Evasive language in the forged traces bypasses keyword-based filters. The attack succeeds against current open-weight and proprietary agent deployments with persistent memory and no output-side rationale validation. The authors introduce SENTINEL, a layered pipeline that detects forged reasoning entries through provenance tracing and cross-entry consistency checking. For any crew running Claude Code with memory plugins or custom RAG-augmented agents, this paper maps a threat class that existing injection defenses do not cover.</p>
+        <span class="src">arXiv 2607.05029 (Penn State) &middot; July 2026</span>
+      </div>
+    </div>
+
+    <h2>Articles &amp; deep reads</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://lilianweng.github.io/posts/2026-07-04-harness/" target="_blank" rel="noopener">Harness Engineering for Self-Improvement</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Lilian Weng (co-founder, Thinking Machines Lab; former Head of Safety Research, OpenAI) published a long-form survey on July 4 arguing that recursive self-improvement will not begin with weight updates&mdash;it begins with the harness. The scaffolding around a model determines how it plans, what tools it calls, what it stores, and how its outputs are judged, and those design choices are now the lever that matters most. Weng traces the optimization frontier moving through five layers: prompt, structured context, workflow, harness code, and eventually optimizer code that rewrites the harness itself. Synthesising 35 papers, she maps seven unsolved bottlenecks: fuzzy evaluators (research taste and novelty are far harder to measure than a passing test suite), memory lifecycle management, negative-result handling, diversity collapse under self-generated training data, reward hacking, long-term compute cost, and the still-essential human role. For practitioners building production agents, the practical implication is that investments in eval quality, memory architecture, and harness observability compound in ways that frontier model upgrades alone do not.</p>
+        <span class="src">Lil&rsquo;Log (Lilian Weng) &middot; July 4, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener">GPT-5.6 Sol, Terra, and Luna: three-tier model family with explicit cache breakpoints goes public</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>After a two-week restricted preview to government-vetted partners, OpenAI made GPT-5.6 generally available on July 9 across the API, ChatGPT, and Codex. The family introduces a durable three-tier naming convention: Sol (frontier reasoning and long-horizon agentic work, $5/$30 per million input/output tokens), Terra (balanced everyday model at GPT-5.5-competitive performance for 2&times; lower cost, $2.50/$15), and Luna (fastest and most affordable, $1/$6). Benchmark headliner: Sol scores 88.8% on Terminal-Bench 2.1&mdash;nudging above Claude Mythos 5&rsquo;s 88.0%&mdash;and 64.6% on SWE-bench Pro. The more immediately actionable change for pipelines is the new caching model: explicit cache breakpoints let teams pin cache boundaries to specific positions in the prompt, a 30-minute minimum cache life guarantees reuse across short-interval agent calls, and cache writes are billed at 1.25&times; the uncached input rate (reads retain the 90% discount). Teams running heavy prompt-caching pipelines should audit cache-write frequency before migrating to GPT-5.6, as the write surcharge changes the breakeven calculation versus flat uncached pricing.</p>
+        <span class="src">OpenAI &middot; July 9, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://openai.com/index/chatgpt-for-your-most-ambitious-work/" target="_blank" rel="noopener">ChatGPT Work: OpenAI&rsquo;s long-horizon autonomous agent ships alongside the unified desktop app</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Launched simultaneously with GPT-5.6 on July 9, ChatGPT Work is OpenAI&rsquo;s answer to long-running agentic workflows: give it a goal, connect your apps, and it gathers context across files, Slack, Teams, and other integrations to return finished deliverables&mdash;documents, spreadsheets, presentations, and web apps&mdash;without continuous prompting. Scheduled Tasks extend the model&rsquo;s reach beyond active sessions, letting Work pick up new signals and update project materials while the user is offline. The broader product context matters: Work, Chat, and Codex now live inside a single unified ChatGPT desktop app for macOS and Windows. Codex gains in-app diff review, inline PR annotation, and multi-repository project support. For teams already running Claude Code or similar agent harnesses, ChatGPT Work represents a direct product-layer competitor&mdash;backed by Sol&rsquo;s inference budget and tight integration with Microsoft 365 and Google Workspace connectors. Available on all plans on desktop immediately, rolling out to web and mobile for paid subscribers over the following days.</p>
+        <span class="src">OpenAI &middot; July 9, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://github.com/anthropics/claude-code/releases" target="_blank" rel="noopener">Claude Code v2.1.202&ndash;207: auto mode default on cloud platforms, Opus 4.8 default, shell-injection fix</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Six releases across six days (July 6&ndash;11) with two changes that immediately affect operators running Claude Code on managed cloud infrastructure. First, auto mode is now the default on Bedrock, Vertex AI, and Foundry without requiring the <code>CLAUDE_CODE_ENABLE_AUTO_MODE</code> environment variable; teams that want to preserve the previous behaviour must set <code>disableAutoMode: true</code> in their settings. Second, the default model on all three platforms changed to Claude Opus 4.8. Other highlights across the week: v2.1.202 adds a &ldquo;dynamic workflow size&rdquo; setting for controlling agent concurrency and introduces OpenTelemetry attributes (<code>workflow.run_id</code>, <code>workflow.name</code>) for tracing workflow executions; v2.1.203 patches a 15&ndash;20 second macOS session-attach stall regression introduced in v2.1.196 and substantially improves background agent reliability; v2.1.205 adds an auto mode rule that blocks tampering with session transcript files; v2.1.206 adds <code>/doctor</code> (a check that proposes trimming bloated checked-in CLAUDE.md files) and <code>/cd</code> path-completion suggestions; v2.1.207 closes a shell-injection hole by rejecting <code>${user_config.*}</code> variable expansion in shell-form plugin hook commands. Harnesses using plugin hooks should update to v2.1.207 immediately.</p>
+        <span class="src">Claude Code changelog &middot; July 6&ndash;11, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items, and the connective tissue is the same as last week&rsquo;s: the layer between the model and the task is where the consequential work is happening. Weng maps the route from prompt engineering to fully autonomous self-improvement and names the seven places the road still runs out. FARMA shows that persistent memory is now an attack surface at the reasoning layer, not just the factual one&mdash;a threat that existing injection defenses do not cover. ReContext shows that long context windows and effective long-context reasoning remain two different things. On the platform side, OpenAI ships its clearest answer yet to the agent race with GPT-5.6 and ChatGPT Work; Claude Code closes the week with a shell-injection patch that merits immediate attention for any harness using plugin hooks. Check your <code>disableAutoMode</code> setting, validate your memory stores, and we&rsquo;ll compare charts at the next voyage.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
