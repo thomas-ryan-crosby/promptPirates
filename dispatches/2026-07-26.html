@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of July 26, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; July 26, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of July 26, 2026</h1>
+    <p class="byline">Six items &mdash; Claude Opus 5 arrives at Opus 4.8 prices with near-Fable-5 performance; Poolside Laguna S 2.1 is the western open-weight coding leader; Gemini 3.6 Flash cuts output costs by 17%; Claude Code Week 30 makes Opus 5 the default and lifts subagent nesting to depth 3; two arXiv papers submitted the same Tuesday document that supply-chain attacks via setup files and malicious issue requests now defeat all agent- and LLM-level guardrails in production coding agents more than two thirds of the time.</p>
+    <dl>
+      <dt>Scouted</dt><dd>July 26, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      This week the yard-arms loaded from both sides at once. The capability story is striking: Anthropic pushed near-Fable intelligence into the Opus 5 tier at unchanged Opus 4.8 pricing, Poolside gave the western open-weight fleet its best coding vessel in under nine weeks of training, and Google narrowed the efficiency gap at the Flash tier by seventeen percent. But the research story running underneath it is harder to ignore&mdash;two papers submitted the same Tuesday quantify, for the first time, exactly how thoroughly supply-chain attacks hidden in project setup files and malicious GitHub issue requests already defeat every guardrail layer in the coding agents your crew is likely running. The models have never been stronger; the attack surface through which they operate is now more precisely documented than ever.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>Setup Complete, Now You Are Compromised</b>
+          <ul>
+            <li>Editing only a README, requirements file, or Makefile is enough to redirect a coding agent to an untrusted registry, a known-vulnerable package version, or a typo-squatted name&mdash;documentation becomes arbitrary code execution.</li>
+            <li>The same model catches the attack through one harness and installs it through another, confirming that install-time security rests on the harness&ndash;model combination, not the model alone.</li>
+            <li>Microsoft researchers tested twelve attack scenarios across five classes against production harnesses powered by frontier models; the setup file is now a primary, systematic attack vector for coding agents.</li>
+          </ul>
+        </li>
+        <li><b>Claude Opus 5</b>
+          <ul>
+            <li>Released July 24 at $5/$25 per million tokens, the same price as Opus 4.8, with a 1M-token context window, 128K max output, and a May 2026 knowledge cutoff&mdash;the freshest of any Claude model.</li>
+            <li>Frontier-Bench v0.1 score more than doubles Opus 4.8 and surpasses all other published models; ARC-AGI 3 score is three times the next-best result; OSWorld 2.0 surpasses Fable 5 at one-third the cost per task.</li>
+            <li>Claude Code v2.1.219 makes Opus 5 the automatic default on Max, Team Premium, and Enterprise pay-as-you-go plans; fast mode pricing is $10/$50 per MTok.</li>
+          </ul>
+        </li>
+        <li><b>Poolside Laguna S 2.1</b>
+          <ul>
+            <li>118-billion-parameter mixture-of-experts open-weight model (8B active per token), pre-trained to completion in under nine weeks on 4,096 H200 GPUs; weights available on Hugging Face under a commercial-friendly OpenMDW-1.1 licence.</li>
+            <li>SWE-Bench Multilingual 78.5% and SWE-Bench Pro 59.4%, matching or exceeding models several times its size including DeepSeek-V4-Flash and Nemotron 3 Ultra.</li>
+            <li>Compact enough to run on a single NVIDIA DGX Spark desktop workstation, making it the strongest self-hostable coding model currently available in the West.</li>
+          </ul>
+        </li>
+        <li><b>Gemini 3.6 Flash</b>
+          <ul>
+            <li>Released July 21 alongside 3.5 Flash-Lite and 3.5 Flash Cyber; priced at $1.50/$7.50 per MTok with 1M input context and a March 2026 knowledge cutoff, up from January 2025 on 3.5 Flash.</li>
+            <li>Uses roughly 17% fewer output tokens than 3.5 Flash at equivalent quality; on DeepSWE by Datacurve the observed reduction runs as high as 65%.</li>
+            <li>Day-one availability in Google AI Studio, Gemini API, Vertex AI, GitHub Copilot, and Antigravity; configurable reasoning effort and parallel tool use are included at all pricing tiers.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code Week 30</b>
+          <ul>
+            <li>Versions 2.1.216 through 2.1.220 (July 20&ndash;25): Claude Opus 5 is now the default Opus model, resolving the <code>opus</code> alias on Max, Team Premium, and Enterprise plans.</li>
+            <li>Subagents can spawn nested subagents up to depth 3 by default (previously depth 1); <code>/code-review</code> now runs as a background subagent, keeping the main conversation context clean.</li>
+            <li>Four sandbox security fixes across the week closed filesystem isolation gaps, a session-slowdown bug with quadratic complexity, OAuth token expiry errors in auto mode, and egress-control regressions.</li>
+          </ul>
+        </li>
+        <li><b>IssueTrojanBench</b>
+          <ul>
+            <li>66.5% of malicious issue requests bypass all agent-level and LLM-level guardrails in Claude Code, Cursor, and Codex Desktop across four attack categories and six delivery vectors.</li>
+            <li>The penetration rate holds across both major model families tested (GPT-5.3/5.4 Codex and Anthropic Sonnet 4.6), pointing to a structural problem in how agents handle external issue context, not a single-model failure.</li>
+            <li>The benchmark is the first systematic evaluation of malicious issues as a coding-agent attack class; the 66.5% figure is a baseline before any hardening, not an upper bound.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2607.15143" target="_blank" rel="noopener">Setup Complete, Now You Are Compromised: Weaponizing Setup Instructions Against AI Coding Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Aadesh Bagmar and Pushkar Saraf (Microsoft, submitted July 16) present the first systematic evaluation of supply-chain attacks delivered through ordinary project-setup documentation against production coding-agent harnesses. The attack surface is simpler than it sounds: coding agents read and execute the instructions in README files, requirements files, and Makefiles without verifying package names, sources, or known vulnerabilities. Editing only those files&mdash;no changes to source code required&mdash;is enough to redirect an agent to an untrusted registry, a known-vulnerable version, or a typo-squatted package that looks like the real dependency. Twelve scenarios across five attack classes were tested against frontier model and harness combinations, and the most operationally important finding is not that the attacks succeed&mdash;it is that the same model catches an attack through one harness and installs it through another, confirming that install-time security rests on the specific harness&ndash;model pair. Crews that onboard new projects by handing a coding agent a cloned repository should read this before the next session: the setup file is now a documented and systematic attack vector, not an edge case.</p>
+        <span class="src">arXiv 2607.15143 &middot; July 16, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/claude-opus-5" target="_blank" rel="noopener">Claude Opus 5: near-Fable-5 performance at Opus 4.8 pricing</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Anthropic released Claude Opus 5 on July 24, 2026. The pricing is unchanged from Opus 4.8&mdash;$5/$25 per million input/output tokens&mdash;but the benchmark story is a significant step: Frontier-Bench v0.1 score more than doubles Opus 4.8 and surpasses all other published models; ARC-AGI 3 is three times the next-best result; CursorBench 3.2 puts Opus 5 within 0.5% of Fable 5&rsquo;s peak at half the per-task cost; and on OSWorld 2.0 it surpasses Fable 5 while costing just over a third as much. Context window is 1 million tokens, maximum output is 128K, and the knowledge cutoff is May 2026&mdash;the freshest of any Claude model. Anthropic also published a 190-page system card documenting Opus 5 as their most aligned model to date, with the lowest recorded misalignment rates. Claude Code v2.1.219 (July 24) adopted Opus 5 as the automatic default on Max, Team Premium, and Enterprise pay-as-you-go plans; fast mode pricing is $10/$50 per MTok. Practitioners who have been holding Opus 4.8 as their long-horizon reasoning model for coding agents should evaluate whether the benchmark improvement justifies a swap at identical cost.</p>
+        <span class="src">Anthropic &middot; July 24, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://poolside.ai/blog/introducing-laguna-s-2-1" target="_blank" rel="noopener">Poolside Laguna S 2.1: western open-weight coding leader</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Poolside released Laguna S 2.1 on July 21, 2026&mdash;a 118-billion-parameter mixture-of-experts model with 8 billion active parameters per token, built exclusively for agentic coding. The headline numbers: SWE-Bench Multilingual 78.5%, SWE-Bench Pro 59.4%, matching or exceeding models several times its size including DeepSeek-V4-Flash and NVIDIA Nemotron 3 Ultra. The whole model went from the start of pre-training on May 22 to public launch in under nine weeks, trained on 4,096 NVIDIA H200 GPUs. The weights are on Hugging Face under an OpenMDW-1.1 licence (commercial use permitted with attribution), and the architecture is compact enough to run on a single NVIDIA DGX Spark desktop workstation. For teams who want a frontier-tier coding model without routing traffic through a proprietary API&mdash;whether for data residency, latency, cost, or security reasons&mdash;Laguna S 2.1 is now the strongest self-hostable option available outside China. The head-to-head case against DeepSeek-V4-Flash on multilingual SWE-bench is the most pointed competitive claim in the release; poolside is explicitly positioning this as the western answer to Chinese open-weight coding models.</p>
+        <span class="src">Poolside &middot; July 21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank" rel="noopener">Gemini 3.6 Flash (plus 3.5 Flash-Lite and 3.5 Flash Cyber): Google&rsquo;s efficiency tier refresh</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Google released three Gemini models on July 21, 2026. Gemini 3.6 Flash is the one most worth evaluating for coding agent work: $1.50/$7.50 per million input/output tokens, 1M-token context, 65K max output, March 2026 knowledge cutoff (up from January 2025 on 3.5 Flash), roughly 280 tokens per second, and configurable reasoning effort with parallel tool use. On comparable tasks it uses approximately 17% fewer output tokens than 3.5 Flash, with Datacurve&rsquo;s DeepSWE benchmark showing reductions as high as 65%&mdash;a meaningful efficiency gain if you are running high-volume agentic loops at the Flash price point. Gemini 3.5 Flash-Lite is a cost-optimised variant for throughput-limited workloads. The more novel addition is Gemini 3.5 Flash Cyber, which ships paired with Google&rsquo;s CodeMender agent for automated vulnerability detection and remediation, positioned as a security-focused coding assistant competitive with far larger cyber models. All three launched with day-one availability in Google AI Studio, the Gemini API, Vertex AI, GitHub Copilot, and Antigravity.</p>
+        <span class="src">Google Blog &middot; July 21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code Week 30 (v2.1.216&ndash;220): Opus 5 as default, deeper subagent nesting, sandbox hardening</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Five releases across July 20&ndash;25, with three changes that matter most for practitioners running agentic workflows. First, v2.1.219 (July 24) adds Claude Opus 5 as the default Opus model on Max, Team Premium, and Enterprise pay-as-you-go plans: the <code>opus</code> alias and the default now resolve to Opus 5 rather than Opus 4.8, and the <code>/model</code> picker shows &ldquo;Opus (1M context)&rdquo; to confirm. Fast mode pricing for Opus 5 is $10/$50 per MTok. Second, subagents can now spawn nested subagents up to depth 3 by default (previously depth 1); depth is tunable via <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code>. The <code>/code-review</code> command now runs as a background subagent rather than blocking the main conversation, which keeps stacked slash commands cleanly available as the review target. Third, four consecutive sandbox security fixes across v2.1.216&ndash;219 closed a filesystem isolation gap, a quadratic-complexity slowdown in long sessions, an OAuth token expiry error in auto mode that blocked session continuations, and egress-control regressions in managed desktop sessions. The new <code>sandbox.network.strictAllowlist</code> setting allows operators to deny non-allowlisted hosts for sandboxed commands without a permission prompt.</p>
+        <span class="src">Claude Code changelog &middot; July 20&ndash;25, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2607.20759" target="_blank" rel="noopener">IssueTrojanBench: Benchmarking AI Coding Agents Against Malicious Issue Requests</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Submitted July 22, 2026, this paper delivers a number that should land on every harness security checklist: 66.5% of malicious issue requests defeat all agent-level and LLM-level guardrails in Claude Code, Cursor, and Codex Desktop. The benchmark covers four novel attack categories embedded as malicious instructions in GitHub issues, delivered via six vectors (including PDF, issue comment, and inline code block), further augmented by perturbations and obfuscation. Results hold across both model families tested&mdash;OpenAI GPT-5.3/5.4 Codex and Anthropic Sonnet 4.6&mdash;which points to a structural gap in how production coding agents handle external issue context rather than a single-model weakness. The theoretical framing is precise: coding agents inherit security risk from both the LLM backbone (adversarial prompts, poisoned training data) and their agentic architecture (tool-using autonomy enables misuse of external APIs, data exfiltration, and persistent compromise of development environments). The 66.5% figure is a pre-hardening baseline, not a ceiling; the benchmark itself is the first systematic attempt to measure this attack class, and the accompanying attack taxonomy gives harness developers a vocabulary and a test suite to work from.</p>
+        <span class="src">arXiv 2607.20759 &middot; July 22, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items, and the current running through them is the same one every week tightens a notch further: more capable tools, more precisely documented attack surface. IssueTrojanBench&rsquo;s 66.5% guardrail-bypass rate belongs in your agent threat model before your next production deployment&mdash;and the setup-file weaponization paper belongs in your onboarding checklist before you hand an agent a freshly cloned repository. Update your Claude Code version to pick up Opus 5 as the default, audit who can file issues against any project your agents are watching, and for teams running self-hosted workloads, Laguna S 2.1 is the most capable western option you can run on your own hardware today. We&rsquo;ll compare notes on all of it at the next voyage.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
