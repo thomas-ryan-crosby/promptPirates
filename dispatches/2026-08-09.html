@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of August 9, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; August 9, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of August 9, 2026</h1>
+    <p class="byline">Six items &mdash; the MCP specification goes stateless in its most consequential architectural change since launch; Anthropic discloses three Claude models reached real organizations&rsquo; systems during a misconfigured security evaluation; and two new arXiv papers begin turning harness engineering from craft knowledge into a measurable discipline.</p>
+    <dl>
+      <dt>Scouted</dt><dd>August 9, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Seven days, and the crow&rsquo;s nest log fills with competing signals. The rigging grew stronger: MCP&rsquo;s stateless specification lands as the protocol&rsquo;s most consequential change since its founding, and Anthropic opened Claude Code to run on infrastructure you control while giving sessions a way to hail each other directly. But the sharpest item in this week&rsquo;s log is Anthropic&rsquo;s disclosure that three of its own models stepped past their evaluation perimeter&mdash;not by intent, but through a misconfigured testing environment left connected to the live internet. Two new arXiv papers then arrive to begin the quieter work of measuring how well any frontier model can optimize or evolve the harness it operates inside.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>HarnessCompass</b>
+          <ul>
+            <li>Existing automatic harness evolution methods fail in three compounding ways: they overfit to evaluation tasks, rely exclusively on trajectory-derived signals, and suffer interference when optimizing harness components jointly; HarnessCompass addresses all three.</li>
+            <li>Global constraints restrict modifications to task-agnostic changes, preventing the common regression where evolved harnesses improve on training tasks but collapse on novel ones; proactive first-person agent feedback supplements trajectory signals with richer qualitative evidence.</li>
+            <li>Submitted August 3; directly relevant to teams building iterative harness improvement loops or working toward self-evolving pipelines that need to generalise beyond the tasks used during evolution.</li>
+          </ul>
+        </li>
+        <li><b>Anthropic cybersecurity eval disclosure</b>
+          <ul>
+            <li>Three Claude models&mdash;Opus 4.7, Mythos 5, and an internal research model&mdash;accessed the systems of three real organizations during CTF security evaluations run by third-party partner Irregular, which left the evaluation environment connected to the live internet despite instructions it be isolated.</li>
+            <li>The models operated in good faith, believing they were inside an isolated test range; no data was exfiltrated and affected organizations were notified July 28, but the models navigated real networks and reached real targets.</li>
+            <li>This is the first confirmed, publicly documented instance of frontier models breaching real infrastructure during a security evaluation, converting a theoretical risk category into a field-verified one with specific models, methods, and a disclosed root cause.</li>
+          </ul>
+        </li>
+        <li><b>EU AI Act Article 50 enforcement</b>
+          <ul>
+            <li>Starting August 2, 2026, providers of AI systems that interact directly with people must design them so users know they are dealing with AI; machine-readable marks and detection mechanisms are required for AI-generated or AI-modified content.</li>
+            <li>Fines for noncompliance reach up to &euro;15&nbsp;million or 3&nbsp;percent of worldwide annual turnover, enforced by national market surveillance authorities.</li>
+            <li>Providers of generative AI systems already deployed have until December 2, 2026 to comply with content-marking obligations; content generated before August 2 does not need retroactive labelling.</li>
+          </ul>
+        </li>
+        <li><b>MCP 2026-07-28 stateless spec</b>
+          <ul>
+            <li>The initialize handshake and Mcp-Session-Id header are gone; every request is now self-describing and stateless, enabling load-balanced deployments without sticky routing or shared session stores.</li>
+            <li>Multi Round-Trip Requests replace bidirectional streams; MCP Apps and the Tasks extension debut as first-class extensions; JSON Schema 2020-12 for tool schemas enables composition and conditional logic previously unavailable.</li>
+            <li>Roots, Sampling, and Logging enter a twelve-month deprecation window; authorization hardening adds RFC&nbsp;9207 issuer validation and issuer-bound credentials aligned with production OAuth 2.0 and OIDC deployments.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code self-hosted environments and cross-session messaging</b>
+          <ul>
+            <li>Version 2.1.224 (August 7) ships <code>claude self-hosted-runner</code>, registering any machine or container as a valid session host for Team and Enterprise plans so sessions run inside your network next to your internal services rather than on Anthropic-hosted infrastructure.</li>
+            <li>ListAgents discovers other active Claude Code sessions reachable on the current machine; SendMessage delivers text to any of them by name, letting one session brief another mid-task without re-explaining context.</li>
+            <li>Version 2.1.225 (August 8) adds gateway spend-limit warnings, workspace trust prompts for agents in untrusted directories, and fixes the 401 error that was breaking headless sessions after OAuth token rotation.</li>
+          </ul>
+        </li>
+        <li><b>HarnessOpt-Bench</b>
+          <ul>
+            <li>Scale AI submitted the first benchmark for end-to-end harness optimization under expensive, stochastic evaluation conditions: an optimizer receives a seed harness plus graded feedback and a fixed budget, edits the harness, and is scored on normalized gain over the seed on a held-out partition it cannot inspect during search.</li>
+            <li>Five frontier LLMs were evaluated as optimizers across four downstream tasks in 111 scored runs, quantifying for the first time how large the capability gap is between writing code and improving an agent harness under realistic budget and evaluation constraints.</li>
+            <li>The benchmark directly addresses the recurring production problem of wanting to use agents to tune their own harnesses but lacking a standard task or metric to verify whether that improvement is real or overfit to the eval set.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2608.01918" target="_blank" rel="noopener">HarnessCompass: Guiding Automatic Harness Evolution toward Generalizable and Effective Agent Harnesses</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Automatic harness evolution&mdash;using an LLM agent to iteratively improve its own surrounding scaffold of prompts, tools, and control flow&mdash;runs into three compounding failure modes in existing methods: overfitting to evaluation tasks, reliance on trajectory-only signals, and interference across harness components when they are optimised jointly. HarnessCompass addresses all three. Global constraints restrict modifications to task-agnostic harness changes, preventing the common regression where evolved harnesses improve on training tasks but collapse on novel ones. Proactive first-person feedback&mdash;the agent describing its own experience of the harness during a run&mdash;supplements trajectory evidence with qualitative signals about what is actually hindering performance. Component-wise optimisation then applies these signals to each harness component independently, avoiding the interference that joint optimisation causes. For teams building iterative harness improvement loops, running self-evolving pipelines, or reaching the point where manual harness tuning no longer scales, this is the clearest principled framework to date for doing automatic harness evolution in a way that generalises.</p>
+        <span class="src">arXiv 2608.01918 &middot; August 3, 2026</span>
+      </div>
+    </div>
+
+    <h2>Articles &amp; deep reads</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals" target="_blank" rel="noopener">Investigating three real-world incidents in our cybersecurity evaluations</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Anthropic disclosed on July 30 that three of its Claude models&mdash;Opus 4.7, Mythos 5, and an internal research model not intended for release&mdash;accessed the systems of three real organisations during Capture-the-Flag security evaluations run by third-party testing partner Irregular. The root cause was a misconfiguration: Irregular left the evaluation environment connected to the live internet despite instructions that it be isolated, and the models operated in good faith, navigating real networks and reaching real targets while believing they were inside a test range. No data was exfiltrated and the affected organisations were notified on July 28 before the public disclosure. Anthropic traced the incidents through a review of more than 141,000 cybersecurity test sessions. For practitioners the operational lesson is pointed: evaluation environment isolation must be verified at the network layer, not assumed from contractual or procedural controls, and the models&rsquo; capability to navigate real infrastructure once those boundaries fail is documented at frontier scale. This is the first confirmed, publicly disclosed instance of frontier models breaching real infrastructure during a security evaluation&mdash;a theoretical risk category that is now a field-documented one with specific models, specific methods, and a disclosed root cause.</p>
+        <span class="src">Anthropic &middot; July 30, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act" target="_blank" rel="noopener">EU AI Act Article 50: transparency obligations now legally enforceable</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>The EU AI Act&rsquo;s Article 50 transparency obligations became legally enforceable on August 2, 2026. Providers of AI systems that interact directly with people must now design them so users know they are dealing with an AI&mdash;silence or ambiguity is non-compliant by default. Providers must also attach machine-readable marks and detection mechanisms to synthetic content generated or modified by AI systems. Penalties for noncompliance are enforced by national market surveillance authorities rather than a central EU body and run up to &euro;15&nbsp;million or 3&nbsp;percent of worldwide annual turnover, whichever is higher. Providers of generative AI systems already deployed have until December 2, 2026 to comply with content-marking requirements; content generated before August 2 does not need retroactive labelling. Practitioners shipping AI-assisted features to European users, or running pipelines that generate content on behalf of European customers, need to confirm their disclosure design, their content-marking pipeline, and their vendor agreements are aligned with the new requirements now rather than at the December deadline when enforcement will be fully active.</p>
+        <span class="src">European Commission &middot; August 2, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" target="_blank" rel="noopener">MCP 2026-07-28: the protocol goes stateless</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>The July 28 MCP specification is the protocol&rsquo;s most significant architectural change since launch. The initialize handshake and the Mcp-Session-Id header are gone: every request is now self-describing and stateless, carrying protocol version, client info, and client capabilities inline. Any server instance behind a plain round-robin load balancer can now handle any MCP request without shared session storage or sticky routing, which removes the main reason MCP servers needed special horizontal-scaling treatment. Multi Round-Trip Requests replace bidirectional streams for mid-call interactions such as user confirmations; method and tool names now travel in HTTP headers (Mcp-Method and Mcp-Name), enabling gateways to route by tool name without parsing JSON bodies. Two new first-class extensions debut: MCP Apps, which lets servers ship interactive HTML interfaces rendered in sandboxed iframes; and the Tasks extension, now opt-in rather than core. JSON Schema 2020-12 support for tool schemas enables composition and conditional logic previously unavailable to tool definitions. Authorization hardening adds RFC&nbsp;9207 issuer validation and issuer-bound credentials aligned with production OAuth 2.0 and OIDC deployments. Three features enter a twelve-month deprecation window: Roots, Sampling, and Logging. The specification is final, not a release candidate; teams running MCP servers in production should plan migrations off the deprecated features before July 2027.</p>
+        <span class="src">Model Context Protocol Blog &middot; July 28, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.224&ndash;225: self-hosted environments and cross-session messaging</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Version 2.1.224, shipped August 7, is the most operationally significant Claude Code release in several weeks. The headline feature is self-hosted environments: <code>claude self-hosted-runner</code> registers any machine or container as a valid session host for Team and Enterprise plans, meaning Claude Code sessions started from the web, mobile, or desktop now run inside your network next to your internal services, toolchains, and security controls rather than on Anthropic-hosted infrastructure. Repository checkouts, build artifacts, secrets, and any files a session creates or modifies stay on machines you provision; the feature is off by default and not available to organisations using ZDR. The same release introduces cross-session messaging via two new tools: ListAgents discovers other active Claude Code sessions reachable on the current machine, and SendMessage delivers text to any of them by name, so one session can brief another mid-task without re-explaining its full context. An archive plugin source option also landed, letting teams install plugins from a ZIP served over HTTPS with optional SHA-256 pinning. Version 2.1.225 (August 8) adds gateway spend-limit warnings that show the cap, reset time, and operator message; workspace trust prompts for <code>claude agents</code> in untrusted directories; and fixes a transient 401 error that was replacing long-lived OAuth tokens with short-lived ones and breaking headless sessions until restart.</p>
+        <span class="src">Claude Code / Anthropic &middot; August 7&ndash;8, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2608.06301" target="_blank" rel="noopener">HarnessOpt-Bench: Evaluating LLMs at Harness Optimization</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Scale AI&rsquo;s research team submitted HarnessOpt-Bench on August 6, the first benchmark designed specifically for end-to-end harness optimisation under expensive, stochastic evaluation conditions&mdash;the regime that matches real production pipelines far better than synthetic task suites. The task is concrete: an optimizer (an LLM paired with a coding harness) receives a target agent&rsquo;s seed harness, graded evaluation feedback, and a fixed evaluation budget; it edits the harness and nominates a final candidate, which is scored by its normalised gain over the seed on a held-out test partition the optimizer cannot inspect during search. Five frontier LLMs were evaluated as optimizers across four downstream tasks in 111 scored runs, both under a shared coding harness and under each model&rsquo;s native harness. The results quantify for the first time how large the capability gap is between a model that can write code and a model that can improve an agent harness under realistic budget and evaluation constraints. For teams building agentic pipelines with any form of self-improvement or automated harness tuning, this is the baseline to measure against&mdash;if your improvement loop cannot beat the seed on the held-out partition, you have a harness-optimisation problem that HarnessOpt-Bench now makes formally testable.</p>
+        <span class="src">arXiv 2608.06301 &middot; August 6, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items, and the through-line is the hardening of the harness layer from every direction at once. The MCP stateless spec removes the last architectural reason to run MCP servers without horizontal scaling. Claude Code&rsquo;s self-hosted runner removes the last organisational reason to keep agent sessions off your own infrastructure. HarnessCompass and HarnessOpt-Bench, arriving the same week, give harness engineering its first principled evolution framework and its first rigorous benchmark. File the Anthropic eval disclosure under operational security, not theoretical risk, and verify your own evaluation environment isolation at the network layer before the next red team engagement. The EU Article 50 clock is running; the December deadline looks comfortable until it is not. We&rsquo;ll compare notes at the next voyage.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
