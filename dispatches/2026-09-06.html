@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of September 6, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; September 6, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of September 6, 2026</h1>
+    <p class="byline">Seven items &mdash; Anthropic ships Claude Fable 5.1 with cache reads at a quarter of the previous price and three new API primitives for long-horizon agent work; OpenAI releases GPT-6 Astra, its first model to formally cross the Critical cybersecurity threshold under its Preparedness Framework; and three arXiv papers from September challenge how the field measures whether a software-engineering agent has actually done its job.</p>
+    <dl>
+      <dt>Scouted</dt><dd>September 6, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Two currents ran through the week, and they point in different directions. The model releases&mdash;Fable 5.1 from Anthropic and GPT-6 Astra from OpenAI&mdash;mark a shift toward more capable, longer-horizon agents: one priced for high-frequency caching in long sessions, the other formally classified as dangerous by the lab that built it. The three papers from arXiv run the opposite current: researchers pulling apart the benchmarks that tell us how good these agents are and finding, in each case, that the measurements are softer than the scores suggest. A week to push harder on what you build and harder still on how you know it worked.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>SWE-Gate</b>
+          <ul>
+            <li>A new benchmark of 303 repair instances across 75 Python repositories reveals that among 644 agent-generated patches that pass functional tests, 221 fail to satisfy review constraints derived from real pull request comments.</li>
+            <li>The gap means SWE-bench-style pass-rate scores can overestimate an agent&rsquo;s actual usefulness by more than 30&nbsp;percent on real-world repositories.</li>
+            <li>SWE-Gate supplies paired functional and constraint tests for each instance, enabling precise attribution of where an agent falls short.</li>
+          </ul>
+        </li>
+        <li><b>EarlyEval</b>
+          <ul>
+            <li>Running a frontier model through an agentic benchmark costs hundreds to thousands of dollars per pass; EarlyEval trains lightweight LightGBM classifiers on behavioral, textual, and reference-solution features to predict the final outcome well before execution ends.</li>
+            <li>On SWE-bench Verified, TerminalBench, and Toolathlon, the method eliminates 13&ndash;26&nbsp;percent of steps and up to 44.1&nbsp;percent of input tokens while maintaining 89&ndash;97&nbsp;percent prediction accuracy.</li>
+            <li>The classifiers are trained on process signals from partial trajectories, not just pass/fail outcomes, making them applicable across different agent architectures.</li>
+          </ul>
+        </li>
+        <li><b>Claude Fable 5.1</b>
+          <ul>
+            <li>Anthropic&rsquo;s new frontier model keeps Fable 5 pricing ($10/$50 per MTok) but cuts cache reads 75&nbsp;percent to $0.25 per MTok, directly reducing cost for long agentic sessions that re-read a cached system prompt or context prefix on every turn.</li>
+            <li>Three API changes break existing Fable 5 integrations: forced tool use is no longer supported, thinking blocks are bound to the model that produced them, and editing earlier turns in a conversation invalidates later thinking blocks.</li>
+            <li>Five new capabilities arrive: per-message effort (beta), turn-scoped system messages (beta), readable progress updates between tool calls (beta), lower cache reads, and mandatory content watermarking via Anthropic&rsquo;s statistical text watermark and C2PA Content Credentials.</li>
+          </ul>
+        </li>
+        <li><b>GPT-6 Astra</b>
+          <ul>
+            <li>OpenAI released GPT-6 Astra on September 3 as its first model to reach the Critical cybersecurity threshold under its Preparedness Framework, meaning it can find previously unknown security flaws and develop working exploits across well-protected systems without human guidance.</li>
+            <li>Benchmark scores are frontier-level: 98&nbsp;percent on FrontierMath Tier 4, 99.9&nbsp;percent on ARC-AGI-3, and 100&nbsp;percent on ExploitBench; initial rollout is gated behind an application-based cybersecurity program called Daybreak, with enterprise access off by default.</li>
+            <li>OpenAI delayed parts of Astra&rsquo;s development to strengthen isolation, jailbreak defenses, and access controls&mdash;and published a companion post spelling out how it plans to handle models that cross critical capability thresholds going forward.</li>
+          </ul>
+        </li>
+        <li><b>ant apply</b>
+          <ul>
+            <li>The ant CLI v1.30.0 introduces <code>ant apply</code>, a Terraform-style command that creates and updates Claude API resources&mdash;agents, environments, skills, memory stores, and deployments&mdash;from files in a repository, reconciling them against the API with a single command and a committed lockfile.</li>
+            <li>Resources refer to each other by relative file path rather than API ID, so <code>ant apply .</code> resolves dependencies, creates them in order, and pins references to the applied version; CI workflows can run <code>ant apply --dry-run .</code> on pull requests and <code>ant apply --yes .</code> on merge.</li>
+            <li>This brings agent infrastructure under version control and code review, a gap in every team that has been managing agents through the Console or ad-hoc API calls.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.259&ndash;263</b>
+          <ul>
+            <li>Four versions shipped September 2&ndash;6; the operationally significant additions are <code>managedMcpServers</code> (organizations can now provision HTTP/SSE MCP servers to every user from managed settings), a fullscreen <code>/diff</code> panel showing uncommitted changes, and prompt-cache miss diagnostics surfaced in <code>/cost</code>.</li>
+            <li><code>/skill-doctor</code> identifies unused skills and their context cost&mdash;a direct tool for trimming overhead in sessions where skill count has grown unchecked.</li>
+            <li>The <code>bashOutputMaxChars</code> and <code>taskOutputMaxChars</code> settings (up to 128&thinsp;K characters) address the recurring problem of long build or test output being silently truncated before Claude can act on it.</li>
+          </ul>
+        </li>
+        <li><b>PTA-IRT: Efficient SWE-bench Benchmarking</b>
+          <ul>
+            <li>Standard IRT-based approaches to benchmark subset selection fit only pass/fail response matrices; PTA-IRT adds privileged trajectory information&mdash;explored context, attempted edits, and solving paths&mdash;to calibration and ability estimation, recovering score and ranking more accurately under low calibration budgets.</li>
+            <li>The framework outperforms prior IRT baselines across four SWE-bench variants, offering teams a principled way to cut evaluation cost without sacrificing ranking fidelity.</li>
+            <li>The implication for practitioners is that using only final outcomes to select eval subsets discards information already present in agent trajectories, and that recording trajectories during eval runs has compounding value beyond post-hoc analysis.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.04167" target="_blank" rel="noopener">SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Repository-level benchmarks like SWE-bench measure whether an agent&rsquo;s patch passes the repository&rsquo;s existing test suite&mdash;and stop there. SWE-Gate, submitted to arXiv in early September, adds a second axis: review constraint compliance, derived from real pull request review comments on the same repositories. The dataset covers 303 repair instances across 75 open-source Python repositories, each with separate functional tests and review-constraint tests, plus both a non-compliant and a gold patch so evaluation can be precise. The result across four LLM backends is uncomfortable: of 644 patches that pass the functional tests, 221 fail the review constraints&mdash;roughly 34 percent. For teams reporting SWE-bench numbers as a proxy for real-world usefulness, this is a meaningful correction: an agent that passes tests may still produce code that no reviewer would merge.</p>
+        <span class="src">arXiv 2609.04167 &middot; September 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.02783" target="_blank" rel="noopener">EarlyEval: Cheaper Agent Evaluation via Early Outcome Prediction</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>A single evaluation pass of a frontier model over an agentic benchmark can cost hundreds to thousands of dollars; EarlyEval from researchers at Shanghai Jiao Tong, Singapore Management, and East China Normal universities addresses this directly. The insight is that an agent&rsquo;s final outcome is often evident from its intermediate behavior well before execution ends. EarlyEval trains a pair of LightGBM classifiers&mdash;one for success, one for failure&mdash;over behavioral, textual, and reference-solution features extracted from partial trajectories, and halts a run the moment either classifier crosses a calibrated confidence threshold. Across SWE-bench Verified, TerminalBench, and Toolathlon, the method eliminates 13&ndash;26&nbsp;percent of steps and up to 44.1&nbsp;percent of input tokens while achieving 89&ndash;97&nbsp;percent prediction accuracy. For teams running frequent evals on long-horizon tasks, this is a practical cost lever that requires no changes to the agent itself.</p>
+        <span class="src">arXiv 2609.02783 &middot; September 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1" target="_blank" rel="noopener">Claude Fable 5.1 &amp; Claude Mythos 5.1</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Released September 1, Claude Fable 5.1 is Anthropic&rsquo;s current frontier model: 1M token context, 128K max output, adaptive thinking always on, available across the Claude API, Amazon Bedrock, Google Cloud, and Microsoft Foundry as <code>claude-fable-5-1</code>. The headline commercial change is a 75&nbsp;percent cut to cache-read pricing, from $1.00 to $0.25 per million tokens (0.025x base input price, compared with 0.1x on other Claude models). For teams running long agentic sessions where a large system prompt or tool schema is re-read on every turn, this is a direct operating cost reduction. The three breaking changes for existing Fable 5 integrations are: <code>tool_choice</code> types <code>any</code> and <code>tool</code> now return a 400 error; thinking blocks are bound to the model that produced them and earlier models silently drop Fable 5.1 blocks; and editing any turn before a thinking block invalidates it, enforced for accounts created after August 31. The five new capabilities&mdash;per-message effort, turn-scoped system messages, <code>display: "updates"</code> for progress between tool calls, lower cache reads, and mandatory statistical text watermarking plus C2PA Content Credentials on media&mdash;are all immediately relevant to teams building multi-step agentic pipelines. Claude Mythos 5.1 is the same model with lighter safeguards, available only to vetted organizations through Project Glasswing.</p>
+        <span class="src">Anthropic &middot; September 1, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://openai.com/index/responding-next-frontier-critical-cyber-capabilities/" target="_blank" rel="noopener">GPT-6 Astra: OpenAI&rsquo;s first model at the Critical cybersecurity threshold</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>OpenAI released GPT-6 Astra on September 3 alongside a safety overview and a policy post on how it intends to handle models that cross critical capability thresholds. Astra is the first model OpenAI has formally rated Critical under its Preparedness Framework for cybersecurity: with appropriate tools and access, it can identify previously unknown security flaws and develop working exploits across well-protected systems without a human guiding each step. Benchmark numbers are: 98&nbsp;percent on FrontierMath Tier 4, 99.9&nbsp;percent on ARC-AGI-3, and 100&nbsp;percent on ExploitBench. Deployment is gated&mdash;access defaults to off, enterprise administrators must enable it manually, and initial access is restricted to a small group of vetted security organizations through OpenAI&rsquo;s Daybreak program. OpenAI delayed parts of Astra&rsquo;s development to reinforce isolation, jailbreak defenses, and behavioural monitoring, and its companion policy post outlines what Critical-threshold deployment looks like going forward. For practitioners: the security community gains a formidable research tool under tight access controls; the rest of the field gets the clearest published account yet of what a formal capability threshold crossing looks like in practice.</p>
+        <span class="src">OpenAI &middot; September 3, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/cli-sdks-libraries/cli/apply" target="_blank" rel="noopener">ant apply: manage Claude API resources as code</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>The ant CLI v1.30.0, released September 3, adds <code>ant apply</code>&mdash;a Terraform-style command that creates and reconciles Claude API resources from files in a repository. The resources it manages are agents (Markdown files with YAML frontmatter), environments, memory stores, skills, and scheduled deployments; they can reference each other by relative path instead of API ID, and <code>ant apply .</code> resolves dependencies and creates them in the correct order. A committed <code>claude-lock.json</code> lockfile records each resource&rsquo;s ID and a hash of what was last sent, so subsequent runs (locally or in CI) update rather than duplicate. In CI, <code>ant apply --dry-run .</code> on pull requests prints the diff for reviewers, and <code>ant apply --yes .</code> on merge applies it with no confirmation prompt. Workload Identity Federation is the recommended authentication path for CI, eliminating stored API keys. For any team that has been managing Claude agents through the Console or one-off API calls, this is the missing piece that brings agent infrastructure under version control and code review.</p>
+        <span class="src">Anthropic &middot; September 3, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.259&ndash;263: managed MCP servers, /diff panel, prompt-cache diagnostics, /skill-doctor</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Four Claude Code versions shipped September 2&ndash;6. The most operationally significant addition is <code>managedMcpServers</code> in v2.1.259: organizations on Team and Enterprise plans can now provision HTTP/SSE MCP servers to every user from a managed settings file, removing the need for each user to configure tool connections individually. v2.1.260 adds a fullscreen <code>/diff</code> panel that shows all uncommitted changes in one view (toggle with <code>/diff</code>), and prompt-cache miss diagnostics in <code>/cost</code>&mdash;the panel now names why a cache was missed (tool definitions changed, session idle past TTL, etc.), which is directly useful for teams trying to keep cache hit rates high on expensive Fable 5.1 sessions. Also in v2.1.260: a <code>display: "updates"</code> fix that ensures prompt caching covers context after tool results on Claude Fable 5.1, correcting a regression. v2.1.261 adds <code>/skill-doctor</code> to surface unused skills and their context cost, <code>--append-subagent-system-prompt-file</code> for subagent prompts too large for the command line, and <code>bashOutputMaxChars</code>/<code>taskOutputMaxChars</code> settings (up to 128&thinsp;K characters) so long build or test output reaches Claude inline rather than being silently truncated. v2.1.263 ships bug fixes and reliability improvements.</p>
+        <span class="src">Anthropic &middot; September 2&ndash;6, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.01603" target="_blank" rel="noopener">Efficient SWE Agent Benchmarking via Trajectory-Aware Evaluation</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Standard approaches to evaluating software-engineering agents on large benchmarks select a calibration subset and fit a model to estimate full-benchmark performance&mdash;but they do so using only final pass/fail outcomes, discarding everything the agent did along the way. This paper, submitted September 1, proposes PTA-IRT (Privileged Trajectory-Aware Item Response Theory), which brings process-level evidence into the calibration: explored context, attempted edits, and solving paths from historical execution trajectories are used as privileged information when selecting the calibration subset and estimating agent ability. Under low calibration budgets&mdash;the regime where the cost savings matter most&mdash;PTA-IRT outperforms prior IRT baselines on both score and ranking recovery across four SWE-bench variants. The practical implication is twofold: teams already logging agent trajectories for debugging are sitting on data that has compounding value for eval efficiency, and teams choosing which benchmark instances to run should incorporate process signals rather than treating tasks as interchangeable.</p>
+        <span class="src">arXiv 2609.01603 &middot; September 1, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      The measurement papers this week are the more durable cargo. Model releases arrive monthly; the structural problems they surface&mdash;that functional test pass rates overcount, that eval costs scale with capability faster than budgets do, that trajectory data sits idle when it could cut costs&mdash;will still be true whatever is released next week. SWE-Gate and EarlyEval in particular pair neatly: one sharpens what &ldquo;solved&rdquo; means, the other reduces what it costs to find out. Meanwhile, the Fable 5.1 cache pricing change and the <code>ant apply</code> workflow are the releases with the most immediate action items&mdash;update your model IDs, check for breaking changes if you use forced tool use, and consider whether agent infrastructure belongs in your repository. GPT-6 Astra is the one to watch for the longer arc: the first published Critical-threshold crossing from a major lab sets a precedent for how the industry will document the ones that follow.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
