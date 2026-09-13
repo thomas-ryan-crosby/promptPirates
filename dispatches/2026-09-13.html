@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of September 13, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; September 13, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of September 13, 2026</h1>
+    <p class="byline">Seven items &mdash; OpenAI and Anthropic both ship new API primitives for long-horizon agent work in the same week; a new arXiv paper finds that test-passing patches routinely hide security vulnerabilities in agentic code repair; Gemini 3.8 Flash posts an eight-point jump on DeepSWE v1.1 at unchanged Flash pricing; and a benchmark that makes agent construction the task puts the best available configuration at 23.9 percent against an expert ceiling of 82.2.</p>
+    <dl>
+      <dt>Scouted</dt><dd>September 13, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Two labs dropped new API surfaces for long-running agents on the same day&mdash;OpenAI with managed session orchestration and Anthropic with server-evaluated permission policies and a live terminal viewer&mdash;which is either a coincidence or a sign that the field has agreed on what the missing infrastructure is. The research side is less encouraging: two arXiv papers this week independently show that the signals practitioners rely on to declare an agent&rsquo;s work done are weaker than assumed, whether the signal is a passing test suite or a successful task execution. A good week to build more, trust less.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>Procedural Graphs</b>
+          <ul>
+            <li>LLM agents represent and iteratively refine procedural knowledge as (procedure, relation, procedure) triplets in a graph structure, analogous to the (entity, relation, entity) design of a knowledge graph.</li>
+            <li>At each decision step a guidance model localizes the agent&rsquo;s active node and translates the surrounding subgraph into step-level situational guidance without dictating the next action.</li>
+            <li>A self-evolving LLM refiner contrasts failed and successful trajectories and edits the graph&rsquo;s topology and attributes, delivering consistent gains over memory-based baselines across multiple datasets and LLMs.</li>
+          </ul>
+        </li>
+        <li><b>Silent Failures in Agentic Code Repair</b>
+          <ul>
+            <li>Of 1,030 execution traces across seven agent frameworks on SecurityEval and CVEfixes, 170 confirmed silent failures were found: patches that pass syntactic and functional verification but retain or introduce security vulnerabilities.</li>
+            <li>Three categories account for all cases&mdash;Omission (48.2%), Introduction (30.6%), and Inadequacy (21.2%)&mdash;and neither test-passing evaluation nor LLM-based reviewer roles reliably intercepted them.</li>
+            <li>The implication for agentic code repair pipelines is that passing the existing test suite is not a sufficient security signal, and dedicated vulnerability scanning belongs in the post-generation step.</li>
+          </ul>
+        </li>
+        <li><b>Gemini 3.8 Flash</b>
+          <ul>
+            <li>Google&rsquo;s most intelligent Flash model is designed for long-horizon software engineering and autonomous agents, with a 1-million-token context window, tunable thinking levels, and the same introductory pricing as 3.7 Flash.</li>
+            <li>On DeepSWE v1.1 the score climbs from 65.3 to 73.7 percent&mdash;an 8.4-point gain in long-horizon software engineering&mdash;while Terminal-Bench scores rise sharply as well.</li>
+            <li>A companion model, Gemini 3.8 Flash Cyber, ships with a more permissive mitigation set and is available to trusted defenders through Google&rsquo;s Fairwind Program.</li>
+          </ul>
+        </li>
+        <li><b>OpenAI Agents API</b>
+          <ul>
+            <li>OpenAI extracted the orchestration layer it built for Codex&mdash;session management, automatic context compaction, failure recovery, and multi-agent coordination&mdash;and opened it to all developers in public beta on September 10.</li>
+            <li>Agents run inside an OpenAI-hosted sandbox or a developer-provided environment; context compaction across long tasks happens automatically so developers do not write their own compaction logic.</li>
+            <li>Pricing carries no additional fee beyond the tokens and tools consumed; the API is accessible to all developers without a separate application process.</li>
+          </ul>
+        </li>
+        <li><b>Claude Managed Agents: auto policy + sessions connect</b>
+          <ul>
+            <li>A new <code>auto</code> permission policy lets the server evaluate each agent or MCP tool call in context and run it, deny it, or pause for approval&mdash;without the developer writing explicit allow/deny rules for every tool.</li>
+            <li><code>ant beta:sessions connect</code> attaches a terminal to any running Managed Agents session, showing the live transcript and allowing the operator to send messages, interrupt the agent, or allow or deny waiting tool calls.</li>
+            <li>Together these two changes close the loop between unattended execution and human oversight: <code>auto</code> handles the known-safe majority automatically and <code>sessions connect</code> makes review of the uncertain cases immediate.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.265&ndash;270</b>
+          <ul>
+            <li>The operationally significant additions across six versions (September 8&ndash;12) are <code>claude plugin eval</code>&mdash;a scored, reproducible JSON-plus-HTML eval suite for plugins&mdash;and <code>/output-style</code> switching, which works in cloud and headless sessions as well as the CLI.</li>
+            <li><code>maxEffortLevel</code> caps the per-request effort on every provider including Bedrock, Vertex, and Foundry, giving organizations a cost ceiling across all backends.</li>
+            <li>A diff of files changed by Bash commands now appears in the Bash tool result, and the VSCode extension gains an agent map showing each sub-agent with a per-agent card and read-only transcript.</li>
+          </ul>
+        </li>
+        <li><b>tau-tau-Bench</b>
+          <ul>
+            <li>The benchmark makes agent construction the scored task: given business records, client requirements, a production API, an inherited codebase, and cost/model constraints, a developer agent must deliver a complete customer-service agent.</li>
+            <li>Across 53 tasks in four domains, the strongest tested configuration&mdash;Claude Opus 5 under Claude Code&mdash;passes 23.9 percent of evaluation simulations against an expert-authored ceiling of 82.2 percent.</li>
+            <li>The benchmark isolates a gap that standard SWE-bench-style scores miss: the ability to take underspecified business requirements and produce a deployable, instruction-following agent without a human in the loop for clarification.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.09153" target="_blank" rel="noopener">Procedural Graphs: Self-Evolving Execution Structures for LLM Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Current approaches to agent memory store raw facts or past trajectories; this paper asks whether agents could instead maintain and refine an explicit map of <em>how</em> to act. A Procedural Graph organizes procedural knowledge as (procedure, relation, procedure) triplets&mdash;capturing what to do and in what order&mdash;in the same way a knowledge graph organizes (entity, relation, entity) facts. At each decision step, a guidance model localizes the active node and translates the surrounding subgraph into situational step-level guidance that biases the solver&rsquo;s next action without hard-coding it. What makes the approach practical is the self-evolution loop: an LLM refiner contrasts failed trajectories with successful ones and edits the graph&rsquo;s topology and attributes, committing edits that preserve or improve held-out validation performance while retaining rejected ones to discourage repetition. Across multiple datasets, task types, and LLMs, Procedural Graphs deliver consistent gains over memory-only baselines, and self-evolution adds a further performance lift without manual engineering. For teams building agents that repeat structured multi-step workflows, this is a concrete alternative to appending raw history.</p>
+        <span class="src">arXiv 2609.09153 &middot; September 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.10548" target="_blank" rel="noopener">When Passing Tests Hides Vulnerabilities: An Empirical Study of Silent Failures in Agentic Systems</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Agentic code repair pipelines typically gate on a patch passing the repository&rsquo;s existing test suite. This paper from Tampere University asks what lies beneath that signal. Across 1,030 valid execution traces produced by seven agent frameworks with GPT-4o-mini on SecurityEval and CVEfixes, the authors identify 170 confirmed silent failures: patches that pass syntactic and functional verification but still retain or introduce security vulnerabilities. Three categories account for all cases&mdash;Omission (agent fixes the non-vulnerable surface but leaves the root cause in place, 48.2%), Introduction (agent adds a new vulnerability while patching the reported one, 30.6%), and Inadequacy (patch is incomplete or shallow and leaves a residual attack surface, 21.2%). Critically, neither test-passing evaluation nor an LLM-based reviewer role reliably caught these failures in the confirmed cases. For practitioners running agentic code repair: the passing-tests signal is not a security signal, and the paper&rsquo;s taxonomy is a practical checklist for designing the verification step that actually needs to follow patch generation.</p>
+        <span class="src">arXiv 2609.10548 &middot; September 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/" target="_blank" rel="noopener">Gemini 3.8 Flash and 3.8 Flash Cyber</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Released September 2 as Google&rsquo;s most intelligent Flash model, Gemini 3.8 Flash is designed for long-horizon software engineering and autonomous agents at Flash speed and cost. The model accepts text, image, video, audio, and PDF input; returns text; offers a 1-million-token context window with a 64K-token output limit; and reasons by default at a configurable low, medium, or high thinking level. The engineering gains over 3.7 Flash are sharpest on coding and agent benchmarks: DeepSWE v1.1 climbs from 65.3 to 73.7 percent and Terminal-Bench scores rise significantly as well. Pricing stays at the same introductory rate as 3.7 Flash ($0.75/$3.75 per million tokens through December 2026), making the performance jump essentially free. A companion model, Gemini 3.8 Flash Cyber, ships with a more permissive mitigation set and frontier-level performance on CyberGym for autonomous vulnerability discovery; it is available to trusted defenders through Google&rsquo;s Fairwind Program, bundled with the CodeMender harness for agentic find-verify-fix workflows. The model ID for general use is <code>gemini-3.8-flash</code>.</p>
+        <span class="src">Google &middot; September 2, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://openai.com/index/introducing-the-agents-api/" target="_blank" rel="noopener">OpenAI Agents API enters public beta</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>On September 10, OpenAI opened its Agents API to all developers in public beta, extracting the orchestration layer it built for Codex into a standalone API that any application can call. The API manages long-running agent sessions, handles context compaction automatically as a session approaches its token limit, recovers from failures, and coordinates sub-agents&mdash;none of which the developer needs to implement themselves. Agents stream progress back to the application as they run, and sessions can use OpenAI-hosted sandboxes or a developer-provided compute environment. The API supports MCP and custom tools and includes configurable rollout token budgets to track usage across agent threads and abort turns when exhausted. There is no additional fee: developers pay for the tokens and tools their agents consume. For teams that have been hand-rolling context compaction, session recovery, and multi-agent coordination in their own infrastructure, this is the managed alternative that brings those concerns off the hot path. The full Codex feature set&mdash;including cross-context-window notes and searchable earlier sessions&mdash;is also available when the API is used through Codex.</p>
+        <span class="src">OpenAI &middot; September 10, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude Managed Agents: <code>auto</code> permission policy and <code>ant beta:sessions connect</code></a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Two additions landed September 10 for the Claude Managed Agents API. The first is the <code>auto</code> permission policy, a third option alongside <code>always_allow</code> and <code>always_ask</code>: when set, the server evaluates each agent or MCP tool call in the context of the session&rsquo;s full history and the call&rsquo;s input, then runs it, denies it, or pauses for your approval. The evaluation is per-call, so two invocations of the same tool in the same session can receive different outcomes depending on what the agent is trying to do. High-risk calls&mdash;such as <code>rm -rf</code> operations on workspace directories&mdash;are denied outright and cannot be overridden by your client. The second addition is <code>ant beta:sessions connect</code>, which attaches the terminal to any running session, displays the live transcript with timing and outcomes, and changes the input line to an approval prompt when a tool call is waiting. It also takes a <code>--web</code> flag to serve the Claude Console&rsquo;s session viewer locally. Together these two features address the two modes of agent supervision: <code>auto</code> handles the known-safe majority without friction, and <code>sessions connect</code> provides an immediate human-in-the-loop path for anything the server flags as uncertain. Documentation: <a href="https://platform.claude.com/docs/en/managed-agents/permission-policies" target="_blank" rel="noopener">permission-policies</a> and <a href="https://platform.claude.com/docs/en/cli-sdks-libraries/cli/sessions-connect" target="_blank" rel="noopener">sessions-connect</a>.</p>
+        <span class="src">Anthropic &middot; September 10, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.265&ndash;270: plugin evals, output-style switching, effort caps, Bash diffs</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Six versions shipped September 8&ndash;12. The headline addition in v2.1.269 is <code>claude plugin eval</code>&mdash;a command that runs a plugin&rsquo;s eval suite against Claude Code and produces a scored, reproducible JSON-plus-HTML report, giving plugin authors a first-class way to measure and regression-test behavior. Also in v2.1.269: <code>/output-style [name]</code> lists and switches output styles including in cloud and headless sessions, a diff of files changed by a Bash command is appended to the Bash tool result, and the VS Code extension gains an agent map showing each sub-agent with per-agent cards and read-only transcripts. v2.1.267 adds <code>maxEffortLevel</code> (top-level or per model under <code>modelSettings</code>) to cap the per-request effort ceiling on every provider including Bedrock, Vertex, and Foundry&mdash;a useful cost control for organizations running workloads across multiple backends. The same version adds <code>--system-prompt-snapshot off</code> to render the system prompt fresh on every request rather than reusing the conversation&rsquo;s initial snapshot. v2.1.268 fixes a compatibility regression affecting all third-party Anthropic-compatible endpoints since 2.1.265 (HTTP 400 on every turn), and fixes WebFetch hanging indefinitely on slow servers by capping fetches at 300 seconds.</p>
+        <span class="src">Anthropic &middot; September 8&ndash;12, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.04611" target="_blank" rel="noopener">&tau;<sup>&tau;</sup>-Bench: An Environment for End-To-End, Realistic Agent Construction</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Most agent benchmarks hand an agent a task and ask it to complete it. &tau;<sup>&tau;</sup>-Bench, submitted to arXiv September 4, makes <em>building</em> the agent the task. A developer agent receives business records, client requirements, a production API, a codebase to inherit, and cost and model constraints; it must deliver a complete customer-service agent, which is then scored by deploying that agent against held-out simulated users. The 53 tasks span four domains and require the developer agent to interpret underspecified business requirements, choose appropriate tools, and produce an agent that generalizes beyond the example cases it was shown&mdash;without asking a human for clarification at any point. The benchmark&rsquo;s main finding is sobering: across all configurations tested, the best result was Claude Opus 5 under Claude Code at 23.9 percent, against an expert-authored reference ceiling of 82.2 percent. The gap is not primarily explained by coding skill&mdash;the developer agents write syntactically valid code&mdash;but by failures in requirement interpretation, constraint adherence, and instruction-following under held-out user behavior. For teams evaluating agentic platforms on downstream usefulness rather than code generation, this benchmark captures a real dimension that SWE-bench-style scores do not.</p>
+        <span class="src">arXiv 2609.04611 &middot; September 4, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      The two research papers this week reinforce each other in an uncomfortable way: one shows that agents cannot yet reliably construct agents, and the other shows that when agents do write code, the standard pass-gate misses a meaningful share of security failures. Neither result is surprising on its own, but together they point to the same gap&mdash;the evaluation layer between agent output and declared success is still underbuilt. The infrastructure news runs the opposite current: both OpenAI and Anthropic shipped managed session orchestration this week, which means the plumbing for long-running supervised agents is now a commodity rather than a home-rolled system. The interesting work is shifting to what runs on top of that plumbing, and to whether the signals we use to know it worked are worth trusting.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
