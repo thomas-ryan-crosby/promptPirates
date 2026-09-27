@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of September 27, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; September 27, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of September 27, 2026</h1>
+    <p class="byline">Eight items &mdash; Anthropic ships Claude Opus 5.5 at forty percent lower cost with always-on thinking and an Inline Tools beta that lets developers change an agent&rsquo;s tool set mid-conversation without blowing the prompt cache; OSWorld-Pro decomposes computer-use task success into 2,800-plus human-annotated subgoals; and a harness-distillation paper shows how to bake scaffolding behaviors into model weights, doubling task success at inference time without any harness at all.</p>
+    <dl>
+      <dt>Scouted</dt><dd>September 27, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      The week split neatly in two: Monday through Wednesday belonged to arXiv, which surfaced a quiet cluster of agent infrastructure papers on evaluation methodology, harness design, and targeted fine-tuning. Thursday through Sunday belonged to Anthropic, which delivered a lower-cost flagship model, a new API primitive for dynamic tool configuration, and a Claude Code release cadence dense enough that you likely missed something useful. Both halves reward a careful read.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>OSWorld-Pro</b>
+          <ul>
+            <li>Extends the OSWorld benchmark with 300-plus tasks broken into 2,800-plus subgoals grounded in 67,000 human annotations, enabling partial-credit evaluation of computer-use agents at each step rather than only at the final deliverable.</li>
+            <li>Human-aligned LLM judges score each subgoal, surfacing exactly where agent trajectories diverge rather than returning a binary pass/fail on the finished artifact.</li>
+            <li>For teams building or evaluating computer-use agents, the subgoal structure means a single failed benchmark run now carries diagnostic information about the failure mode.</li>
+          </ul>
+        </li>
+        <li><b>Harness-Zero</b>
+          <ul>
+            <li>Studies harness distillation: using a domain-optimized external harness as training-time supervision to transfer its induced behaviors into a base model&rsquo;s weights, so the harness is no longer needed at inference time.</li>
+            <li>The method raises task success from 23.3 percent to 44.3 percent on the base model and recovers 82.3 percent of harness-induced behaviors across diverse domains.</li>
+            <li>For practitioners who have invested in a specialized harness for a particular task domain, distillation offers a path to capture that investment in the model itself.</li>
+          </ul>
+        </li>
+        <li><b>Critical-State RL</b>
+          <ul>
+            <li>Identifies which individual tool-call states in a multi-turn trajectory are actually worth training on, separating genuine action-dependent reward variation from downstream randomness using nested sampling.</li>
+            <li>Training only at diagnostically selected states yields roughly 14 percentage points of improvement on the BFCL v4 missing-function task; training at alternative states is flat or worse.</li>
+            <li>The method makes RL for tool use substantially more sample-efficient by concentrating gradient updates on the calls that actually determine outcome.</li>
+          </ul>
+        </li>
+        <li><b>Re:CAP</b>
+          <ul>
+            <li>A reference-free audit loop for deployed RAG pipelines that identifies topics already covered by a retrieval result, then probes for plausibly missing topics with generated questions.</li>
+            <li>On four public benchmarks, Re:CAP recovers 9&ndash;29 percent of gold labels that flat BM25 top-500 retrieval misses entirely, rising to 48 percent on TREC-COVID.</li>
+            <li>Because the method requires no relevance labels and runs against any existing pipeline, it can be dropped into production without re-indexing or modifying the retrieval stack.</li>
+          </ul>
+        </li>
+        <li><b>Claude Opus 5.5</b>
+          <ul>
+            <li>Released September 22 with always-on adaptive thinking, a 1M-token context window, and pricing 40 percent below Opus 5 on typical workloads; output speed is 30 percent faster.</li>
+            <li>Scores 66.4 percent on Terminal-Bench 4.0 versus 52.3 percent for Opus 5, making it the stronger choice for agentic coding pipelines at materially lower cost.</li>
+            <li>Thinking is now mandatory on the model; code that previously set <code>thinking: disabled</code> or used <code>tool_choice: &ldquo;any&rdquo;</code> will receive a 400 error and must be updated.</li>
+          </ul>
+        </li>
+        <li><b>Inline Tools beta</b>
+          <ul>
+            <li>A new Claude API beta (<code>inline-tools-2026-09-15</code>) lets developers inject a <code>tool_definition</code> block into any mid-conversation system message, adding or modifying tools without resending the full tool list and without invalidating the prompt cache.</li>
+            <li>The matching <code>mcp-client-2026-09-15</code> header enables dynamic MCP connector attachment mid-session, and responses include an <code>mcp_tool_listing</code> block tracking fetched tool lists.</li>
+            <li>For long-running agent sessions that need to swap in domain-specific tools partway through a task, this removes the previous choice between cache efficiency and tool flexibility.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code v2.1.280&ndash;283</b>
+          <ul>
+            <li>Four versions released September 22&ndash;25 include Opus 5.5 as the new default Opus, a <code>/doctor prompt-audit</code> command that checks CLAUDE.md and skills for patterns that regress on newer models, and a new <code>availableModelsMatch: &ldquo;exact&rdquo;</code> setting that pins a specific model version in managed deployments.</li>
+            <li>MCP tool outputs are now logged to OpenTelemetry spans when <code>OTEL_LOG_TOOL_CONTENT=1</code>, giving teams visibility into what tools actually returned during agent execution.</li>
+            <li>Gateway work adds <code>x-claude-code-prompt-id</code> headers for request grouping and assume-role support for Bedrock cross-account access via STS.</li>
+          </ul>
+        </li>
+        <li><b>DolphinBench</b>
+          <ul>
+            <li>Evaluates agent memory by having the agent complete real tool-using tasks whose correct actions depend on information from a 500K-token history, grading the tool calls the agent actually makes rather than what it claims to remember.</li>
+            <li>Three simulated personas supply 600 tests spanning work and personal activities; results across memory systems (Mem0, Honcho, Hindsight, Supermemory) trace a Pareto frontier where fast or cheap systems forget, while accurate systems are slow and costly.</li>
+            <li>The task-graded methodology removes the gap between benchmark recall scores and real-world performance, where the relevant test is whether the agent books the right flight, not whether it can recite the departure city.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.24890" target="_blank" rel="noopener">OSWorld-Pro: Process-based Evaluation for Computer Use Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Existing computer-use benchmarks score agents on the final deliverable alone, which means a run that fails at step 40 of 50 looks identical to one that fails at step 2. OSWorld-Pro addresses this by decomposing over 300 tasks into more than 2,800 sequentially dependent subgoals, each grounded in a pool of 67,000 human annotations, and scoring them with human-aligned LLM judges that award partial credit for subgoal completion. The result is an evaluation signal that names where in the trajectory an agent diverges from the correct path, making it possible to differentiate a model that understands the task but breaks on edge cases from one that cannot even identify the first required action. For teams iterating on computer-use agents, the diagnostic resolution changes what a failed benchmark run is worth.</p>
+        <span class="src">arXiv 2609.24890 &middot; September 21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.24974" target="_blank" rel="noopener">Harness-Zero: Harness Distillation via Agent-as-Harness</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Many high-performing coding agents owe a substantial share of their benchmark scores to the external harness that scaffolds them: the action space, planning loop, and context management that the model itself does not provide. Harness-Zero asks whether the behaviors a specialized harness induces can be transferred into the base model&rsquo;s weights, eliminating the harness at inference time entirely. The obstacle is that the source harness and the target model operate in different action spaces, so harness trajectories cannot serve directly as supervised training signal. The paper resolves this through an agent-as-harness construction that translates behaviors across action spaces, raising task success from 23.3 percent to 44.3 percent and recovering 82.3 percent of harness-induced behaviors across diverse domains without any harness present at test time. For practitioners who have built a specialized scaffolding system for a narrow domain, distillation offers a path to encode that investment in the model.</p>
+        <span class="src">arXiv 2609.24974 &middot; September 21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.24985" target="_blank" rel="noopener">Critical-State RL: Diagnosing Trainable States for Multi-Turn Tool Use</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Multi-turn tool-use failures often hinge on a single model call in a long trajectory, but applying RL uniformly across all calls wastes gradient updates on steps where the outcome is dominated by downstream randomness rather than the agent&rsquo;s own decision. Critical-State RL diagnoses which states are trainable by testing whether a candidate call&rsquo;s reward reflects the action taken (versus the continuation) and whether improvement over a reference policy is achievable. It then uses nested sampling to separate action-dependent variation from noise and concentrates contextual-bandit training on the selected states. On the Berkeley Function Calling Leaderboard v4 missing-function task, training at diagnostically selected states yields roughly 14 percentage points over the baseline; training at alternative states is flat or regresses. For teams applying RL to multi-step tool-use agents, the framework provides a principled way to spend a training budget.</p>
+        <span class="src">arXiv 2609.24985 &middot; September 21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.24122" target="_blank" rel="noopener">Re:CAP: Auditing Retrieval Coverage in Production RAG Pipelines</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Production RAG pipelines are difficult to monitor because exhaustive relevance labels do not exist for live, non-stationary corpora. Re:CAP (Retrieval Coverage Audit by iterative Probing) runs as a reference-free loop on top of any deployed pipeline: it analyzes the topics the initial retrieval already covers, generates probing questions for plausibly missing topics, retrieves candidate documents, and applies an LLM judge to retain only documents that introduce genuinely new information. On four public benchmarks, Re:CAP recovers 9&ndash;29 percent of gold-label documents that flat BM25 top-500 misses entirely, with the gain reaching 48 percent on TREC-COVID. Because the method requires no index modifications, no labeled data, and no changes to the base retrieval stack, teams can run it against an existing pipeline to surface coverage gaps before they become hallucinations.</p>
+        <span class="src">arXiv 2609.24122 &middot; September 21, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener">Claude Opus 5.5: always-on thinking, 40% lower cost</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Anthropic&rsquo;s new flagship, released September 22, replaces the <code>thinking</code> toggle with always-on adaptive thinking and cuts pricing 40 percent against Opus 5: $4/$20 per million input/output tokens, $0.20 per million cache reads. The model scores 66.4 percent on Terminal-Bench 4.0 versus 52.3 percent for Opus 5, and early testers report it completes terminal tasks in substantially fewer steps. The 1M-token context window and 30-percent faster output speed make longer agentic sessions cheaper to run across the full trajectory. There are breaking API changes: passing <code>thinking: {type: &ldquo;disabled&rdquo;}</code>, <code>tool_choice: &ldquo;any&rdquo;</code>, or <code>tool_choice: &ldquo;tool&rdquo;</code> now returns a 400 error. Teams using these parameters in agent harnesses need to update their request construction before migrating. Opus 5.5 is available on Claude API, Amazon Bedrock, Google Cloud, and Microsoft Foundry. Sonnet 5.5 and Haiku 5.5 are signaled as following within weeks.</p>
+        <span class="src">Anthropic &middot; September 22, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude API: Inline Tools beta and Cache Diagnostics GA</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Two developer-facing changes shipped alongside the Opus 5.5 launch. Inline Tools (beta header <code>inline-tools-2026-09-15</code>) lets a developer inject a <code>tool_definition</code> block into any mid-conversation system message, adding or changing tools mid-session without resending the full tool list and without invalidating the prompt cache. The matching <code>mcp-client-2026-09-15</code> header enables dynamic MCP connector attachment, with responses carrying an <code>mcp_tool_listing</code> block that tracks the fetched tool lists. For long-running agent sessions that progressively acquire domain-specific tools, Inline Tools removes the previous forced choice between cache efficiency and tool flexibility. Separately, Cache Diagnostics moved out of beta on September 23 and no longer requires its beta header, giving all developers opt-in visibility into cache hit rates per request with no additional setup.</p>
+        <span class="src">Anthropic &middot; September 22&ndash;23, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code v2.1.280&ndash;283: prompt audit, model pinning, OTel tool outputs</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Four versions shipped September 22&ndash;25. The most operationally useful change is <code>/doctor prompt-audit</code> (v2.1.282): a new audit subcommand that scans CLAUDE.md, skills, and agent commands for patterns known to regress on Opus 5.5 and newer models, surfacing instruction debt before it silently degrades production sessions. Model pinning adds a new <code>availableModelsMatch: &ldquo;exact&rdquo;</code> option (v2.1.283), allowing managed deployments to lock a specific model version string rather than a prefix match. For observability, MCP tool outputs are now added to OpenTelemetry span events when <code>OTEL_LOG_TOOL_CONTENT=1</code>, extending the same coverage already available for WebFetch and WebSearch calls. Gateway work in v2.1.281 and v2.1.283 adds <code>x-claude-code-prompt-id</code> headers for request grouping, a new <code>mantle</code> upstream for Amazon Bedrock&rsquo;s Mantle endpoint, and STS assume-role support for Bedrock cross-account access.</p>
+        <span class="src">Anthropic &middot; September 22&ndash;25, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://github.com/mem0ai/dolphinbench" target="_blank" rel="noopener">DolphinBench: Mapping the Pareto Frontier of Agent Memory</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Most memory benchmarks test what an agent can recall when asked directly; DolphinBench tests whether an agent acts correctly on information from its history. Three simulated user personas supply approximately 500,000 tokens of prior conversation per persona; the benchmark then runs 600 tool-using tasks per persona whose correct tool calls depend on details buried in that history&mdash;recipient email addresses, document contents, recurring dates, preferred options. The agent is graded on the tool calls it actually makes, not what it claims to remember. The Pareto frontier framing captures the finding that there is no universally best memory system: fast, cheap systems miss information; accurate systems are slow and expensive. Quantitative results across Mem0, Honcho, Hindsight, and Supermemory appear in the paper (arXiv 2609.24971); the benchmark code and test suite are open-sourced in the repository. For teams choosing or building a memory layer for a long-running agent, DolphinBench offers a task-graded signal that correlates with real user outcomes rather than abstract recall metrics.</p>
+        <span class="src">mem0.ai &middot; September 21&ndash;22, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      The throughline this week is infrastructure maturity. Harness-Zero and Critical-State RL are both about recovering performance from a fixed model rather than upgrading the model itself&mdash;one by distilling harness behaviors into weights, the other by concentrating training on the calls that actually determine outcome. OSWorld-Pro and DolphinBench are doing the same work on the evaluation side: replacing binary pass/fail with graded signals that expose mechanism rather than just result. And Anthropic&rsquo;s Inline Tools beta is the API answer to the same constraint, letting teams restructure agent capabilities mid-session instead of forcing a cold restart. The crew has enough new primitives to keep the week busy; pick the one with the largest surface area in your current build and start there.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
