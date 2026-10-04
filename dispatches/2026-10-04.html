@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of October 4, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; October 4, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of October 4, 2026</h1>
+    <p class="byline">Seven items &mdash; PACE mediates every tool call against a provenance graph to block poisoned context from acquiring unauthorized capabilities; DeFA traces multi-agent failures through dependency graphs to the responsible agent and step; OpenAI DevDay delivers GPT-6.1 Sol at one-fifth of Astra pricing and the Decisions API for sub-25ms routing; and Claude Code ships mods, TypeScript hooks that let teams reprogram agent behavior without leaving the repository.</p>
+    <dl>
+      <dt>Scouted</dt><dd>October 4, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Two currents ran in parallel this week. On one side, arXiv deposited a cluster of papers dissecting agent internals &mdash; tool-call security, failure attribution, and multi-turn safety &mdash; each narrowing in on the same question: what exactly goes wrong, and at which point in the trajectory does it happen. On the other, OpenAI&rsquo;s DevDay and Anthropic&rsquo;s mods announcement put new practitioner-grade primitives on the field: a cheaper near-frontier model for agentic coding, a sub-25ms routing API, and TypeScript hooks that let teams reprogram Claude Code&rsquo;s behavior from inside the project. The benchmarks this week score the same territory from the outside &mdash; exact command fidelity on Kali Linux, and cross-agent dependency resolution in asynchronous software engineering sessions. Both halves reward a careful read.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>PACE</b>
+          <ul>
+            <li>Introduces provenance-aware capability enforcement that mediates every tool call before execution, tracing the influence of retrieved documents and memory through a path-confinement graph to block poisoned context from unlocking unauthorized actions.</li>
+            <li>Capability and effect verification checks each proposed call&rsquo;s schema-defined effects against authority compiled from the authenticated request alone, and can restore a blocked-but-valid call after a declared repair is applied.</li>
+            <li>Targets the supply-chain surface of tool use &mdash; attacks delivered via retrieved context rather than direct prompt injection &mdash; which bypasses the model&rsquo;s own refusal behavior entirely.</li>
+          </ul>
+        </li>
+        <li><b>DeFA</b>
+          <ul>
+            <li>Builds an event dependency graph spanning the full agent trajectory, combining protocol relations and semantic dependencies, then identifies task-violating events and traces both their upstream sources and downstream effects into a failure propagation graph.</li>
+            <li>Achieves the highest responsible-agent and exact-step accuracy across evaluated backbones, and the highest failure-mode accuracy among taxonomy-aligned methods.</li>
+            <li>For teams running complex multi-agent pipelines, DeFA automates the forensic step of finding which agent, at which turn, caused a cascading failure &mdash; replacing manual trajectory replay.</li>
+          </ul>
+        </li>
+        <li><b>TRACE multi-turn safety</b>
+          <ul>
+            <li>Addresses the multi-turn safety gap where gradual context shifts can erode refusal behavior across a long conversation; TRACE attributes responsibility for a final compliance or refusal back to individual tokens across the full transcript.</li>
+            <li>Weights each token by the discounted return of a refusal-attributable advantage, comparing a frozen reference model with its refusal-ablated copy so early-turn tokens can receive training credit for late-turn safety outcomes.</li>
+            <li>Provides a targeted training signal for long agentic sessions where multi-turn jailbreaks succeed by shifting context gradually rather than in a single hostile prompt.</li>
+          </ul>
+        </li>
+        <li><b>OpenAI DevDay 2026</b>
+          <ul>
+            <li>GPT-6.1 Sol launched September 29 at $2/$10 per million input/output tokens &mdash; one-fifth the cost of GPT-6 Astra &mdash; with a 1.05M-token context window and near-Astra benchmark performance on agentic coding and computer use.</li>
+            <li>The Decisions API uses GPT-6 Luna to return a bounded answer from a developer-defined answer space in under 25 milliseconds, covering classification, routing, and agent action selection at latency budgets previously requiring a dedicated rules engine.</li>
+            <li>Codex Cloud ships persistent reusable environments where each delegated task runs in its own VM and continues after the developer&rsquo;s machine closes, matching the async execution model Claude Code Projects introduced in September.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code mods</b>
+          <ul>
+            <li>Launched October 1, mods are small TypeScript functions that hook into Claude Code&rsquo;s event stream and can rewrite, block, retry, or replace what normally happens at each tool call, permission request, or UI render.</li>
+            <li>Three built-in features &mdash; the diff pane, the agents.md loader, and telemetry &mdash; were converted to mods at launch, making them overridable first-class components rather than hardcoded internals.</li>
+            <li>Mods ship inside plugins and run with full machine-level privileges, so the install trust threshold equals that of any locally executed program.</li>
+          </ul>
+        </li>
+        <li><b>KaliBench</b>
+          <ul>
+            <li>Accepted at NeurIPS 2026 Evaluations Track, KaliBench covers 8,504 natural-language-to-CLI query-command pairs spanning 1,642 Kali Linux tools, 23 capability dimensions, and 5 security phases.</li>
+            <li>Evaluates without live runtime execution by combining LLM-based validation, sandboxed terminal parsing, and human-in-the-loop refinement &mdash; enabling verifiable reward signals for reinforcement learning at scale.</li>
+            <li>Open models cap at 42% exact command accuracy, exposing the gap between agent intent and executable syntax that makes cybersecurity tool use harder than general code generation.</li>
+          </ul>
+        </li>
+        <li><b>AsynCodeBench</b>
+          <ul>
+            <li>Grades asynchronous multi-agent software engineering on cross-agent dependency satisfaction rather than final task output, using 19 real-world repository tasks each annotated with an explicit dependency graph and executable Dependency Checkers.</li>
+            <li>Introduces two new metrics: Asynchronous Dependency Pass Rate (ADPR) and Dependency Resolution Step (DRS), which together capture both whether dependencies were satisfied and exactly when they became resolved.</li>
+            <li>Trajectory analysis reveals that successful coordination clusters into short concentrated bursts &mdash; &ldquo;hopping windows&rdquo; &mdash; suggesting inter-agent handoff mechanisms, not per-agent capability, are the primary bottleneck in async pipelines.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.01349" target="_blank" rel="noopener">PACE: Provenance-Aware Capability Enforcement for Tool-Using LLM Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>When a tool-using agent retrieves a document, browses a page, or reads from shared memory, any of those sources can carry instructions that steer the next tool call &mdash; a threat that bypasses the model&rsquo;s own refusal behavior because the harmful intent arrives as retrieved context rather than a direct user prompt. PACE mediates every tool call immediately before execution: path confinement builds a graph of represented influence reaching the proposed call and proposes an executable cut of influence paths that exceed the call&rsquo;s authority, while capability and effect verification checks the call&rsquo;s schema-defined effects against authority compiled only from the authenticated request. The system distinguishes the certified execution contract from the evaluated configuration, allowing a blocked-but-legitimate call to be restored after a declared repair is applied. For teams deploying agents that read from uncontrolled external sources &mdash; web search, shared retrieval stores, multi-agent memory &mdash; PACE targets the supply-chain attack surface of tool use rather than the generation surface.</p>
+        <span class="src">arXiv 2610.01349 &middot; October 1, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.01256" target="_blank" rel="noopener">DeFA: Dependency-Guided Failure Attribution for LLM Agents</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>In a multi-agent pipeline with dozens of tool calls across several agents, debugging a failed run typically means replaying the trajectory by hand to find where execution diverged. DeFA automates this forensic step by combining protocol relations and semantic dependencies across the full trajectory into an event dependency graph, identifying events that violate task requirements, and tracing both their upstream sources and their downstream propagated effects into a failure propagation graph. On the Who and When Pro diagnostic test subset, DeFA achieves the highest responsible-agent and exact-step accuracy of any evaluated backbone, and the highest failure-mode accuracy among taxonomy-aligned methods. The result is a structured diagnosis: which agent, at which step, and through which propagation path a failure reached the final outcome &mdash; surfacing root causes that would otherwise take a developer hours of manual log inspection to reconstruct.</p>
+        <span class="src">arXiv 2610.01256 &middot; October 2, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.01323" target="_blank" rel="noopener">TRACE: Trajectory Return Attribution and Contrastive Erasure for Multi-Turn Safety</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Jailbreaks that succeed across many turns work in part because standard safety training assigns credit only to the most recent model output, leaving the gradual context shifts that induced the failure untouched by the training signal. TRACE addresses this by weighting each token across the full conversation history by the discounted return of a refusal-attributable advantage: it compares a frozen reference model with its refusal-ablated copy, so tokens early in the transcript can receive training credit when they are causally responsible for a compliance or refusal many turns later. The contrastive erasure step removes reward signal from tokens whose effect on the final behavior is dominated by other trajectory factors, concentrating gradient updates where they change multi-turn safety outcomes. For practitioners fine-tuning models for long agentic sessions &mdash; where gradual user-context manipulation is a realistic attack vector &mdash; TRACE provides a training signal that does not collapse attribution to a single response.</p>
+        <span class="src">arXiv 2610.01323 &middot; October 1, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://openai.com/index/devday-2026-recap/" target="_blank" rel="noopener">OpenAI DevDay 2026: GPT-6.1 Sol, Decisions API, and Codex Cloud</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Held September 29 for roughly 2,500 attendees, DevDay shipped more than twenty developer announcements. The three most immediately consequential for agent builders: GPT-6.1 Sol launches at $2/$10 per million input/output tokens &mdash; one-fifth of GPT-6 Astra&rsquo;s standard rates &mdash; with a 1.05M-token context window and benchmark performance approaching Astra on agentic coding and computer-use tasks. The Decisions API uses GPT-6 Luna to return a single answer from a developer-defined answer space in under 25 milliseconds, covering classification, request routing, and action selection at latency budgets that previously required a dedicated rules engine rather than an LLM call. Codex Cloud ships persistent reusable environments where each delegated task runs in its own virtual machine and continues after the developer&rsquo;s laptop closes &mdash; adding always-on async execution semantics to Codex that mirror the cloud-session model Claude Code Projects introduced in September.</p>
+        <span class="src">OpenAI &middot; September 29, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://claude.com/blog/claude-code-mods" target="_blank" rel="noopener">Claude Code mods: TypeScript hooks for agent behavior and UI</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Launched October 1, mods are small TypeScript functions that attach to Claude Code&rsquo;s internal event stream and intercept what happens at each significant action: a mod can rewrite a prompt before it reaches the model, block or retry a tool call, handle a permission request, redact a secret from tool output, or replace an interface element entirely. The architecture is event-based &mdash; Claude Code emits events before and after each action, and mods register handlers for whichever events they target &mdash; with multiple mods from different sources composable into a stack without conflict. At launch, Anthropic converted three built-in features &mdash; the diff pane, the agents.md loader, and telemetry &mdash; into mods, marking the system as load-bearing rather than experimental and making those features overridable like any team-authored mod. Mods ship inside plugins and install via the /plugin command in both the CLI and desktop app; they run with the same machine privileges as Claude Code itself and are explicitly unsandboxed, so the install trust bar equals that of any program run locally.</p>
+        <span class="src">Anthropic &middot; October 1, 2026</span>
+      </div>
+    </div>
+
+    <h2>Benchmarks &amp; evals</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.02206v1" target="_blank" rel="noopener">KaliBench: Fine-Grained Cybersecurity Tool Use on Kali Linux</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Accepted at the NeurIPS 2026 Evaluations and Datasets Track, KaliBench measures whether a model can translate a natural-language security analyst request into the exact executable CLI command for the right Kali Linux tool &mdash; not approximate intent, but the specific flags, argument order, and value bindings the tool&rsquo;s interface requires. The dataset covers 8,504 query-command pairs across 1,642 tools, 23 capability dimensions, and 5 security phases, built through a manuscript-grounded pipeline with deterministic canonicalization and alias-aware evaluation. The evaluation pipeline avoids live runtime execution by combining LLM-based validation, sandboxed terminal parsing, and human-in-the-loop refinement, producing verifiable reward signals suitable for reinforcement learning at scale. Open models top out at 42% exact accuracy &mdash; a ceiling that quantifies how much ground the current generation still has to cover before agents can drive security tooling without per-command human verification of the generated output.</p>
+        <span class="src">arXiv 2610.02206 &middot; October 2, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2609.32662" target="_blank" rel="noopener">AsynCodeBench: Benchmarking Async Multi-Agent Coordination in Software Engineering</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Most software engineering benchmarks grade a single agent on a single task; AsynCodeBench grades a pool of asynchronous agents on how well they satisfy inter-agent dependencies across parallel execution. Each of the nineteen tasks is grounded in a real-world repository and annotated with an explicit dependency graph and executable Dependency Checkers that verify whether each cross-agent dependency was actually satisfied during the run. Two new metrics structure the evaluation: Asynchronous Dependency Pass Rate (ADPR) measures what fraction of cross-agent dependencies were ultimately satisfied, and Dependency Resolution Step (DRS) measures exactly when each dependency first became resolved in the trajectory. The main empirical finding is structural: successful coordination does not emerge gradually but in short concentrated bursts &mdash; termed hopping windows &mdash; where many dependencies resolve over a tight slice of the execution. The implication is that inter-agent handoff mechanisms, not per-agent capability, are the primary bottleneck limiting async multi-agent coding performance.</p>
+        <span class="src">arXiv 2609.32662 &middot; September 26, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      The week&rsquo;s papers share a design principle: move from binary outcomes to structured diagnostics. PACE names the influence path that allowed a poisoned artifact to steer a tool call. DeFA names the agent and step that originated a cascading failure. TRACE names the tokens across a multi-turn conversation that carry the weight of a final safety decision. AsynCodeBench names the specific handoff moment where coordination succeeded or broke. That shift &mdash; from &ldquo;it failed&rdquo; to &ldquo;it failed here, for this reason, at this step&rdquo; &mdash; is what makes an agent system improvable rather than merely restartable. The DevDay and mods releases sit on the same axis from the tooling side: a cheaper near-frontier model, a sub-millisecond routing primitive, and hookable behavior surfaces mean the next iteration cycle has shorter feedback loops. The crew has plenty to run before next Sunday.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
