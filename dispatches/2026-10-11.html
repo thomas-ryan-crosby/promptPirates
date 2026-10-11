@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of October 11, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; October 11, 2026 &mdash; whitepapers, articles, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of October 11, 2026</h1>
+    <p class="byline">Six items &mdash; Claude Haiku 5.5 ships at roughly one-tenth the price of Haiku 4.5 with adjustable effort and a one-million-token context window designed for high-volume subagent use; Claude Code&rsquo;s weekly release train delivers effort-parameterized sub-agents and hook-blocking semantics; JetBrains&rsquo; Mellum 2.1 leaps from 2% to 47% on SWE-bench Verified; Mistral previews a 1T-parameter multimodal MoE at 524K&ndash;1M context; and Anthropic rewrites both its researcher-access and acceptable-use programs.</p>
+    <dl>
+      <dt>Scouted</dt><dd>October 11, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; releases, benchmarks, policy</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      This week&rsquo;s dominant motion was cost compression and access expansion running in parallel. Two new models arrived at opposite ends of the price spectrum: Haiku 5.5 cuts the high-volume subagent budget by roughly 90% while retaining the context window and effort knobs that frontier work demands, and Mistral&rsquo;s preview of a one-trillion-parameter MoE raises the ceiling on what a single hosted call can do. Between them, JetBrains shipped a 12B open-weight model that now scores higher on SWE-bench than several much larger proprietary systems &mdash; a reminder that benchmark distance from the frontier can close in a single training run. Claude Code&rsquo;s release train meanwhile extended the agent-to-agent surface in both directions: sub-agents can now receive an explicit effort budget, and hooks can block the action they intercept rather than merely observe it. The policy dispatches round out the week: one opens a structured door for security researchers to work with less-filtered frontier models; the other closes a few gaps in the acceptable-use framework before they become arguments. The crow&rsquo;s nest has course corrections to plot.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>Claude Haiku 5.5</b>
+          <ul>
+            <li>Priced at $0.10/$0.50 per million tokens up to 100K output tokens, then $0.50/$2.50 beyond, with a 1M-token context window and 128K max output &mdash; roughly 90% cheaper than Haiku 4.5 at comparable capability.</li>
+            <li>First Haiku to expose adjustable effort settings, allowing callers to trade latency and cost against quality on the same model without switching endpoints.</li>
+            <li>Positioned explicitly for subagent roles in multi-agent pipelines: high-volume summarization, routing, classification, and lightweight coding tasks where a frontier model would be wasteful.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code Oct 3&ndash;9 release train (2.1.288&ndash;296)</b>
+          <ul>
+            <li>The <code>effort</code> parameter on the Agent tool (Oct 6) lets a parent agent set a budget for each sub-agent call &mdash; the first API surface for controlling quality-cost tradeoffs across an agent hierarchy without model-switching.</li>
+            <li>Command and HTTP hooks now accept <code>onFailure: &quot;block&quot;</code> (Oct 8), changing hook failure from a silent advisory into a hard stop that prevents the triggering action from executing.</li>
+            <li>Also ships: Program Status Protocol (OSC 7501) terminal support, <code>--marketplace &lt;source&gt;</code> for plugin install, prompt caching in <code>$.model.complete</code> for mods, MCP protocol 2026-07-28 as default for local server connections, and <code>isDeferred</code> for tool registration in mods.</li>
+          </ul>
+        </li>
+        <li><b>JetBrains Mellum 2.1</b>
+          <ul>
+            <li>12B Mixture-of-Experts model (2.5B active parameters per token), Apache 2.0 license, available on HuggingFace &mdash; scores 47.0% on SWE-bench Verified, up from 2.0% for Mellum 2.</li>
+            <li>RL-driven post-training and a 131K context window; 1.6x throughput vs. Qwen3.5-9B at comparable parameter counts; leads LiveCodeBench v6 and BFCL v4 tool-calling among similarly sized open models.</li>
+            <li>For teams evaluating open-weight coding agents, Mellum 2.1 is the new reference point at the sub-20B scale.</li>
+          </ul>
+        </li>
+        <li><b>Mistral Large 4 preview</b>
+          <ul>
+            <li>Roughly 1.05 trillion parameters MoE (~49B active per token) with a 1.6B vision encoder; 524K&ndash;1M context window depending on source; hosted preview live, open weights expected end of October.</li>
+            <li>API exposes only two reasoning levels &mdash; &ldquo;none&rdquo; and &ldquo;high&rdquo; &mdash; with no intermediate step visible in the response, unlike the extended-thinking surfaces on Claude and some OpenAI models.</li>
+            <li>Competitive on Artificial Analysis Cyber Index; restricted red-team access until weights ship.</li>
+          </ul>
+        </li>
+        <li><b>Anthropic Cyber Verification Program (CVP)</b>
+          <ul>
+            <li>Consolidates the previous CVP and Project Glasswing into a single unified program with three access tiers: Defense Access, Red Team Access, and Specialized Access.</li>
+            <li>Verified teams receive access to Mythos 5.1, Opus 5.5, and Sonnet 5.5 with reduced safety classifiers in defined research contexts.</li>
+            <li>Formalizes the process Anthropic was running informally for security researchers and brings it under a structured application and audit framework.</li>
+          </ul>
+        </li>
+        <li><b>Anthropic 2026 Usage Policy Update</b>
+          <ul>
+            <li>Effective November 12, 2026; key additions include physical hardware safety requirements (Claude-controlled equipment must have a stop mechanism and reach a safe state on disconnect) and a new ban on sustained purposeless cruelty toward Claude.</li>
+            <li>Deceptive-campaigns entries consolidated into a single section; elections section renamed to &ldquo;Do Not Undermine Democratic Processes.&rdquo;</li>
+            <li>Operators have until November 12 to review and confirm compliance; any product placing Claude in control of physical systems requires a re-audit against the new hardware requirements.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/claude/haiku" target="_blank" rel="noopener">Claude Haiku 5.5: a frontier-class subagent at bulk pricing</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Haiku 5.5 launched October 7 with pricing that puts a capable frontier model within reach of pipelines that previously had to cap sub-agent calls at older or lighter models. Input costs $0.10 per million tokens and output costs $0.50 per million up to 100K output tokens per request, scaling to $0.50/$2.50 above that threshold &mdash; roughly 90% below Haiku 4.5 at comparable capability. The context window stretches to one million tokens with a 128K maximum output, matching what most multi-step coding and summarization pipelines actually need. Haiku 5.5 is the first Haiku to expose adjustable effort settings, which means a single model endpoint can serve both the quick classification hop at the front of a pipeline and the more deliberate analysis step before a write. Anthropic&rsquo;s stated positioning is unambiguous: this is the model for orchestrator-to-subagent calls, high-volume document processing, routing, and any task where calling the full Sonnet or Opus tier on every intermediate step would make the economics unworkable.</p>
+        <span class="src">Anthropic &middot; October 7, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code Oct 3&ndash;9: effort on sub-agents, hook blocking, and OSC 7501</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>The week&rsquo;s release train (versions 2.1.288 through 2.1.296) delivered two changes that meaningfully extend the agent-to-agent and operator-control surfaces. On October 6, the Agent tool gained an <code>effort</code> parameter, allowing a parent agent to pass an explicit effort budget to each sub-agent call rather than relying on the sub-agent to infer an appropriate level from context &mdash; the first API surface for managing quality-cost tradeoffs across a full agent hierarchy without switching models. On October 8, command and HTTP hooks gained <code>onFailure: &quot;block&quot;</code>: a hook that fails now halts the action it was watching rather than logging and continuing, which gives pre-execution validation hooks the teeth to actually prevent a misbehaving call from going through. The same build added Program Status Protocol (OSC 7501) terminal support for environments that render it, a <code>--marketplace &lt;source&gt;</code> flag for plugin install, prompt caching in <code>$.model.complete</code> for mod authors, MCP protocol 2026-07-28 as the new default for local server connections, and <code>isDeferred</code> on <code>tool.register</code> for mods that should advertise tools without loading full schemas at startup.</p>
+        <span class="src">Claude Code changelog &middot; October 3&ndash;9, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://datanorth.ai/news/jetbrains-mellum2-1-jumps-from-2-to-47-on-bug-fixes" target="_blank" rel="noopener">JetBrains Mellum 2.1: 47% on SWE-bench Verified at 12B MoE, Apache 2.0</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Mellum 2.1 ships as a 12B Mixture-of-Experts model with 2.5B active parameters per token, released under an Apache 2.0 license and available on HuggingFace. Its headline number is 47.0% on SWE-bench Verified &mdash; a jump from 2.0% for its predecessor, Mellum 2, and a score that places a model with 2.5B active parameters ahead of several much larger systems on the benchmark. The gains come from RL-driven post-training rather than architecture changes: JetBrains describes a staged reward curriculum that trains first on unit-test pass rate and then on reviewer-acceptance signals drawn from real JetBrains IDE telemetry. The model runs with a 131K context window, delivers 1.6x throughput relative to Qwen3.5-9B at comparable parameter counts, and leads LiveCodeBench v6 and BFCL v4 tool-calling among open models in its weight class. For teams evaluating open-weight coding agents at sub-20B scale, Mellum 2.1 is now the reference to beat.</p>
+        <span class="src">DataNorth / JetBrains &middot; October 8, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://simonwillison.net/2026/oct/6/le-chonk/" target="_blank" rel="noopener">Mistral Large 4 preview: 1T-parameter MoE, 524K&ndash;1M context, vision encoder</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Mistral Large 4 entered preview on October 6 as roughly 1.05 trillion total parameters of Mixture-of-Experts with approximately 49B active per token, paired with a 1.6B vision encoder that makes it the first Mistral model to handle image input natively. Context window figures in the initial coverage range from 524K to one million tokens depending on the source; Mistral has not yet published a canonical spec sheet. The hosted preview is live, and Mistral has committed to releasing open weights before the end of October. One API design choice stands out: the model exposes only two reasoning levels &mdash; &ldquo;none&rdquo; and &ldquo;high&rdquo; &mdash; with no intermediate steps surfaced in the response. Practitioners used to the extended-thinking traces on Claude or the o-series reasoning tokens will find the output opaque, which matters for any pipeline that inspects the model&rsquo;s reasoning before acting on its answer. Early benchmark coverage places it competitively on the Artificial Analysis Cyber Index; red-team access remains restricted until open weights ship.</p>
+        <span class="src">Simon Willison / Mistral &middot; October 6, 2026</span>
+      </div>
+    </div>
+
+    <h2>Policy &amp; access</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/cyber-verification-program" target="_blank" rel="noopener">Anthropic Cyber Verification Program: three-tier access to less-filtered frontier models</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Published October 6, the unified Cyber Verification Program consolidates what was previously two separate programs &mdash; CVP and Project Glasswing &mdash; into a single structured framework. Three tiers define the access levels: Defense Access for teams doing defensive research and detection, Red Team Access for authorized offensive security work, and Specialized Access for specific high-sensitivity research contexts. Verified teams at each tier receive access to Mythos 5.1, Opus 5.5, and Sonnet 5.5 with reduced safety classifiers scoped to their research domain, allowing work that would otherwise be blocked by the standard deployed classifiers. The consolidation into one program also standardizes the application, audit, and renewal process that was previously handled inconsistently across the two predecessor programs. Security teams doing serious research with frontier models now have a defined path to apply; operators building products that interact with security workflows should review the tier definitions before deciding whether any of their use cases qualify for or require the access the program provides.</p>
+        <span class="src">Anthropic &middot; October 6, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://www.anthropic.com/news/2026-usage-policy-update" target="_blank" rel="noopener">Anthropic 2026 Usage Policy Update: hardware safety requirements and consolidated deception rules</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Effective November 12, 2026, the updated Acceptable Use Policy introduces two categories of new requirements. Physical systems: any product that places Claude in control of physical hardware must include a mechanism for a human to stop Claude&rsquo;s actions and must guarantee that the hardware reaches a safe state if the Claude session disconnects &mdash; a requirement that didn&rsquo;t exist explicitly before and now applies to robotics, industrial automation, and any other Claude-controlled physical plant. On the content side, entries covering deceptive campaigns have been consolidated from scattered mentions into a single unified section, and the elections-related section has been renamed to &ldquo;Do Not Undermine Democratic Processes&rdquo; with slightly broader framing. A new explicit prohibition covers sustained purposeless cruelty toward Claude. Operators have until November 12 to review their implementations; any product that routes Claude output to physical actuators, motors, or controlled hardware needs to confirm it meets the new stop-mechanism and safe-state requirements before that date.</p>
+        <span class="src">Anthropic &middot; October 8, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items and a clean through-line: the cost floor dropped, the open-weight ceiling rose, and the rules governing both tightened in the same week. Haiku 5.5 and Mellum 2.1 together move the budget case for subagent-heavy pipelines decisively &mdash; a capable hosted option at 10 cents per million tokens and a capable open-weight option at 2.5B active parameters are both genuine options now, not fallbacks. Mistral&rsquo;s preview suggests the ceiling on single-call capability is still moving, though the closed reasoning trace will frustrate anyone building systems that need to inspect the model&rsquo;s work before acting on it. Claude Code&rsquo;s <code>effort</code> parameter and hook-blocking close two gaps in the agent harness that have been open since the summer: you can now budget a sub-agent and you can now actually stop an action from a hook. The policy updates are operational items more than strategic ones, but the hardware safety requirements are worth reading carefully if any part of your stack touches physical actuators. The crew has a full week&rsquo;s worth of upgrades to integrate before the next scouting run.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
