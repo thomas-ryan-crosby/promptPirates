@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of October 25, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; October 25, 2026 &mdash; whitepapers, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of October 25, 2026</h1>
+    <p class="byline">Six items &mdash; Moonshot releases Kimi K3.1 Pro on October 23 with a 1M-token context window and an explicit cybersecurity capability reduction ahead of open weights; Anthropic ships API version 2026-10-21 with Python SDK 2.0, TypeScript SDK 1.0, and Apache 2.0 relicensing across all official SDKs; Claude Code&rsquo;s 2.1.304&ndash;310 window adds /auto-mode-setup, tiered Code Review, the multiagent_20261001 API target, and Monitor tool on Bedrock and Vertex; Anthropic launches the Claude API on Google Cloud under Anthropic management with GCP IAM and Marketplace billing; arXiv 2610.30047 introduces multi-turn coding agent evaluation with dynamic user simulation; and 2610.30151 benchmarks the handshake overhead of MCP, A2A, and ACP at the connection layer.</p>
+    <dl>
+      <dt>Scouted</dt><dd>October 25, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Two themes ran through the week: platform consolidation and protocol accounting. Anthropic touched nearly every layer of its stack between October 19 and 23 &mdash; a new API version with major-version SDK bumps across eight languages, all moving from MIT to Apache 2.0; a new distribution path for the Claude API through Google Cloud IAM and Marketplace billing; and a Claude Code release window that wired Managed Agents into the multiagent_20261001 API target while shipping guided project setup, tiered Code Review, and an OpenTelemetry safety-event stream. Moonshot&rsquo;s Kimi K3.1 Pro arrived October 23 with a notable disclosure: the team detected and removed offensive cybersecurity training data before open-weight release, reporting the checkpoint shrank from 90.5% to 81% on their internal exploit benchmark. Two arXiv papers from October&rsquo;s index close out the scouting run by exposing gaps in how practitioners evaluate agents and wire them together &mdash; one asking what happens when a benchmark simulates a real user session with changing requirements, the other measuring how much of an agent&rsquo;s context window the connection handshake quietly consumes before the first task token is sent.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>SWE-DIVE</b>
+          <ul>
+            <li>Adapts SWE-bench tasks into multi-turn sessions by splitting work into sub-tasks and deploying an LLM user simulator that can introduce underspecification, requirement changes, and expert pushback mid-session.</li>
+            <li>Three persona types &mdash; Vague_Requester, Expert_Nitpicker, and Mind_Changer &mdash; probe whether agents can negotiate and recover, not just execute a well-formed prompt.</li>
+            <li>The framework runs inside Harbor sandboxes; early results show single-shot benchmark pass rates do not predict multi-turn performance on the same tasks.</li>
+          </ul>
+        </li>
+        <li><b>Agent Protocol Handshake Overhead</b>
+          <ul>
+            <li>Legacy MCP takes three round trips and 230 ms at 50 ms RTT to reach task-ready; A2A completes the same in one round trip at 61 ms.</li>
+            <li>A counterpart advertising 200 capabilities consumes roughly 11% of a 200k-token context window through handshake metadata alone, before any task message is sent.</li>
+            <li>A2A, ACP, and modern MCP can cache to zero round trips through spec-sanctioned mechanisms; legacy MCP repeats the full handshake on every reconnection.</li>
+          </ul>
+        </li>
+        <li><b>Kimi K3.1 Pro</b>
+          <ul>
+            <li>Released October 23 as the first model in Moonshot&rsquo;s K3.1 series: 1M-token context, API pricing at $2 input / $10 output per million tokens, with a K3.1 Pro Highspeed companion and a free plan tier.</li>
+            <li>Vendor-reported Terminal-Bench 4.0 score of 65.7%, above GPT-6 Astra at 58.2% and just below Claude Opus 5.5 at 66.4%; Artificial Analysis independently puts it at 55 on its Intelligence Index.</li>
+            <li>Moonshot disclosed that stripping cybersecurity training data cut their internal exploit benchmark from 90.5% to 81% in the release checkpoint; open weights are promised by November 4.</li>
+          </ul>
+        </li>
+        <li><b>Anthropic API 2026-10-21</b>
+          <ul>
+            <li>API version 2026-10-21 went live October 21 with major-version bumps across all official SDKs: Python 2.0.0, TypeScript 1.0.0, C# 13.0.0, Go 2.0.0, Java 3.0.0, PHP 1.0.0, Ruby 2.0.0, and ant CLI 2.0.0 &mdash; all include breaking changes.</li>
+            <li>Every SDK moved from MIT to Apache 2.0 licensing; user profiles launched to let API callers attribute requests to specific end customers, with enforcement_status and enforcement_actions fields.</li>
+            <li>Inference hooks exited beta for Enterprise, the Claude Tag API entered beta under experimental-claude-tag-2026-10-21, and organization webhooks entered beta for restriction and ban events.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code 2.1.304&ndash;310</b>
+          <ul>
+            <li>v2.1.304 (Oct 19): /auto-mode-setup walks Claude through learning a project before unattended runs; Code Review gained Quick, Standard, and Deep levels, configurable per organization and per repository.</li>
+            <li>v2.1.309 (Oct 22): the /claude-api skill now targets multiagent_20261001 with dynamic workflows on by default, replacing the coordinator pattern for Managed Agents subagent teams.</li>
+            <li>v2.1.307 adds a claude_code.safety_event OpenTelemetry span for every blocked or prompted tool call; v2.1.310 brings the Monitor tool to Bedrock, Vertex AI, and Foundry.</li>
+          </ul>
+        </li>
+        <li><b>Claude API on Google Cloud</b>
+          <ul>
+            <li>Launched October 22 as a third path alongside the direct Anthropic API and Google-managed Vertex AI: Anthropic&rsquo;s own API surface, accessed through a Google Cloud project.</li>
+            <li>Google Cloud IAM handles authentication and Google Cloud Marketplace handles billing; Claude Opus 5.5 Fast mode is available at launch.</li>
+            <li>Key distinction from Vertex AI: this is Anthropic-managed infrastructure, not Google&rsquo;s model-serving layer, giving teams GCP-native auth and billing without the feature-parity lag that sometimes affects Google-managed deployments.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.30047" target="_blank" rel="noopener">SWE-DIVE: Multi-Turn Coding Agent Evaluation with Dynamic User Simulation</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>This October 2026 paper from Lorenz Brehme, Benjamin Steenhoek, and Ruth Breu argues that existing coding-agent benchmarks measure performance on well-formed, single-shot prompts &mdash; but real development sessions are multi-turn, iterative, and frequently underspecified. SWE-DIVE addresses the gap by adapting established suites (including SWE-bench tasks) into incremental sub-task sequences, then deploying an LLM-based user simulator that progresses through those sub-tasks as a human developer would: sometimes vague at the outset, sometimes changing requirements partway through, sometimes pushing back on the agent&rsquo;s output. Three named personas &mdash; Vague_Requester, Expert_Nitpicker, and Mind_Changer &mdash; represent distinct behavioral patterns, and a conversation validator runs in parallel to verify the simulator stays on track. The entire framework runs inside Harbor sandboxes, isolating each evaluation from the host environment. The authors report that single-shot benchmark pass rates do not reliably predict multi-turn performance on the same underlying tasks, suggesting that teams selecting models for interactive coding work should evaluate on multi-turn sessions rather than relying on leaderboard positions built from single-prompt evals. Code and persona configurations are available on the project&rsquo;s GitHub repository.</p>
+        <span class="src">arXiv &middot; October 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.30151" target="_blank" rel="noopener">The Cost of Saying Hello: An Empirical Study of Handshake Overhead in AI Agent Communication Protocols</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>As MCP, A2A, and ACP become the default wiring for multi-agent systems, this paper from Pranav Varshney measures what the connection layer itself costs before any task token is exchanged. Running each protocol against its official SDK, the study finds legacy MCP&rsquo;s three-round-trip handshake reaches task-ready in 230 ms at a 50 ms round-trip latency &mdash; nearly four times the 61 ms A2A achieves in a single round trip. The context-window cost is the more surprising result: a counterpart advertising 200 capabilities sends roughly enough metadata to consume 11% of a 200k-token window during the handshake alone, a cost that scales linearly with the capability catalog and compounds in long-horizon sessions where agents reconnect frequently. The paper is not all bad news for MCP: modern versions and both A2A and ACP support spec-sanctioned caching that can reduce the handshake to zero round trips on reconnection; the problem is specifically legacy MCP implementations that repeat the full negotiation on every connection. The version-checking finding is also worth flagging for practitioners: only MCP verifies version claims during the handshake, while A2A defers this to a per-request header, meaning an incompatibility may surface only when the first task message is sent. Harness and data are published on GitHub alongside the paper.</p>
+        <span class="src">arXiv &middot; October 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://thenextweb.com/news/moonshot-kimi-k3-1-pro-open-weight-cyber" target="_blank" rel="noopener">Kimi K3.1 Pro: 1M-token context, $2/$10 API pricing, cybersecurity capability reduction disclosed ahead of open weights</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Moonshot AI released Kimi K3.1 Pro on October 23 as the first model in a new K3.1 series, alongside a faster companion called K3.1 Pro Highspeed. The model carries a 1-million-token context window and API pricing of $2 input and $10 output per million tokens &mdash; a step down from K3&rsquo;s $3/$15 rate. Vendor-reported Terminal-Bench 4.0 performance comes in at 65.7%, which Moonshot places above GPT-6 Astra at 58.2% and just below Claude Opus 5.5 at 66.4%; Artificial Analysis&rsquo;s independent index puts it at 55 points, an 11-point jump over K3. The model is available on Kimi.ai, Kimi Code, and the API, with a limited free plan. Open weights are promised by November 4, under a license not yet finalized. The most practically significant disclosure in the release: Moonshot found during training that the model had learned strong offensive cybersecurity capabilities, removed the relevant training data before the open release, and reported that the change reduced the score on their internal exploit benchmark from 90.5% to 81%. That decision to disclose the specific capability delta is worth noting alongside last week&rsquo;s Liquid AI reward-hacking disclosure &mdash; two consecutive weeks of open labs publishing uncomfortable findings about what their models learned; the closed labs have been silent on equivalent questions.</p>
+        <span class="src">The Next Web / Moonshot AI &middot; October 23, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Anthropic API version 2026-10-21: SDK major versions across eight languages, Apache 2.0 relicensing, user profiles, inference hooks out of beta</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>On October 21, Anthropic released API version 2026-10-21 alongside major-version bumps of every official SDK: Python 2.0.0, TypeScript 1.0.0, C# 13.0.0, Go 2.0.0, Java 3.0.0, PHP 1.0.0, Ruby 2.0.0, and the ant CLI 2.0.0. Each carries breaking changes independent of the API version itself, and all have moved from MIT to Apache 2.0 licensing &mdash; a meaningful shift for teams embedding the SDK in commercial products or proprietary tooling. Read the migration guide before upgrading from any prior major. October 20 brought three additional platform releases: user profiles launched as a way to attribute each API request to a specific end customer, with enforcement_status and enforcement_actions fields that surface whether Anthropic has restricted or banned that customer; inference hooks exited beta for Claude Enterprise organizations; the Claude Tag API (the programmatic interface for Claude in Slack) entered beta under the experimental-claude-tag-2026-10-21 header; and organization webhooks entered beta for restriction and ban lifecycle events. Web fetch controls shipped the same day, letting organization admins turn off the web fetch tool or restrict it to approved domains from the Capabilities page of the Claude Console.</p>
+        <span class="src">Anthropic &middot; October 20&ndash;21, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code 2.1.304&ndash;310: /auto-mode-setup, tiered Code Review, multiagent_20261001 target, OTel safety events, Monitor on Bedrock and Vertex</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Claude Code shipped five meaningful versions in the October 19&ndash;23 window. Version 2.1.304 (October 19) adds /auto-mode-setup, a guided flow that walks Claude through a project&rsquo;s codebase, recent sessions, and conventions before an unattended run &mdash; the kind of front-loaded context-setting that reduces mid-session surprises. The same version introduces Code Review levels: Quick, Standard, and Deep, configurable per organization and per repository, giving teams a dial between thoroughness and speed. Version 2.1.307 (October 21) adds the claude_code.safety_event OpenTelemetry span, emitted for every tool call that a permission rule, safety check, hook, sandbox, or auto mode stops or prompts &mdash; a structured audit trail for teams running Claude in regulated or enterprise environments. The same version adds /claude-api api-version to move API code forward to the 2026-10-21 release. Version 2.1.309 (October 22) changes the /claude-api skill to build Managed Agents subagent teams targeting multiagent_20261001 with dynamic workflows on by default, replacing the prior coordinator-pattern approach. Version 2.1.310 (October 23) extends the Monitor tool and plugin monitors to Bedrock, Vertex AI, and Foundry, and adds Enterprise custom-role support for cloud session and Remote Control permissions.</p>
+        <span class="src">Anthropic &middot; October 19&ndash;23, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude API on Google Cloud (Anthropic managed): GCP IAM auth, Marketplace billing, third distribution path alongside Vertex AI</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>On October 22, Anthropic launched &ldquo;Claude Models on Google Cloud (Anthropic managed)&rdquo; as a distinct distribution path from the existing Google-managed Vertex AI offering. The practical distinction: this is Anthropic&rsquo;s own API surface running on Anthropic&rsquo;s infrastructure, accessed through a Google Cloud project rather than through Google&rsquo;s model-serving layer. Google Cloud IAM handles authentication, and Google Cloud Marketplace handles billing and procurement, meaning organizations already on GCP can consolidate Claude charges into their Google Cloud invoice and apply existing GCP billing controls, committed-use discounts, and cost-center allocations without a separate Anthropic contract. Claude Opus 5.5 Fast mode is available at launch. For teams evaluating build paths, the three-way matrix is now: direct Anthropic API (Anthropic auth and billing, full feature parity on day one), Vertex AI (Google-managed, Google auth and billing, feature parity may lag by days or weeks), and this new path (Anthropic-managed infrastructure, GCP auth and billing, full feature parity on day one). The last option is new and specifically useful for enterprises that need GCP IAM&rsquo;s role-based access controls and audit logging on Claude API requests without accepting the feature-parity risk that has historically accompanied Google-managed deployments.</p>
+        <span class="src">Anthropic &middot; October 22, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items and the week reads like infrastructure maintenance with a capital I. Three Anthropic releases in five days rewired billing, licensing, and orchestration in ways that compound quietly in production. The Apache 2.0 relicensing is the kind of change that matters for teams embedding SDKs in commercial products: check the migration guide before upgrading. The multiagent_20261001 target in Claude Code is worth tracking &mdash; dynamic workflows replacing the coordinator pattern is a signal about where Anthropic thinks multi-agent orchestration is heading. Moonshot&rsquo;s cybersecurity disclosure on K3.1 Pro raises the same question Liquid AI&rsquo;s reward-hacking note did last week: what does it mean that open labs are finding and disclosing these capability markers while closed labs are silent? SWE-DIVE and the handshake overhead paper both expose measurement gaps. The first shows that single-shot benchmarks miss the negotiation and correction that real coding sessions require; the second shows that protocol choice carries a real token cost before the first task message is sent. Both are worth a read before the crew&rsquo;s next build session. The crow&rsquo;s nest stays sharp.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
