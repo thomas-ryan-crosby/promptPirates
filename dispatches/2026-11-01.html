@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch &mdash; week of November 1, 2026 &mdash; Prompt Pirates</title>
+<meta name="description" content="The Crow's Nest weekly dispatch &mdash; November 1, 2026 &mdash; whitepapers, releases, and benchmarks for builders working with AI coding agents." />
+<link rel="stylesheet" href="../assets/style.css" />
+<link rel="icon" href="../assets/logo.svg" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="logomark" src="../assets/logo.svg" alt="" /> Prompt Pirates</a>
+    <nav>
+      <a href="../index.html#minutes">Minutes</a>
+      <a href="../dispatches/">Dispatches</a>
+      <a href="../index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="read">
+  <header class="paper-head">
+    <div class="label">The Crow&rsquo;s Nest &middot; Dispatch</div>
+    <h1>Dispatch &mdash; week of November 1, 2026</h1>
+    <p class="byline">Six items &mdash; OpenAI ships GPT-6.1 Terra on October 26 at $1/$5 per million tokens with 50.3% Terminal-Bench 4.0 and a 1M-token context, aimed at computer use and agentic work at a lower price than the flagship GPT-6 line; Google DeepMind announces Genie 4 in research preview on October 27, adding native audio and Gemini Omni grounding to real-time interactive world generation; arXiv 2610.37434 benchmarks 10 coding agents on 73 multi-stage feature tasks and finds success collapses from 62.7% at the first stage to 28.5% across the whole feature arc; arXiv 2610.36589 reports that hidden probes reject 32% of agent submissions that pass every official test on real AI infrastructure pull requests; Claude Code ships five versions between October 26 and 31 adding blockWritesOutsideWorkingDirectories, CLAUDE_CODE_SUBAGENT_EFFORT, and idle compaction for long sessions; and the Anthropic Platform API raises the Messages API request limit from 32 MB to 128 MB and launches the Usage and Cost Analytics API in beta.</p>
+    <dl>
+      <dt>Scouted</dt><dd>November 1, 2026</dd>
+      <dt>Scope</dt><dd>Intermediate &amp; Advanced &middot; whitepapers, articles, releases, benchmarks</dd>
+    </dl>
+  </header>
+
+  <article class="paper">
+
+    <div class="flourish log-intro">
+      <span class="cap">From the crow&rsquo;s nest</span>
+      Two themes ran through the week: the efficiency tier arrived for real, and the research community turned its sharpest instruments on what coding-agent benchmarks are actually measuring. OpenAI&rsquo;s GPT-6.1 Terra and Google DeepMind&rsquo;s Genie 4 research preview were the headline releases &mdash; the first an explicit half-price push into computer use and agentic work, the second a world model that adds audio and language steering to real-time interactive scenes. Beneath those announcements, FeatureArc and InfraDev arrived on the same arXiv day with a shared verdict: the way practitioners currently evaluate coding agents understates how badly they fail when tasks get long, requirements evolve, or the grader has hidden eyes. Anthropic&rsquo;s week was quieter by comparison, but five Claude Code versions and three API platform changes added operational depth that compounds in production.
+    </div>
+
+    <div class="abstract glance">
+      <span class="glance-head">At a glance</span>
+      <ul>
+        <li><b>FeatureArc</b>
+          <ul>
+            <li>73 tasks and 263 stages drawn from 53 real repositories put 10 coding agents through multi-stage feature work in a single persistent session with no test feedback or rollback between stages.</li>
+            <li>Pooled first-stage success across all agents is 62.7%; whole-feature success falls to 28.5%, a gap of more than 34 percentage points that no agent closes on its own.</li>
+            <li>The result directly contradicts using single-turn benchmarks to forecast agent performance on real iterative feature work.</li>
+          </ul>
+        </li>
+        <li><b>InfraDev</b>
+          <ul>
+            <li>36 tasks built from real pull requests to Megatron-LM, vLLM, and verl test whether agents can develop AI training and inference infrastructure; hidden validation probes are embedded in the grader.</li>
+            <li>The best model resolves 38.9% of tasks; the probes reject 32% of all submissions that pass every visible official test, revealing a large gap between surface-level correctness and actually working code.</li>
+            <li>No model resolves a single task when given the original PR description text verbatim as the prompt, suggesting that real infrastructure context is harder than distilled task descriptions.</li>
+          </ul>
+        </li>
+        <li><b>GPT-6.1 Terra</b>
+          <ul>
+            <li>Released October 26 for ChatGPT Work, Codex, and the API as gpt-6.1-terra; $1 input / $5 output per million tokens with a 1M-token context window.</li>
+            <li>OpenAI reports 50.3% on Terminal-Bench 4.0 at maximum effort, up from 21.5% for GPT-5.6 Terra, and three-times-faster task completion than GPT-6 Astra.</li>
+            <li>OpenAI classifies the model at the Critical cybersecurity threshold under its Preparedness Framework, a more cautious classification than the Significant tier used for the larger GPT-6 models.</li>
+          </ul>
+        </li>
+        <li><b>Genie 4</b>
+          <ul>
+            <li>Announced October 27 as a research preview for trusted testers; generates real-time interactive worlds with native audio &mdash; ambient sound, music, and interactive dialogue alongside the visual scene.</li>
+            <li>Gemini Omni grounds the simulation in real-world appearance and behavior; separate Gemini models maintain coherence and continuity as scenes evolve.</li>
+            <li>Rollout targets Google AI Ultra subscribers via Project Genie and early-access partners on the Gemini API and AI Studio; no pricing or general availability date was announced.</li>
+          </ul>
+        </li>
+        <li><b>Claude Code 2.1.311&ndash;316</b>
+          <ul>
+            <li>v2.1.311 (Oct 26): ultrathink now runs at xhigh effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 through the Anthropic API; self-hosted runner gains hold-idle controls.</li>
+            <li>v2.1.314 (Oct 30): permissions.blockWritesOutsideWorkingDirectories enforces path confinement in every permission mode; idle compaction triggers at 200K+ tokens in VS Code and Desktop.</li>
+            <li>v2.1.316 (Oct 31): CLAUDE_CODE_DISABLE_ULTRATHINK and CLAUDE_CODE_SUBAGENT_EFFORT env vars added; shell commands no longer keep running after Claude Code exits on macOS and Linux.</li>
+          </ul>
+        </li>
+        <li><b>Anthropic API Oct 28&ndash;30</b>
+          <ul>
+            <li>October 28: the maximum request size for the Messages API and Token Counting API increased from 32 MB to 128 MB on the first-party Claude API.</li>
+            <li>October 29: the Usage and Cost Analytics API launched in beta under the analytics-usage-cost-2026-08-24 header, with per-model, per-workspace, per-key, and per-user filtering.</li>
+            <li>October 30: fast mode for Claude Opus 4.8 is deprecated with removal on November 30, 2026; the recommended migration target is Claude Opus 5.5.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Research &amp; whitepapers</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.37434" target="_blank" rel="noopener">FeatureArc: Benchmarking Coding Agents on Evolving Features</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Yunlong Wang and collaborators argue that coding-agent benchmarks built around single, well-specified tasks systematically miss what real feature work looks like: a sequence of stages in one persistent workspace, with no external test feedback or opportunity to reset between stages. FeatureArc addresses this with 73 tasks and 263 stages drawn from 53 real repositories, requiring each agent to carry a feature arc from initial scaffolding through to final integration inside a single session. Ten agents were evaluated. The pooled first-stage success rate sits at 62.7%; the pooled whole-feature success rate is 28.5% &mdash; a collapse of more than 34 percentage points that no individual agent avoids. The practical implication for teams selecting models for interactive coding work is the same one SWE-DIVE raised last week: a leaderboard rank built on single-turn prompts is a poor predictor of the negotiation, correction, and continuity that multi-stage feature work actually requires. The benchmark tasks and evaluation harness are published on GitHub alongside the paper.</p>
+        <span class="src">arXiv &middot; October 27, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://arxiv.org/abs/2610.36589" target="_blank" rel="noopener">InfraDev: Can Coding Agents Develop AI Infrastructure, and How Can We Tell?</a> <span class="tag tag-advanced">Advanced</span></h3>
+        <p>Most coding-agent benchmarks draw tasks from general application repositories; InfraDev asks whether agents can handle the harder, more constraint-dense work of AI infrastructure development by building 36 tasks from real pull requests to Megatron-LM, vLLM, and verl &mdash; the training, inference, and reinforcement learning layers that most production AI systems depend on. The benchmark embeds hidden validation probes in the grader, probes that check structural and behavioral properties invisible to a naive test suite. The headline result is a two-layer failure: the best model resolves 38.9% of tasks under ordinary conditions, and the probes then reject 32% of the submissions that passed every visible official test. The second failure mode is the more concerning one for practitioners: it means that nearly a third of what an agent would report as &ldquo;done&rdquo; on real infrastructure code is silently broken. A separate finding reinforces the difficulty signal &mdash; no model resolves a single task when the prompt is the original pull request description verbatim, suggesting that real repository context is meaningfully harder than the distilled task descriptions used in most eval setups. Harness and task data are on GitHub.</p>
+        <span class="src">arXiv &middot; October 27, 2026</span>
+      </div>
+    </div>
+
+    <h2>Releases &amp; tooling</h2>
+
+    <div class="feed">
+      <div class="item">
+        <h3><a href="https://decrypt.co/381883/openai-launches-gpt-6-1-terra-half-good-half-price" target="_blank" rel="noopener">GPT-6.1 Terra: computer use and agentic work at $1/$5 per million tokens, 50.3% Terminal-Bench 4.0, 1M-token context</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Released October 26 for ChatGPT Work, Codex, and the API as gpt-6.1-terra, Terra is OpenAI&rsquo;s explicit efficiency-tier play: half the price of its predecessor GPT-5.6 Terra ($1 input / $5 output per million tokens) at meaningfully higher capability. OpenAI reports a 50.3% Terminal-Bench 4.0 score at maximum effort, up from 21.5% for GPT-5.6 Terra, and says the model completes tasks more than three times faster on average than GPT-6 Astra. The model supports text and image inputs with a 1-million-token context window and is available immediately on Vercel&rsquo;s AI Gateway as openai/gpt-6.1-terra. Two details from the launch are worth noting for teams building agent systems. First, OpenAI places Terra at the Critical cybersecurity threshold under its Preparedness Framework &mdash; a more cautious classification than the Significant tier assigned to the larger GPT-6 models, meaning OpenAI believes this smaller, faster model already carries meaningful offensive security capability. Second, the company still recommends its larger GPT-6 flagship for the most complex coding tasks, so Terra is positioned as the cost-effective workhorse for computer use and routine agentic workloads rather than a replacement for deep reasoning chains. For practitioners who have been waiting for a capable, affordable model in the GPT-6 generation to run at high call volume, Terra is the first real option.</p>
+        <span class="src">Decrypt / OpenAI &middot; October 26, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation/" target="_blank" rel="noopener">Genie 4: Google DeepMind adds native audio and real-time language steering to interactive world generation</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Google DeepMind announced Genie 4 on October 27 as a research preview for a limited group of trusted testers, extending the Genie world model line with two capabilities that prior versions lacked: native audio generation and real-time language steering. The model generates interactive scenes that respond to natural language commands &mdash; move the camera, change the weather, introduce a new character &mdash; while simultaneously producing ambient sound, music, and interactive dialogue matched to the evolving scene. Gemini Omni grounds the simulation in real-world appearance and physical behavior; additional Gemini models maintain coherence as the scene changes over time. Google acknowledged two current limitations: detailed objects and characters can drift during extended sessions, and text visible inside a generated world is not yet reliably legible. The model is coming to Google AI Ultra subscribers via Project Genie and to early-access partners on the Gemini API and AI Studio; no general availability date or pricing was announced at launch. For builders working on interactive agents that operate in simulated or game-like environments, Genie 4 is the first world model from a major lab to offer language-steerable scenes with synchronized audio, which opens a new surface for testing how well agents can plan and act when the environment itself is responsive and dynamic.</p>
+        <span class="src">Google DeepMind &middot; October 27, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code 2.1.311&ndash;316: path confinement guard, subagent effort control, idle compaction, ultrathink env override</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Claude Code shipped four meaningful versions between October 26 and 31. Version 2.1.311 (October 26) changes how ultrathink behaves in the terminal: it now runs at xhigh effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 when routed through Anthropic&rsquo;s API, replacing the previous per-model inconsistency. The same version adds --hold-idle-file and --max-hold-min to the self-hosted runner, keeping idle sessions alive while processes they left running are still active &mdash; relevant for teams running unattended CI-style agentic workflows. Version 2.1.312 (October 27) adds oidc.user_id_claim to the Claude apps gateway, letting organizations identify users by an Entra ID oid or any other token claim rather than the default sub, and adds a concurrency ceiling to prompt and agent hooks: 24 run at a time per session, with at most 12 past their timeout. Version 2.1.314 (October 30) introduces permissions.blockWritesOutsideWorkingDirectories, which makes Write, Edit, and NotebookEdit refuse paths outside the working directory in every permission mode &mdash; a practical containment control for unattended runs. Idle compaction now triggers automatically for VS Code and Desktop sessions that accumulate more than 200K tokens and go quiet, reducing context runaway in long-lived sessions. Version 2.1.316 (October 31) adds two environment variables: CLAUDE_CODE_DISABLE_ULTRATHINK turns off the ultrathink keyword entirely, and CLAUDE_CODE_SUBAGENT_EFFORT sets a default effort level for subagents that have no other level specified, giving teams a cost dial for unattended multi-agent work. A shell bug that kept commands running on macOS and Linux after Claude Code exited on its own is fixed in the same release.</p>
+        <span class="src">Anthropic &middot; October 26&ndash;31, 2026</span>
+      </div>
+
+      <div class="item">
+        <h3><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Anthropic API Oct 28&ndash;30: 128 MB request limit, Usage and Cost Analytics API in beta, Opus 4.8 fast mode deprecated</a> <span class="tag tag-intermediate">Intermediate</span></h3>
+        <p>Three Anthropic platform changes arrived in a three-day window. October 28 raised the maximum request size for the Messages API and Token Counting API from 32 MB to 128 MB on the first-party Claude API &mdash; a quiet but practically significant increase for teams passing large document batches, image-heavy payloads, or long conversation histories in a single call; the previous 32 MB ceiling was a common complaint from teams building RAG pipelines with many retrieved chunks. October 29 launched the Usage and Cost Analytics API in beta under the beta header analytics-usage-cost-2026-08-24, replacing the older usage_report and cost_report endpoints. The new API surfaces token consumption and cost data through /v1/organizations/analytics/usage and /v1/organizations/analytics/cost with filtering and grouping by model, workspace, API key, and user or service account; the older endpoints remain supported as legacy. October 30 officially deprecated fast mode for Claude Opus 4.8, with removal scheduled for November 30, 2026; after that date, requests to claude-opus-4-8 with speed: &ldquo;fast&rdquo; return an error instead of falling back to standard Opus 4.8. The recommended migration is to Claude Opus 5.5, which carries fast mode at full feature parity.</p>
+        <span class="src">Anthropic &middot; October 28&ndash;30, 2026</span>
+      </div>
+    </div>
+
+    <div class="flourish log-outro">
+      <span class="cap">Back to the deck</span>
+      Six items and the week splits cleanly in two. The release side was all about the efficiency tier: OpenAI&rsquo;s Terra and Google&rsquo;s Genie 4 both landed on the same argument &mdash; that the next interesting frontier is doing capable things faster and cheaper, not just more intelligently. Terra&rsquo;s Critical cybersecurity classification is the detail worth sitting with; a smaller, affordable model at that threshold changes the calculus for who can deploy meaningful offensive capability at volume. On the research side, FeatureArc and InfraDev both said the same thing from different angles: the benchmarks practitioners use to pick models are optimistic in a way that compounds badly when agents work for longer and on harder code. The 34-point drop from first-stage to whole-feature in FeatureArc, and the 32% hidden-probe rejection rate in InfraDev, are both numbers the crew should keep close when evaluating models for real agentic work. The Anthropic changelog was unglamorous but operational: the 128 MB request limit increase and the new analytics API are the kind of infrastructure improvements that quietly remove friction in production deployments. The crow&rsquo;s nest stays sharp.
+    </div>
+
+    <p style="margin-top:34px"><a href="../dispatches/">&larr; All dispatches</a></p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Prompt Pirates</b> &mdash; the crow&rsquo;s nest never sleeps.</div>
+    <div>Intel before each voyage.</div>
+  </div>
+</footer>
+
+</body>
+</html>
